@@ -9,7 +9,7 @@ public class Battle : MonoBehaviour {
     //今ターゲットしてる敵の番号
     public int currentTargettingEnemyIndex;
 
-    enum ActorType
+    public enum ActorType
     {
         ENEMY,
         PLAYER,
@@ -68,7 +68,8 @@ public class Battle : MonoBehaviour {
     }
 
     //どのアクションを、 敵と味方どっちの、何人目が行うか
-    void consumeAction(Action action, ActorType actortype, int actorIndex)
+    //味方の場合actorIndexは自明に0なので省略可
+    public void consumeAction(Action action, ActorType actortype, int actorIndex=0)
     {
         foreach(Effect effect in action.effectList)
         {
