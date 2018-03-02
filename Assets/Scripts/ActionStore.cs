@@ -27,7 +27,7 @@ public class ActionStore : MonoBehaviour{
             case "":
                 Debug.LogWarning("getActionByNameの空文字コンストラクタが呼ばれてる");
                 return new Action();
-            case "拳打":
+            case "槍術":
                 waitTime = 21;
                 power = 17;
                 e = new Effect(TARGET_SINGLE, power, DAMAGE);
@@ -42,11 +42,17 @@ public class ActionStore : MonoBehaviour{
                 power = 80;
                 e = new Effect(ME, power, HEAL);
                 return new Action(actionName, waitTime, e);
-            case "衝波":
-                waitTime = 55;
-                power = 50;
-                e = new Effect(TARGET_ALL, power, DAMAGE);
+            case "防御":
+                waitTime = 10;
+                power = 80;
+                e = new Effect(ME, power,BUFF,Buff.BuffID.GUARD);
                 return new Action(actionName, waitTime, e);
+            case "毒霧":
+                waitTime = 15;
+                power = 30;
+                effects.Add(new Effect(TARGET_ALL, power, DAMAGE));
+                effects.Add(new Effect(TARGET_ALL, power, BUFF,Buff.BuffID.POISON));
+                return new Action(actionName, waitTime, effects);
             case "吸収":
                 waitTime = 53;
                 power = 50;

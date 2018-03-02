@@ -32,7 +32,7 @@ public class Effect{
     public EffectType effectType;
 
     //バフ・状態異常なら付与するバフ名(バフ型作っちゃってもいいやも)
-    public string buffName;
+    public Buff.BuffID buffID;
 
     public Effect()
     {
@@ -48,11 +48,11 @@ public class Effect{
         effectType = etype;
     }
     //バフかける場合
-    public Effect(TargetType ttype, int eAmount, EffectType etype=EffectType.BUFF, string bName="")
+    public Effect(TargetType targetType, int effectAmount, EffectType effectType=EffectType.BUFF, Buff.BuffID buffID=Buff.BuffID.BLANK)
     {
-        targetType = ttype;
-        effectAmount = eAmount;
-        effectType = etype;
-        buffName = bName;
+        this.targetType = targetType;
+        this.effectAmount = effectAmount;
+        this.effectType = effectType;
+        this.buffID = buffID;
     }
 }

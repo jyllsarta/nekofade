@@ -18,20 +18,20 @@ public class Controller : MonoBehaviour {
                 battleModel.consumeAction(ActionStore.getActionByName("槍術"), Battle.ActorType.PLAYER);
                 break;
             case "防御":
-                Debug.Log("かちーん！(未実装！まだだよ)");
-                //battleModel.consumeAction(ActionStore.getActionByName("防御"), Battle.ActorType.PLAYER);
+                Debug.Log("かちーん！");
+                battleModel.consumeAction(ActionStore.getActionByName("防御"), Battle.ActorType.PLAYER);
                 break;
             case "吸収":
                 Debug.Log("きゅうん！");
                 battleModel.consumeAction(ActionStore.getActionByName("吸収"), Battle.ActorType.PLAYER);
                 break;
-            case "豪雷":
+            case "轟雷":
                 Debug.Log("ごーらい！");
-                battleModel.consumeAction(ActionStore.getActionByName("豪雷"), Battle.ActorType.PLAYER);
+                battleModel.consumeAction(ActionStore.getActionByName("轟雷"), Battle.ActorType.PLAYER);
                 break;
             case "毒霧":
-                Debug.Log("どくどく！(未実装！まだだよ)");
-                //battleModel.consumeAction(ActionStore.getActionByName("毒霧"), Battle.ActorType.PLAYER);
+                Debug.Log("どくどく！");
+               　battleModel.consumeAction(ActionStore.getActionByName("毒霧"), Battle.ActorType.PLAYER);
                 break;
             default:
                 Debug.LogWarning("onButtonClickのデフォルトが呼ばれちゃった！");

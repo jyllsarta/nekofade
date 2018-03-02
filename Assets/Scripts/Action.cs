@@ -13,6 +13,7 @@ public class Action{
 
     public Action()
     {
+        Debug.LogWarning("Actionクラスのデフォルトコンストラクタが呼ばれてる");
         actionName = "アタック(by defaultConstructor)";
         waitTime = 35;
         effectList = new List<Effect>();

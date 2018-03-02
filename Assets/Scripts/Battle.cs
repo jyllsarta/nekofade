@@ -18,7 +18,6 @@ public class Battle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         currentTargettingEnemyIndex = 0;
-        Debug.Log("ぬ");
 	}
 
     //生きてる中で一番近いやつをターゲットする
@@ -61,8 +60,8 @@ public class Battle : MonoBehaviour {
                 target.hp += effect.effectAmount;
                 break;
             case Effect.EffectType.BUFF:
-                //TODO 今後成功率とかやるかも
-                Debug.Log("バフ乗せは未実装");
+                //一旦確定付与
+                target.buffs.Add(BuffStore.getBuffByBuffID(effect.buffID));
                 break;
         }
     }
