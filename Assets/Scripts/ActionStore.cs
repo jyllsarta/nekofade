@@ -29,7 +29,7 @@ public class ActionStore : MonoBehaviour{
                 Debug.LogWarning("getActionByNameの空文字コンストラクタが呼ばれてる");
                 return new Action();
             case "刺突":
-                waitTime = 21;
+                waitTime = 20;
                 power = 17;
                 e = new Effect(TARGET_SINGLE, power, DAMAGE);
                 return new Action(actionName, waitTime, e);

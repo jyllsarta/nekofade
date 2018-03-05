@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Timeline : MonoBehaviour{
-    public int frameWidth = 1600;
+    public int frameWidth = 1300;
     public List<Action> currentActions;
     public int framesPerTurn = 60;
 
