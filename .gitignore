@@ -32,3 +32,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+#Fonts
+/Assets/Fonts/
+/Assets/Fonts.meta
+

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
     public Battle battleModel;
+    public GameObject CommandFrame;
 
     public void onButtonClick(string button_id)
     {
@@ -13,9 +14,9 @@ public class Controller : MonoBehaviour {
                 Debug.Log("かえん！");
                 battleModel.consumeAction(ActionStore.getActionByName("火炎"),Battle.ActorType.PLAYER);
                 break;
-            case "槍術":
+            case "刺突":
                 Debug.Log("やり！");
-                battleModel.consumeAction(ActionStore.getActionByName("槍術"), Battle.ActorType.PLAYER);
+                battleModel.consumeAction(ActionStore.getActionByName("刺突"), Battle.ActorType.PLAYER);
                 break;
             case "防御":
                 Debug.Log("かちーん！");
@@ -25,9 +26,9 @@ public class Controller : MonoBehaviour {
                 Debug.Log("きゅうん！");
                 battleModel.consumeAction(ActionStore.getActionByName("吸収"), Battle.ActorType.PLAYER);
                 break;
-            case "轟雷":
+            case "雷光":
                 Debug.Log("ごーらい！");
-                battleModel.consumeAction(ActionStore.getActionByName("轟雷"), Battle.ActorType.PLAYER);
+                battleModel.consumeAction(ActionStore.getActionByName("雷光"), Battle.ActorType.PLAYER);
                 break;
             case "毒霧":
                 Debug.Log("どくどく！");

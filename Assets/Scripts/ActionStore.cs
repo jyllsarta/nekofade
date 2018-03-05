@@ -10,24 +10,25 @@ public class ActionStore : MonoBehaviour{
         Effect.TargetType TARGET_SINGLE_RANDOM = Effect.TargetType.TARGET_SINGLE_RANDOM;
         Effect.TargetType TARGET_ALL = Effect.TargetType.TARGET_ALL;
         Effect.TargetType ME = Effect.TargetType.ME;
-        Effect.TargetType ALLY_SINGLE_RANDOM = Effect.TargetType.ALLY_SINGLE_RANDOM;
-        Effect.TargetType ALLY_ALL = Effect.TargetType.ALLY_ALL;
+        //Effect.TargetType ALLY_SINGLE_RANDOM = Effect.TargetType.ALLY_SINGLE_RANDOM;
+        //Effect.TargetType ALLY_ALL = Effect.TargetType.ALLY_ALL;
 
         Effect.EffectType DAMAGE = Effect.EffectType.DAMAGE;
         Effect.EffectType HEAL = Effect.EffectType.HEAL;
-        Effect.EffectType BUFF = Effect.EffectType.BUFF;
+        //Effect.EffectType BUFF = Effect.EffectType.BUFF;
 
         int waitTime;
         int power;
         Effect e;
         List<Effect> effects = new List<Effect>();
+        List<Effect.Attribute> attributes = new List<Effect.Attribute>();
 
         switch (actionName)
         {
             case "":
                 Debug.LogWarning("getActionByNameの空文字コンストラクタが呼ばれてる");
                 return new Action();
-            case "槍術":
+            case "刺突":
                 waitTime = 21;
                 power = 17;
                 e = new Effect(TARGET_SINGLE, power, DAMAGE);
@@ -35,7 +36,8 @@ public class ActionStore : MonoBehaviour{
             case "火炎":
                 waitTime = 35;
                 power = 80;
-                e = new Effect(TARGET_SINGLE, power, DAMAGE);
+                attributes.Add(Effect.Attribute.FIRE);
+                e = new Effect(TARGET_SINGLE, power, DAMAGE, attributes);
                 return new Action(actionName, waitTime, e);
             case "治癒":
                 waitTime = 35;
@@ -45,13 +47,13 @@ public class ActionStore : MonoBehaviour{
             case "防御":
                 waitTime = 10;
                 power = 80;
-                e = new Effect(ME, power,BUFF,Buff.BuffID.GUARD);
+                e = new Effect(ME, power,Buff.BuffID.GUARD);
                 return new Action(actionName, waitTime, e);
             case "毒霧":
                 waitTime = 15;
                 power = 30;
                 effects.Add(new Effect(TARGET_ALL, power, DAMAGE));
-                effects.Add(new Effect(TARGET_ALL, power, BUFF,Buff.BuffID.POISON));
+                effects.Add(new Effect(TARGET_ALL, power, Buff.BuffID.POISON));
                 return new Action(actionName, waitTime, effects);
             case "吸収":
                 waitTime = 53;
@@ -59,7 +61,7 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 effects.Add(new Effect(ME, power / 2, HEAL));
                 return new Action(actionName, waitTime, effects);
-            case "轟雷":
+            case "雷光":
                 waitTime = 53;
                 power = 11;
                 effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
