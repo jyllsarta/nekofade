@@ -47,17 +47,37 @@ public class Battle : MonoBehaviour {
 
     }
 
+    //ダメージ計算
+    int calcDamage(BattleCharacter actor, BattleCharacter target, Effect effect)
+    {
+        //ダメージ倍率
+        float multiply = 1.0f;
+
+        //雷→水チェック
+        if (target.hasAttribute(CharacterAttribute.AttributeID.WATER) && effect.hasAttribute(Effect.Attribute.THUNDER))
+        {
+            multiply *= 2;
+            Debug.Log("雷特効！");
+        }
+
+
+        //効果量に倍率かけて端数落としたものを最終ダメージとする
+        int finalDamage = (int)(effect.effectAmount * multiply);
+
+        return finalDamage;
+    }
+
     //実際のEffect一つの処理
     void consumeEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
         switch (effect.effectType)
         {
             case Effect.EffectType.DAMAGE:
-                //TODO ダメージ計算式
-                target.hp -= effect.effectAmount;
+                int damage = calcDamage(actor, target, effect);
+                target.hp -= damage;
                 break;
             case Effect.EffectType.HEAL:
-                target.hp += effect.effectAmount;
+                target.hp += calcDamage(actor, target, effect);
                 break;
             case Effect.EffectType.BUFF:
                 //一旦確定付与
@@ -184,6 +204,7 @@ public class Battle : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        //キー入力で強制コマンド実行
         if (Input.GetKeyDown(KeyCode.Z))
         {
             Action act = ActionStore.getActionByName("");
@@ -211,7 +232,7 @@ public class Battle : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.N))
         {
-            Action act = ActionStore.getActionByName("轟雷");
+            Action act = ActionStore.getActionByName("雷光");
             consumeAction(act, ActorType.PLAYER, 0);
         }
         if (Input.GetKeyDown(KeyCode.A))

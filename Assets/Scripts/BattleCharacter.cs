@@ -13,9 +13,14 @@ public class BattleCharacter : MonoBehaviour {
     public int maxHp;
     public int mp;
     public int maxMp;
+
+    //今かかってる効果一覧
     public List<Buff> buffs;
     //技一覧
     public List<string> actions;
+    //キャラのアトリビュート
+    public List<CharacterAttribute.AttributeID> attributes;
+
 
     public Slider hpGauge;
     public Slider mpGauge;
@@ -62,6 +67,12 @@ public class BattleCharacter : MonoBehaviour {
             Debug.Log(string.Format("{0}は毒で10ダメージ!", characterName));
             hp -= 10;
         }
+    }
+
+    //このキャラはこのアトリビュートを持ってるかな?
+    public bool hasAttribute(CharacterAttribute.AttributeID attr)
+    {
+        return attributes.Contains(attr);
     }
 
     //こいつがここにあるのが正しいかどうかわからないけどとりあえず置いておく

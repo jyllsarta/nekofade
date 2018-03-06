@@ -31,7 +31,6 @@ public class Effect{
         MAGIC, //魔法
         FIRE,
         THUNDER,
-        ANIMAL_SLAYER,
     }
 
     //この効果は敵一体を狙うのか、味方全体なのか
@@ -47,6 +46,11 @@ public class Effect{
     public Buff.BuffID buffID;
 
     public List<Attribute> attributes;
+
+    public bool hasAttribute(Attribute attr)
+    {
+        return attributes.Contains(attr);
+    }
 
     public Effect()
     {

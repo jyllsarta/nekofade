@@ -16,7 +16,7 @@ public class TimelineAction : MonoBehaviour {
     //生成時にtimelineさんがうまく代入してくれます
     public Timeline timeline;
 
-    //このアクションのID
+    //こいつが指してるアクションのID(削除時に気にする)
     public int hashCode;
 
     public void onClick()

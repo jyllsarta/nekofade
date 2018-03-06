@@ -40,6 +40,7 @@ public class ActionStore : MonoBehaviour{
                 waitTime = 35;
                 power = 80;
                 cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
                 attributes.Add(Effect.Attribute.FIRE);
                 e = new Effect(TARGET_SINGLE, power, DAMAGE, attributes);
                 return new Action(actionName, waitTime, cost, e);
@@ -47,7 +48,8 @@ public class ActionStore : MonoBehaviour{
                 waitTime = 35;
                 power = 80;
                 cost = 30;
-                e = new Effect(ME, power, HEAL);
+                attributes.Add(Effect.Attribute.MAGIC);
+                e = new Effect(ME, power, HEAL, attributes);
                 return new Action(actionName, waitTime, cost, e);
             case "防御":
                 waitTime = 10;
@@ -59,6 +61,7 @@ public class ActionStore : MonoBehaviour{
                 waitTime = 15;
                 power = 30;
                 cost = 50;
+                attributes.Add(Effect.Attribute.MAGIC);
                 effects.Add(new Effect(TARGET_ALL, power, DAMAGE));
                 effects.Add(new Effect(TARGET_ALL, power, Buff.BuffID.POISON));
                 return new Action(actionName, waitTime, cost, effects);
@@ -66,19 +69,22 @@ public class ActionStore : MonoBehaviour{
                 waitTime = 53;
                 power = 50;
                 cost = 100;
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, attributes));
                 effects.Add(new Effect(ME, power / 2, HEAL));
                 return new Action(actionName, waitTime, cost, effects);
             case "雷光":
                 waitTime = 53;
                 power = 11;
                 cost = 300;
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
+                attributes.Add(Effect.Attribute.THUNDER);
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
                 return new Action(actionName, waitTime, cost, effects);
             default:
                 Debug.LogWarning("getActionByNameのdefault:が呼ばれてる");
