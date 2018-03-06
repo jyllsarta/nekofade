@@ -95,6 +95,12 @@ public class BattleCharacter : MonoBehaviour {
         mp -= a.cost; //TODO MP消費カット装備やらアビリティの反映
     }
 
+    //aのコストを払い戻す
+    public void returnCastCost(Action a)
+    {
+        mp += a.cost; //TODO MP消費カット装備やらアビリティの反映
+    }
+
     void updateView()
     {
         //各種ゲージがない敵もいる
