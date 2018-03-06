@@ -7,6 +7,7 @@ using UnityEngine;
 public class Action{
     public string actionName;
     public int waitTime;
+    public int cost;
     //この行動の効果一覧
     //(敵一体に攻撃 + 状態異常付与とか...)
     public List<Effect> effectList;
@@ -16,21 +17,24 @@ public class Action{
         Debug.LogWarning("Actionクラスのデフォルトコンストラクタが呼ばれてる");
         actionName = "アタック(by defaultConstructor)";
         waitTime = 35;
+        cost = 0;
         effectList = new List<Effect>();
         effectList.Add(new Effect());
     }
     //2つ以上の効果を持つアクション
-    public Action(string name, int wait, List<Effect> eList)
+    public Action(string actionName, int waitTime, int cost, List<Effect> effectList)
     {
-        actionName = name;
-        waitTime = wait;
-        effectList = eList;
+        this.actionName = actionName;
+        this.waitTime = waitTime;
+        this.cost = cost;
+        this.effectList = effectList;
     }
     //単発の効果で終わるアクション
-    public Action(string name, int wait, Effect effect)
+    public Action(string actionName, int waitTime, int cost, Effect effect)
     {
-        actionName = name;
-        waitTime = wait;
+        this.actionName = actionName;
+        this.waitTime = waitTime;
+        this.cost = cost;
         effectList = new List<Effect>();
         effectList.Add(effect);
     }

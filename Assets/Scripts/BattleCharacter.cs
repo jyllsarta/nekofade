@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 
 //敵味方共通の処理
@@ -10,10 +11,16 @@ public class BattleCharacter : MonoBehaviour {
     public string characterName;
     public int hp;
     public int maxHp;
+    public int mp;
+    public int maxMp;
     public List<Buff> buffs;
     //技一覧
+    public List<string> actions;
 
     public Slider hpGauge;
+    public Slider mpGauge;
+    public TextMeshProUGUI hpText;
+    public TextMeshProUGUI mpText;
 
     public bool isDead()
     {
@@ -65,9 +72,50 @@ public class BattleCharacter : MonoBehaviour {
         activateTurnBuffEffect();
     }
 
+    //aのコスト払えるかチェック
+    public bool canPayThis(Action a)
+    {
+        return mp >= a.cost;　//TODO MP消費カット装備やらアビリティの反映
+    }
+
+    //actionsのコスト合計を払えるかチェック
+    public bool canPayThis(List<Action> actions)
+    {
+        int sum = 0;
+        foreach (Action a in actions)
+        {
+            sum += a.cost;
+        }
+        return mp >= sum;　//TODO MP消費カット装備やらアビリティの反映
+    }
+
+    //aのコストを支払う
+    public void payCastCost(Action a)
+    {
+        mp -= a.cost; //TODO MP消費カット装備やらアビリティの反映
+    }
+
     void updateView()
     {
-        hpGauge.value = hp;
+        //各種ゲージがない敵もいる
+        if (hpGauge)
+        {
+            hpGauge.value = hp;
+        }
+        if (hpText)
+        {
+            hpText.text = hp.ToString();
+
+        }
+        if (mpGauge)
+        {
+            mpGauge.value = mp;
+        }
+        if (mpText)
+        {
+            mpText.text = mp.ToString();
+
+        }
     }
 
     //毎フレーム行う処理 
