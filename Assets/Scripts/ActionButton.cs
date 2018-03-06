@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour {
 
-    public TextMeshProUGUI text;
+    public TextMeshProUGUI name;
+    public TextMeshProUGUI mp;
+    public TextMeshProUGUI wt;
     public Button button;
 
 }

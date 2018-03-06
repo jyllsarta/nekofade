@@ -17,7 +17,10 @@ public class BattleActionsArea : MonoBehaviour{
     public void addAction(string actionName)
     {
         ActionButton created = Instantiate(actionButtonPrefab);
-        created.text.text = actionName;
+        Action a = ActionStore.getActionByName(actionName);
+        created.name.text = actionName;
+        created.mp.text = a.cost.ToString();
+        created.wt.text = a.waitTime.ToString();
         UnityAction<Button,string> addButtonClickEvent = (Button b, string str) =>
         {
             b.onClick.AddListener(() =>
