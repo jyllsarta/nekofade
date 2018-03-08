@@ -5,29 +5,84 @@ using TMPro;
 
 public class Timeline : MonoBehaviour{
     public int frameWidth = 1250;
-    public List<Action> currentActions;
+    public List<Action> currentPlayerActions;
+    public List<EnemyAction> currentEnemyActions;
     public List<TimelineAction> actionInstances;
+    public List<TimelineEnemyAction> enemyActionInstances;
     public int framesPerTurn = 60;
 
     public TimelineAction commandInstance;
+    public TimelineEnemyAction enemyCommandInstance;
     public GameObject commandsView;
+    public GameObject enemyCommandsView;
+    public GameObject FramePointer;
     public TextMeshProUGUI remainingFrameText;
     public BattleCharacter siroko;
 
+    public int currentFrame;
+
     public Timeline()
     {
-        currentActions = new List<Action>();
+        currentPlayerActions = new List<Action>();
+        currentEnemyActions = new List<EnemyAction>();
+        currentFrame = 0;
+    }
+
+    public void flushEnemyActions()
+    {
+        //画面に残ったインスタンスを消す
+        foreach (TimelineEnemyAction a in enemyActionInstances)
+        {
+            Destroy(a.gameObject);
+        }
+        enemyActionInstances.Clear();
+    }
+
+    //frame時刻になんかアクションある?
+    public Action getActionByFrame(int frame)
+    {
+        int sum = 0;
+
+        foreach (Action a in currentPlayerActions)
+        {
+            sum += a.waitTime;
+            if (sum == frame)
+            {
+                return a;
+            }
+        }
+        //なんにもないときにはnull返しちゃう
+        return null;
+    }
+
+    //frame時刻になんかアクションある?
+    public EnemyAction getEnemyActionByFrame(int frame)
+    {
+        int sum = 0;
+        foreach (EnemyAction a in currentEnemyActions)
+        {
+            sum += a.waitTime;
+            if (sum == frame)
+            {
+                return a;
+            }
+        }
+        //なんにもないときにはnull返しちゃう
+        return null;
     }
 
     //アクションリストのリセット
-    public void flushActions()
+    public void flushActions(bool returnsMP=true)
     {
         //MPの払い戻し
-        foreach (Action a in currentActions)
+        if (returnsMP)
         {
-            siroko.returnCastCost(a);
+            foreach (Action a in currentPlayerActions)
+            {
+                siroko.returnCastCost(a);
+            }
         }
-        currentActions = new List<Action>();
+        currentPlayerActions = new List<Action>();
         remainingFrameText.text = framesPerTurn.ToString();
 
         //画面に残ったインスタンスを消す
@@ -60,7 +115,7 @@ public class Timeline : MonoBehaviour{
         //ハッシュコードの一致しないやつ = 削除してないやつだけでアクションを配置しなおす
         //listから消すだけだと横幅いじったり何だりで事故りそうなので
         //Instantiateのコストがきつくなければこのままでいこう
-        List<Action> reserved = currentActions;
+        List<Action> reserved = currentPlayerActions;
         flushActions();
         foreach (Action a in reserved)
         {
@@ -73,6 +128,28 @@ public class Timeline : MonoBehaviour{
                 Debug.Log(string.Format("{0} / {1}を削除したよ",a.actionName,a.GetHashCode()));
             }
         }
+    }
+
+    //新しいターンにする
+    public void newTurn()
+    {
+        currentFrame = 0;
+        flushActions(false);
+        flushEnemyActions();
+        updateFramePosition();
+    }
+
+    public void updateFramePosition()
+    {
+        float x = (float)currentFrame * frameWidth / framesPerTurn;
+        FramePointer.transform.localPosition = new Vector3(x, 0, 0);
+    }
+
+    //フレームを1すすめる
+    public void proceed()
+    {
+        currentFrame++;
+        updateFramePosition();
     }
 
     public void Add(Action a)
@@ -90,7 +167,7 @@ public class Timeline : MonoBehaviour{
         createdChild.frameImage.sizeDelta = new Vector2(x,y);
 
         //現在アクションリストに追加
-        currentActions.Add(a);
+        currentPlayerActions.Add(a);
         //削除したとき用にインスタンスを握っとく
         actionInstances.Add(createdChild);
 
@@ -107,10 +184,30 @@ public class Timeline : MonoBehaviour{
         siroko.payCastCost(a);
     }
 
+    public void addEnemyAction(EnemyAction a)
+    {        
+        //アクションをプレハブから生成
+        TimelineEnemyAction createdChild = Instantiate(enemyCommandInstance);
+        //該当アクション用のパラメータに書き換え
+        createdChild.transform.parent = enemyCommandsView.transform;
+        createdChild.transform.localPosition = new Vector3(a.frame * frameWidth / framesPerTurn,0,0);
+        createdChild.text.text = a.actionName;
+
+        //現在アクションリストに追加
+        currentEnemyActions.Add(a);
+        //削除したとき用にインスタンスを握っとく
+        enemyActionInstances.Add(createdChild);
+
+        //そいつの削除時に伝えてもらうために自身への参照をこどもに渡す
+        createdChild.timeline = this;
+        //アクションのハッシュコードを得ておいて削除時にこれだって伝える
+        createdChild.hashCode = a.GetHashCode();
+    }
+
     //現在積まれてるアクションの合計フレーム数を返す
     public int countTotalFrameOfSelectingCommand(){
         int sum = 0;
-        foreach (Action a in currentActions)
+        foreach (Action a in currentPlayerActions)
         {
             sum += a.waitTime;
         }

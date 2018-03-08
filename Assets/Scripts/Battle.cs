@@ -5,9 +5,23 @@ using UnityEngine;
 public class Battle : MonoBehaviour {
     public BattleCharacter player;
     public List<BattleCharacter> enemies;
+    public EnemyStore enemyStore;
+    public Timeline timeline;
+    public GameObject enemiesUI;
+    public GameObject targetCircle;
 
     //今ターゲットしてる敵の番号
     public int currentTargettingEnemyIndex;
+
+    //バトルシーンの状態　プレイヤーのコマンド受付なのかバトル中なのか
+    public GameState currentGameState;
+
+    public enum GameState
+    {
+        PLAYER_THINK,
+        TURN_PROCEEDING,
+        EFFECT_ANIMATION_WAITING,
+    }
 
     public enum ActorType
     {
@@ -17,8 +31,38 @@ public class Battle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        setEnemy();
         currentTargettingEnemyIndex = 0;
+        currentGameState = GameState.PLAYER_THINK;
 	}
+
+    //デバッグ用 適当に敵を置く
+    void setEnemy()
+    {
+        for (int i=0;i<3;++i)
+        {
+            BattleCharacter enemy;
+            enemy = enemyStore.getEnemyByName("scp");
+            enemy.transform.SetParent(enemiesUI.transform);
+            enemy.transform.localPosition = new Vector3((i-1)*400, (1 - i) * 30, 0);
+            enemy.battle = this;
+            enemies.Add(enemy);
+        }
+    }
+
+    //このハッシュコードを持つ敵は何番目だ
+    int getEnemyIndexByHashCode(int hashCode)
+    {
+        for (int i=0;i<enemies.Count; ++i)
+        {
+            if (enemies[i].GetHashCode() == hashCode)
+            {
+                return i;
+            }
+        }
+        Debug.LogWarning("getEnemyIndexByHashCode失敗したけど大丈夫かな");
+        return -1;
+    }
 
     //生きてる中で一番近いやつをターゲットする
     int getIndexOfActiveEnemy()
@@ -34,13 +78,32 @@ public class Battle : MonoBehaviour {
         return 0;
     }
 
+    public void targetEnemyByHash(int hashCode)
+    {
+        Debug.LogFormat("{0}!これね",hashCode);
+
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            if (enemies[i].GetHashCode() == hashCode)
+            {
+                currentTargettingEnemyIndex = i;
+                targetCircle.SetActive(true);
+                targetCircle.transform.position = enemies[i].transform.position;
+                return;
+            }
+        }
+        Debug.Log("もしや");
+    }
+
     void checkBattleFinish()
     {
+        //プレイヤーが死んだら負け
         if (player.isDead())
         {
             Debug.Log("まけ");
         }
-        if (enemies[0].isDead())
+        //敵を全滅させたら勝ち
+        if (enemies.TrueForAll((e)=>e.isDead()))
         {
             Debug.Log("勝ち");
         }
@@ -202,12 +265,57 @@ public class Battle : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
+    //ターンの初めの処理
+    public void onTurnStart()
+    {
+        timeline.newTurn();
+        currentGameState = GameState.PLAYER_THINK;
+        putEnemyAction();
+
+    }
+
+    public void turnEnd()
+    {
+        currentGameState = GameState.TURN_PROCEEDING;
+    }
+
+    //このフレームに積んであるアクションを実行
+    public void playActionCurrentFrame()
+    {
+        //プレイヤー行動
+        Action a = timeline.getActionByFrame(timeline.currentFrame);
+        if (a != null)
+        {
+            consumeAction(a, ActorType.PLAYER);
+            //キルとったかもしれないからリターゲット
+            currentTargettingEnemyIndex = getIndexOfActiveEnemy();
+        }
+        //敵行動
+        EnemyAction ea = timeline.getEnemyActionByFrame(timeline.currentFrame);
+        if (ea != null)
+        {
+            consumeAction(ea, ActorType.ENEMY,getEnemyIndexByHashCode(ea.actorHash));
+        }
+    }
+
+    //生きてる敵が雑に行動を積む
+    void putEnemyAction()
+    {
+        foreach (BattleCharacter enemy in enemies)
+        {
+            EnemyAction a = new EnemyAction(ActionStore.getActionByName(enemy.actions[0]));
+            a.actorHash = enemy.GetHashCode();
+            a.frame = Random.Range(1, timeline.framesPerTurn);
+            timeline.addEnemyAction(a);
+        }
+    }
+
+    void debugInputAction()
+    {
         //キー入力で強制コマンド実行
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Action act = ActionStore.getActionByName("");
+            Action act = ActionStore.getActionByName("刺突");
             consumeAction(act, ActorType.PLAYER, 0);
         }
         if (Input.GetKeyDown(KeyCode.X))
@@ -240,6 +348,25 @@ public class Battle : MonoBehaviour {
             Action act = ActionStore.getActionByName("");
             consumeAction(act, ActorType.ENEMY, 0);
         }
-        checkBattleFinish();
+    }
+
+    // Update is called once per frame
+    void Update(){
+            checkBattleFinish();
+            debugInputAction();
+        switch (currentGameState)
+        {
+            case GameState.PLAYER_THINK:
+                break;
+            case GameState.TURN_PROCEEDING:
+            case GameState.EFFECT_ANIMATION_WAITING:
+                timeline.proceed(); //これだと0フレーム目にアクションおかれたらすかされる 大丈夫か検討
+                playActionCurrentFrame();
+                if (timeline.currentFrame == timeline.framesPerTurn)
+                {
+                    onTurnStart();
+                }
+                break;
+        }
     }
 }

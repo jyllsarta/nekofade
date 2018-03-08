@@ -21,6 +21,8 @@ public class BattleCharacter : MonoBehaviour {
     //キャラのアトリビュート
     public List<CharacterAttribute.AttributeID> attributes;
 
+    //自身がクリックされたことを伝えるためにバトルシーンへの参照を握っておく
+    public Battle battle;
 
     public Slider hpGauge;
     public Slider mpGauge;
@@ -35,6 +37,7 @@ public class BattleCharacter : MonoBehaviour {
     void Start()
     {
         buffs = new List<Buff>();
+        attributes = new List<CharacterAttribute.AttributeID>();
         hpGauge.maxValue = maxHp;
         hpGauge.value = maxHp;
     }
@@ -133,6 +136,12 @@ public class BattleCharacter : MonoBehaviour {
             mpText.text = mp.ToString();
 
         }
+    }
+
+    //クリック時
+    public void OnClick()
+    {
+        battle.targetEnemyByHash(this.GetHashCode());
     }
 
     //毎フレーム行う処理 

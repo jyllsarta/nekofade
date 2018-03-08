@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
-//タイムライン上に設置されるアクションひとつを表すオブジェクト
-public class TimelineAction : MonoBehaviour {
+public class TimelineEnemyAction : MonoBehaviour {
 
     //子要素にある画像
-    public RectTransform frameImage;    
-    
+    public RectTransform frameImage;
+
     //子要素にある文字列
     public TextMeshProUGUI text;
 
@@ -24,5 +22,4 @@ public class TimelineAction : MonoBehaviour {
         Debug.Log("クリックされたかー");
         timeline.removeAction(hashCode);
     }
-
 }
