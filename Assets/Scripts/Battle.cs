@@ -116,6 +116,31 @@ public class Battle : MonoBehaviour {
         //ダメージ倍率
         float multiply = 1.0f;
 
+        //攻撃倍率を乗算
+        //魔法攻撃は魔力依存
+        if (effect.hasAttribute(Effect.Attribute.MAGIC))
+        {
+            multiply *= actor.getMagicRate() ;
+        }
+        //魔法攻撃と明示されているもの以外はすべて物理攻撃である
+        else
+        {
+            multiply *= actor.getAttackRate();
+        }
+
+        //相手が防御してたら防御回数を減らしつつダメージ減衰
+        if (target.hasShield())
+        {
+            multiply *= (1f-target.getDefenceCutRate());
+            target.shieldCount -= 1;
+            Debug.LogFormat("防御！{0}%ダメージカット", target.getDefenceCutRate()*100);
+        }
+
+        //特効枠
+        //王撃系
+
+        //TODO
+
         //雷→水チェック
         if (target.hasAttribute(CharacterAttribute.AttributeID.WATER) && effect.hasAttribute(Effect.Attribute.THUNDER))
         {
@@ -127,6 +152,8 @@ public class Battle : MonoBehaviour {
         //効果量に倍率かけて端数落としたものを最終ダメージとする
         int finalDamage = (int)(effect.effectAmount * multiply);
 
+
+        Debug.LogFormat("{0}が{1}に{2}ダメージ!",actor.name,target.name,finalDamage);
         return finalDamage;
     }
 
@@ -143,8 +170,16 @@ public class Battle : MonoBehaviour {
                 target.hp += calcDamage(actor, target, effect);
                 break;
             case Effect.EffectType.BUFF:
-                //一旦確定付与
-                target.buffs.Add(BuffStore.getBuffByBuffID(effect.buffID));
+                //防御だけは別で防御枚数の増加を行う
+                if (effect.buffID == Buff.BuffID.GUARD)
+                {
+                    target.addShield();
+                }
+                else
+                {
+                    //ステートを付与
+                    target.buffs.Add(BuffStore.getBuffByBuffID(effect.buffID));
+                }
                 break;
         }
     }

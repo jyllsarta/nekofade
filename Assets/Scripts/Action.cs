@@ -24,23 +24,19 @@ public class Action{
         effectList.Add(new Effect());
     }
     //2つ以上の効果を持つアクション
-    public Action(string actionName, string descriptionText, int waitTime, int cost, List<Effect> effectList)
+    public Action(string actionName, string descriptionText, int waitTime, int cost, List<Effect> effectList, BattleCharacter actor=null)
     {
         this.actionName = actionName;
         this.descriptionText = descriptionText;
         this.waitTime = waitTime;
         this.cost = cost;
         this.effectList = effectList;
-    }
-    //単発の効果で終わるアクション
-    public Action(string actionName, string descriptionText, int waitTime, int cost, Effect effect)
-    {
-        this.actionName = actionName;
-        this.descriptionText = descriptionText;
-        this.waitTime = waitTime;
-        this.cost = cost;
-        effectList = new List<Effect>();
-        effectList.Add(effect);
+
+        //行動キャラが明示されている場合にはウェイトにそのキャラの速度Lvを反映
+        if (actor != null)
+        {
+            this.waitTime = (int)(waitTime * actor.getWaitTimeCutRate());
+        }
     }
 
 }

@@ -50,6 +50,7 @@ public class BattleCharacter : MonoBehaviour {
         attributes = new List<CharacterAttribute.AttributeID>();
         hpGauge.maxValue = maxHp;
         hpGauge.value = maxHp;
+        shieldCount = 0;
     }
 
     //*************************************
@@ -128,6 +129,23 @@ public class BattleCharacter : MonoBehaviour {
     public int getMaxDefenceCount()
     {
         return 1 + defence / 3;
+    }
+
+    //防御障壁を1追加する
+    public void addShield()
+    {
+        if (shieldCount >= getMaxDefenceCount())
+        {
+            Debug.LogFormat("{0}は防御障壁をもう張れない！",characterName);
+            return;
+        }
+        shieldCount++;
+    }
+
+    //防御を持ってるか
+    public bool hasShield()
+    {
+        return shieldCount > 0;
     }
 
     //バフの残存期間を1F減らし、0になったものを削除する

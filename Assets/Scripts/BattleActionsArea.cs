@@ -17,7 +17,7 @@ public class BattleActionsArea : MonoBehaviour{
     public void addAction(string actionName)
     {
         ActionButton created = Instantiate(actionButtonPrefab);
-        Action a = ActionStore.getActionByName(actionName);
+        Action a = ActionStore.getActionByName(actionName,siroko);
         created.name.text = actionName;
         created.mp.text = a.cost.ToString();
         created.wt.text = a.waitTime.ToString();
@@ -25,7 +25,7 @@ public class BattleActionsArea : MonoBehaviour{
         {
             b.onClick.AddListener(() =>
             {
-                timeline.tryAddAction(ActionStore.getActionByName(str));
+                timeline.tryAddAction(ActionStore.getActionByName(str,siroko));
             });
         };
         addButtonClickEvent(created.button,actionName);

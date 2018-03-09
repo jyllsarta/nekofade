@@ -226,12 +226,12 @@ public class Timeline : MonoBehaviour{
     {
         if (canAddThis(a))
         {
-            Debug.Log("いいよー");
+            //Debug.Log("いいよー");
             Add(a);
         }
         else
         {
-            Debug.Log("だめー");
+            //Debug.Log("だめー");
         }
     }
 

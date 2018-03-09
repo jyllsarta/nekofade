@@ -47,6 +47,7 @@ public class Effect{
     //バフ・状態異常なら付与するバフ名(バフ型作っちゃってもいいやも)
     public Buff.BuffID buffID;
 
+    //
     public List<Attribute> attributes;
 
     public bool hasAttribute(Attribute attr)
@@ -73,7 +74,7 @@ public class Effect{
         }
         else
         {
-            attributes = new List<Attribute>();
+            this.attributes = new List<Attribute>();
         }
     }
     //バフかける場合
@@ -89,7 +90,7 @@ public class Effect{
         }
         else
         {
-            attributes = new List<Attribute>();
+            this.attributes = new List<Attribute>();
         }
     }
 }
