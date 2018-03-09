@@ -9,10 +9,20 @@ using TMPro;
 public class BattleCharacter : MonoBehaviour {
 
     public string characterName;
+    //戦闘中のパラメータ
     public int hp;
     public int maxHp;
     public int mp;
     public int maxMp;
+    //今積まれている防御盾の枚数
+    public int shieldCount;
+
+    //各種基礎パラメータ
+    public int strength;
+    public int defence;
+    public int intelligence;
+    public int speed;
+    public int toughness;
 
     //今かかってる効果一覧
     public List<Buff> buffs;
@@ -40,6 +50,84 @@ public class BattleCharacter : MonoBehaviour {
         attributes = new List<CharacterAttribute.AttributeID>();
         hpGauge.maxValue = maxHp;
         hpGauge.value = maxHp;
+    }
+
+    //*************************************
+    //パラメータからステータス実数値を算出
+    //*************************************
+    //攻撃倍率
+    public float getAttackRate()
+    {
+        return 1 + strength * 0.4f;
+    }
+    //魔法攻撃倍率
+    public float getMagicRate()
+    {
+        return 1 + intelligence * 0.4f;
+    }
+    //最大HP
+    public int getMaxHP()
+    {
+        return 100 + toughness * 40;
+    }
+    //防御カット率
+    public float getDefenceCutRate()
+    {
+        switch (defence)
+        {
+            case 0:
+                return 0.5f;
+            case 1:
+                return 0.66f;
+            case 2:
+                return 0.75f;
+            case 3:
+                return 0.80f;
+            case 4:
+                return 0.83f;
+            case 5:
+                return 0.86f;
+            case 6:
+                return 0.88f;
+            case 7:
+                return 0.90f;
+            default:
+                Debug.LogWarning("getDefenceCutRateのdefault呼ばれた");
+                return 1f;
+        }
+    }
+    //防御カット率
+    public float getWaitTimeCutRate()
+    {
+        switch (speed)
+        {
+            case 0:
+                return 1f;
+            case 1:
+                return 0.90f;
+            case 2:
+                return 0.81f;
+            case 3:
+                return 0.73f;
+            case 4:
+                return 0.66f;
+            case 5:
+                return 0.60f;
+            case 6:
+                return 0.55f;
+            case 7:
+                return 0.51f;
+            default:
+                Debug.LogWarning("getWaitTimeCutRateのdefault呼ばれた");
+                return 1f;
+        }
+    }
+    //最大防御回数 Lv3, Lv6で追加+1回
+    //01234567
+    //11122233
+    public int getMaxDefenceCount()
+    {
+        return 1 + defence / 3;
     }
 
     //バフの残存期間を1F減らし、0になったものを削除する

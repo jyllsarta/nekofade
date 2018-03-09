@@ -6,6 +6,7 @@ using UnityEngine;
 //Actionは一つ以上の効果(Effect)=敵一体にダメージ、ランダムな敵に3回雷を落とす...を持つ
 public class Action{
     public string actionName;
+    public string descriptionText;
     public int waitTime;
     public int cost;
     //この行動の効果一覧
@@ -16,23 +17,26 @@ public class Action{
     {
         Debug.LogWarning("Actionクラスのデフォルトコンストラクタが呼ばれてる");
         actionName = "アタック(by defaultConstructor)";
+        descriptionText = "駄目な感じのアタック。これが呼ばれてはいけない";
         waitTime = 35;
         cost = 0;
         effectList = new List<Effect>();
         effectList.Add(new Effect());
     }
     //2つ以上の効果を持つアクション
-    public Action(string actionName, int waitTime, int cost, List<Effect> effectList)
+    public Action(string actionName, string descriptionText, int waitTime, int cost, List<Effect> effectList)
     {
         this.actionName = actionName;
+        this.descriptionText = descriptionText;
         this.waitTime = waitTime;
         this.cost = cost;
         this.effectList = effectList;
     }
     //単発の効果で終わるアクション
-    public Action(string actionName, int waitTime, int cost, Effect effect)
+    public Action(string actionName, string descriptionText, int waitTime, int cost, Effect effect)
     {
         this.actionName = actionName;
+        this.descriptionText = descriptionText;
         this.waitTime = waitTime;
         this.cost = cost;
         effectList = new List<Effect>();

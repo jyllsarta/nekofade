@@ -31,6 +31,8 @@ public class Effect{
         MAGIC, //魔法
         FIRE,
         THUNDER,
+        PETIT_KING, //ぷちビクトリー 3ターン目以降発動
+        KING, //ビクトリー 5ターン目以降発動
     }
 
     //この効果は敵一体を狙うのか、味方全体なのか

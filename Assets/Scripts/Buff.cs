@@ -8,7 +8,8 @@ public class Buff {
         BLANK,
         POISON,
         GUARD,
-        }
+        REGENERATE,
+    }
     public Buff(BuffID buffID, int length)
     {
         this.length = length;

@@ -14,7 +14,9 @@ public class BuffStore {
             case Buff.BuffID.GUARD:
                 return new Buff(Buff.BuffID.GUARD, 100);
             case Buff.BuffID.POISON:
-                return new Buff(Buff.BuffID.POISON, 500);
+                return new Buff(Buff.BuffID.POISON, 300);
+            case Buff.BuffID.REGENERATE:
+                return new Buff(Buff.BuffID.POISON, 180);
             default:
                 Debug.LogWarning("getBuffByBuffIDのデフォルトが呼ばれてる");
                 return new Buff(Buff.BuffID.BLANK, 10000);
