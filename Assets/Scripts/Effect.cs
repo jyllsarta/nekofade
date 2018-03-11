@@ -47,7 +47,7 @@ public class Effect{
     //バフ・状態異常なら付与するバフ名(バフ型作っちゃってもいいやも)
     public Buff.BuffID buffID;
 
-    //
+    //効果属性 龍特攻とか
     public List<Attribute> attributes;
 
     public bool hasAttribute(Attribute attr)

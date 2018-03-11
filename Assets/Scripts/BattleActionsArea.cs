@@ -13,22 +13,24 @@ public class BattleActionsArea : MonoBehaviour{
     public GameObject contents;
     public Timeline timeline;
     public ScrollRect scroll;
+    public MessageArea messageArea;
     
     public void addAction(string actionName)
     {
         ActionButton created = Instantiate(actionButtonPrefab);
         Action a = ActionStore.getActionByName(actionName,siroko);
-        created.name.text = actionName;
+        created.actionName.text = actionName;
         created.mp.text = a.cost.ToString();
         created.wt.text = a.waitTime.ToString();
-        UnityAction<Button,string> addButtonClickEvent = (Button b, string str) =>
+        UnityAction<Button, string> addButtonClickEvent = (Button b, string str) =>
         {
             b.onClick.AddListener(() =>
             {
-                timeline.tryAddAction(ActionStore.getActionByName(str,siroko));
+                timeline.tryAddAction(ActionStore.getActionByName(str, siroko));
             });
         };
         addButtonClickEvent(created.button,actionName);
+        created.messageArea = messageArea;
         created.transform.SetParent(contents.transform);
     }
 

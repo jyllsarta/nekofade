@@ -10,6 +10,14 @@ public class Battle : MonoBehaviour {
     public GameObject enemiesUI;
     public GameObject targetCircle;
 
+    public DamageEffect damageEffect;
+
+    //エフェクトキュー
+    public Queue<PlayableEffect> effectQueue;
+
+    //あと何フレームエフェクト再生で止まるか
+    public int remainingEffectAnimationframes;
+
     //今ターゲットしてる敵の番号
     public int currentTargettingEnemyIndex;
 
@@ -20,7 +28,7 @@ public class Battle : MonoBehaviour {
     {
         PLAYER_THINK,
         TURN_PROCEEDING,
-        EFFECT_ANIMATION_WAITING,
+        EFFECT_WAITING,
     }
 
     public enum ActorType
@@ -33,6 +41,7 @@ public class Battle : MonoBehaviour {
 	void Start () {
         setEnemy();
         currentTargettingEnemyIndex = 0;
+        effectQueue = new Queue<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
 	}
 
@@ -157,14 +166,19 @@ public class Battle : MonoBehaviour {
         return finalDamage;
     }
 
+
     //実際のEffect一つの処理
-    void consumeEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
+    void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
         switch (effect.effectType)
         {
             case Effect.EffectType.DAMAGE:
                 int damage = calcDamage(actor, target, effect);
                 target.hp -= damage;
+                //エフェクトの再生
+                DamageEffect createdDamageEffect = Instantiate(damageEffect,target.transform);
+                createdDamageEffect.damageText.text = damage.ToString();
+                createdDamageEffect.transform.position = target.transform.position;
                 break;
             case Effect.EffectType.HEAL:
                 target.hp += calcDamage(actor, target, effect);
@@ -184,120 +198,129 @@ public class Battle : MonoBehaviour {
         }
     }
 
-    //どのアクションを、 敵と味方どっちの、何人目が行うか
+    //どっち陣営の誰がを指定してエフェクト一つを消化する
+    void consumeEffect(PlayableEffect pe)
+    {
+        switch (pe.effect.targetType)
+        {
+            //敵リストのインデックス指定を行っているところ、
+            //list内の要素はrefで渡せないのでコピーして渡して結果を戻してる
+            //遅くなったら対策を考えよう...
+
+            case Effect.TargetType.ALLY_ALL:
+                switch (pe.actortype)
+                {
+                    case ActorType.PLAYER:
+                        //自分が味方全体行動→自分自身のみ
+                        resolveEffect(player, ref player, pe.effect);
+                        break;
+                    case ActorType.ENEMY:
+                        //敵が味方全体行動 → 敵全体になにかが起こる
+                        for (int i = 0; i < enemies.Count; ++i)
+                        {
+                            BattleCharacter target = enemies[i];
+                            resolveEffect(enemies[pe.actorIndex], ref target, pe.effect);
+                            enemies[i] = target;
+                        }
+                        break;
+                }
+                break;
+            case Effect.TargetType.ALLY_SINGLE_RANDOM:
+                switch (pe.actortype)
+                {
+                    case ActorType.PLAYER:
+                        //自分が味方ランダム行動→自分自身のみ
+                        resolveEffect(player, ref player, pe.effect);
+                        break;
+                    case ActorType.ENEMY:
+                        //敵が味方ランダム行動 → 敵のうちどれか
+                        int targetIndex = Random.Range(0, enemies.Count);
+                        BattleCharacter target = enemies[targetIndex];
+                        resolveEffect(enemies[pe.actorIndex], ref target, pe.effect);
+                        enemies[targetIndex] = target;
+                        break;
+                }
+                break;
+            case Effect.TargetType.ME:
+                switch (pe.actortype)
+                {
+                    case ActorType.PLAYER:
+                        //自分が自分自身
+                        Debug.Log("自分になんかした");
+                        resolveEffect(player, ref player, pe.effect);
+                        break;
+                    case ActorType.ENEMY:
+                        //敵が自分自身
+                        BattleCharacter target = enemies[pe.actorIndex];
+                        resolveEffect(enemies[pe.actorIndex], ref target, pe.effect);
+                        enemies[pe.actorIndex] = target;
+                        break;
+                }
+                break;
+            case Effect.TargetType.TARGET_ALL:
+                switch (pe.actortype)
+                {
+                    case ActorType.PLAYER:
+                        //敵全部をちまちま殴る
+                        for (int i = 0; i < enemies.Count; ++i)
+                        {
+                            BattleCharacter target = enemies[i];
+                            resolveEffect(player, ref target, pe.effect);
+                            enemies[i] = target;
+                        }
+                        break;
+                    case ActorType.ENEMY:
+                        //敵が全体攻撃 → 味方は一人なので自分狙い
+                        resolveEffect(enemies[pe.actorIndex], ref player, pe.effect);
+                        break;
+                }
+                break;
+            case Effect.TargetType.TARGET_SINGLE:
+                switch (pe.actortype)
+                {
+                    case ActorType.PLAYER:
+                        //自分が敵一体狙う → 今のターゲットを狙う
+                        BattleCharacter target = enemies[currentTargettingEnemyIndex];
+                        resolveEffect(player, ref target, pe.effect);
+                        enemies[currentTargettingEnemyIndex] = target;
+                        break;
+                    case ActorType.ENEMY:
+                        //敵が敵一体狙う → 自分狙い
+                        resolveEffect(enemies[pe.actorIndex], ref player, pe.effect);
+                        break;
+                }
+                break;
+            case Effect.TargetType.TARGET_SINGLE_RANDOM:
+                switch (pe.actortype)
+                {
+                    case ActorType.PLAYER:
+                        //自分が敵ランダムを狙う
+                        int targetIndex = Random.Range(0, enemies.Count);
+                        BattleCharacter target = enemies[targetIndex];
+                        resolveEffect(player, ref target, pe.effect);
+                        enemies[targetIndex] = target;
+                        break;
+                    case ActorType.ENEMY:
+                        //敵がランダムで狙ってくる → 味方は一人なので自分狙い
+                        resolveEffect(enemies[pe.actorIndex], ref player, pe.effect);
+                        break;
+                }
+                break;
+        }
+
+    }
+
+    //どのアクションを、 敵と味方どっちの、何人目が行うかを指定して実際の効果となるエフェクトをキューに積む
     //味方の場合actorIndexは自明に0なので省略可
     public void consumeAction(Action action, ActorType actortype, int actorIndex=0)
     {
+        effectQueue.Clear();
         foreach(Effect effect in action.effectList)
         {
-            switch (effect.targetType)
-            {
-                //敵リストのインデックス指定を行っているところ、
-                //list内の要素はrefで渡せないのでコピーして渡して結果を戻してる
-                //遅くなったら対策を考えよう...
-
-                case Effect.TargetType.ALLY_ALL:
-                    switch (actortype)
-                    {
-                        case ActorType.PLAYER:
-                            //自分が味方全体行動→自分自身のみ
-                            consumeEffect(player, ref player, effect);
-                            break;
-                        case ActorType.ENEMY:
-                            //敵が味方全体行動 → 敵全体になにかが起こる
-                            for (int i = 0; i < enemies.Count; ++i)
-                            {
-                                BattleCharacter target = enemies[i];
-                                consumeEffect(enemies[actorIndex], ref target, effect);
-                                enemies[i] = target;
-                            }
-                            break;
-                    }
-                    break;
-                case Effect.TargetType.ALLY_SINGLE_RANDOM:
-                    switch (actortype)
-                    {
-                        case ActorType.PLAYER:
-                            //自分が味方ランダム行動→自分自身のみ
-                            consumeEffect(player, ref player, effect);
-                            break;
-                        case ActorType.ENEMY:
-                            //敵が味方ランダム行動 → 敵のうちどれか
-                            int targetIndex = Random.Range(0, enemies.Count);
-                            BattleCharacter target = enemies[targetIndex];
-                            consumeEffect(enemies[actorIndex], ref target, effect);
-                            enemies[targetIndex] = target;
-                            break;
-                    }
-                    break;
-                case Effect.TargetType.ME:
-                    switch (actortype)
-                    {
-                        case ActorType.PLAYER:
-                            //自分が自分自身
-                            Debug.Log("自分になんかした");
-                            consumeEffect(player, ref player, effect);
-                            break;
-                        case ActorType.ENEMY:
-                            //敵が自分自身
-                            BattleCharacter target = enemies[actorIndex];
-                            consumeEffect(enemies[actorIndex], ref target, effect);
-                            enemies[actorIndex] = target;
-                            break;
-                    }
-                    break;
-                case Effect.TargetType.TARGET_ALL:
-                    switch (actortype)
-                    {
-                        case ActorType.PLAYER:
-                            //敵全部をちまちま殴る
-                            for (int i=0;i<enemies.Count;++i)
-                            {
-                                BattleCharacter target = enemies[i];
-                                consumeEffect(player, ref target, effect);
-                                enemies[i] = target;
-                            }
-                            break;
-                        case ActorType.ENEMY:
-                            //敵が全体攻撃 → 味方は一人なので自分狙い
-                            consumeEffect(enemies[actorIndex], ref player, effect);
-                            break;
-                    }
-                    break;
-                case Effect.TargetType.TARGET_SINGLE:
-                    switch (actortype)
-                    {
-                        case ActorType.PLAYER:
-                            //自分が敵一体狙う → 今のターゲットを狙う
-                            BattleCharacter target = enemies[currentTargettingEnemyIndex];
-                            consumeEffect(player, ref target, effect);
-                            enemies[currentTargettingEnemyIndex] = target;
-                            break;
-                        case ActorType.ENEMY:
-                            //敵が敵一体狙う → 自分狙い
-                            consumeEffect(enemies[actorIndex], ref player, effect);
-                            break;
-                    }
-                    break;
-                case Effect.TargetType.TARGET_SINGLE_RANDOM:
-                    switch (actortype)
-                    {
-                        case ActorType.PLAYER:
-                            //自分が敵ランダムを狙う
-                            int targetIndex = Random.Range(0, enemies.Count);
-                            BattleCharacter target = enemies[targetIndex];
-                            consumeEffect(player, ref target, effect);
-                            enemies[targetIndex] = target;
-                            break;
-                        case ActorType.ENEMY:
-                            //敵がランダムで狙ってくる → 味方は一人なので自分狙い
-                            consumeEffect(enemies[actorIndex], ref player, effect);
-                            break;
-                    }
-                    break;
-            }
-        
+            effectQueue.Enqueue(new PlayableEffect(effect,actortype,actorIndex));
         }
+        //今積んだエフェクト再生が終わるまでタイムラインは停止する
+        currentGameState = GameState.EFFECT_WAITING;
     }
 
     //ターンの初めの処理
@@ -319,7 +342,7 @@ public class Battle : MonoBehaviour {
     {
         //プレイヤー行動
         Action a = timeline.getActionByFrame(timeline.currentFrame);
-        if (a != null)
+        if (a != null && !player.isDead())
         {
             consumeAction(a, ActorType.PLAYER);
             //キルとったかもしれないからリターゲット
@@ -329,7 +352,16 @@ public class Battle : MonoBehaviour {
         EnemyAction ea = timeline.getEnemyActionByFrame(timeline.currentFrame);
         if (ea != null)
         {
-            consumeAction(ea, ActorType.ENEMY,getEnemyIndexByHashCode(ea.actorHash));
+            int enemyIndex = getEnemyIndexByHashCode(ea.actorHash);
+            //死んでなかったらやる
+            if (!enemies[enemyIndex].isDead())
+            {
+                consumeAction(ea, ActorType.ENEMY, enemyIndex);
+            }
+            else
+            {
+                Debug.LogFormat("{0}番目の敵は死んでるのでアクションを実行しませんでした",enemyIndex);
+            }
         }
     }
 
@@ -338,6 +370,10 @@ public class Battle : MonoBehaviour {
     {
         foreach (BattleCharacter enemy in enemies)
         {
+            if (enemy.isDead())
+            {
+                continue;
+            }
             EnemyAction a = new EnemyAction(ActionStore.getActionByName(enemy.actions[0]));
             a.actorHash = enemy.GetHashCode();
             a.frame = Random.Range(1, timeline.framesPerTurn);
@@ -394,12 +430,32 @@ public class Battle : MonoBehaviour {
             case GameState.PLAYER_THINK:
                 break;
             case GameState.TURN_PROCEEDING:
-            case GameState.EFFECT_ANIMATION_WAITING:
                 timeline.proceed(); //これだと0フレーム目にアクションおかれたらすかされる 大丈夫か検討
                 playActionCurrentFrame();
-                if (timeline.currentFrame == timeline.framesPerTurn)
+                //最後のフレームで再生中エフェクトが無くなったらターン終わり
+                if (timeline.currentFrame == timeline.framesPerTurn && effectQueue.Count == 0)
                 {
                     onTurnStart();
+                }
+                break;
+            case GameState.EFFECT_WAITING:
+                //再生中ならとりあえずそれが終了するまでエフェクトの再生を続けてもらう
+                if (remainingEffectAnimationframes > 0)
+                {
+                    remainingEffectAnimationframes--;
+                    return;
+                }
+                //再生終わり、まだエフェクトが残ってるなら次のエフェクトの再生に移る
+                else if (effectQueue.Count > 0)
+                {
+                    PlayableEffect pe = effectQueue.Dequeue();
+                    consumeEffect(pe);
+                    remainingEffectAnimationframes = pe.blockingFrames;
+                }
+                //エフェクトの再生が終わり、キューにも残ってない場合
+                else
+                {
+                    currentGameState = GameState.TURN_PROCEEDING;
                 }
                 break;
         }

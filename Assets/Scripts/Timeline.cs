@@ -19,6 +19,7 @@ public class Timeline : MonoBehaviour{
     public TextMeshProUGUI remainingFrameText;
     public BattleCharacter siroko;
 
+    //現在のゲーム内フレーム
     public int currentFrame;
 
     public Timeline()
@@ -36,6 +37,7 @@ public class Timeline : MonoBehaviour{
             Destroy(a.gameObject);
         }
         enemyActionInstances.Clear();
+        currentEnemyActions.Clear();
     }
 
     //frame時刻になんかアクションある?
@@ -58,11 +60,9 @@ public class Timeline : MonoBehaviour{
     //frame時刻になんかアクションある?
     public EnemyAction getEnemyActionByFrame(int frame)
     {
-        int sum = 0;
         foreach (EnemyAction a in currentEnemyActions)
         {
-            sum += a.waitTime;
-            if (sum == frame)
+            if (a.frame == frame)
             {
                 return a;
             }
@@ -145,10 +145,13 @@ public class Timeline : MonoBehaviour{
         FramePointer.transform.localPosition = new Vector3(x, 0, 0);
     }
 
+ 
+
     //フレームを1すすめる
+    //エフェクト再生中は進まない
     public void proceed()
     {
-        currentFrame++;
+       currentFrame++;
         updateFramePosition();
     }
 

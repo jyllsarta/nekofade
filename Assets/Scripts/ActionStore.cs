@@ -23,7 +23,6 @@ public class ActionStore : MonoBehaviour{
         int waitTime;
         int power;
         int cost;
-        Effect e;
         List<Effect> effects = new List<Effect>();
         List<Effect.Attribute> attributes = new List<Effect.Attribute>();
 
