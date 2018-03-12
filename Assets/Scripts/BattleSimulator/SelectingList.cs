@@ -55,6 +55,16 @@ public class SelectingList : MonoBehaviour {
         childDataInstances.RemoveAll(x => (x.GetHashCode() == hashCode));
     }
 
+    public List<string> getChildContents()
+    {
+        List<string> result = new List<string>();
+        foreach(ListItem i in childDataInstances)
+        {
+            result.Add(i.itemName);
+        }
+        return result;
+    }
+
 	// Use this for initialization
 	void Start () {
         init();

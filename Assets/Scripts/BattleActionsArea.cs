@@ -35,10 +35,10 @@ public class BattleActionsArea : MonoBehaviour{
     }
 
 
-    //自身のフレームにアクション一覧を読み込み
-    public void loadActions()
+    //引数のアクションを読み込み
+    public void loadActions(List<string> actions)
     {
-        foreach (string actionName in siroko.actions)
+        foreach (string actionName in actions)
         {
             addAction(actionName);
         }
@@ -47,7 +47,8 @@ public class BattleActionsArea : MonoBehaviour{
 
     // Use this for initialization
     void Start () {
-        loadActions();
+        //読み込み順バグを避けるためにBattleSceneConstructor側でloadactionsを呼ぶことにしました
+        //loadActions();
 	}
 	
 	// Update is called once per frame
