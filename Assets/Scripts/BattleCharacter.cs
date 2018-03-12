@@ -227,6 +227,7 @@ public class BattleCharacter : MonoBehaviour {
         if (hpGauge)
         {
             hpGauge.value = hp;
+            hpGauge.maxValue = maxHp;
         }
         if (hpText)
         {

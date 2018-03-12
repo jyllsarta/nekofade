@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Battle : MonoBehaviour {
     public BattleCharacter player;
@@ -110,11 +111,14 @@ public class Battle : MonoBehaviour {
         if (player.isDead())
         {
             Debug.Log("まけ");
+            SceneManager.LoadScene("debugBattleSimulator");
+
         }
         //敵を全滅させたら勝ち
         if (enemies.TrueForAll((e)=>e.isDead()))
         {
             Debug.Log("勝ち");
+            SceneManager.LoadScene("debugBattleSimulator");
         }
 
     }
@@ -433,7 +437,7 @@ public class Battle : MonoBehaviour {
                 timeline.proceed(); //これだと0フレーム目にアクションおかれたらすかされる 大丈夫か検討
                 playActionCurrentFrame();
                 //最後のフレームで再生中エフェクトが無くなったらターン終わり
-                if (timeline.currentFrame == timeline.framesPerTurn && effectQueue.Count == 0)
+                if (timeline.currentFrame >= timeline.framesPerTurn && effectQueue.Count == 0)
                 {
                     onTurnStart();
                 }
