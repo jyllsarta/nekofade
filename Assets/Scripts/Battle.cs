@@ -111,6 +111,8 @@ public class Battle : MonoBehaviour {
         if (player.isDead())
         {
             Debug.Log("まけ");
+            //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
+            Destroy(FindObjectOfType<SirokoStats>().gameObject);
             SceneManager.LoadScene("debugBattleSimulator");
 
         }
@@ -118,6 +120,8 @@ public class Battle : MonoBehaviour {
         if (enemies.TrueForAll((e)=>e.isDead()))
         {
             Debug.Log("勝ち");
+            //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
+            Destroy(FindObjectOfType<SirokoStats>().gameObject);
             SceneManager.LoadScene("debugBattleSimulator");
         }
 
@@ -150,9 +154,31 @@ public class Battle : MonoBehaviour {
         }
 
         //特効枠
-        //王撃系
+        //王撃 5ターン目以降のみつよい
+        if (effect.hasAttribute(Effect.Attribute.KING) && timeline.getTotalFrame() >= timeline.framesPerTurn * 4)
+        {
+            Debug.Log("王撃！7倍ダメージ");
+            multiply *= 7;
+        }
+        //ぷち王撃 3ターン目以降のみつよい
+        if (effect.hasAttribute(Effect.Attribute.PETIT_KING) && timeline.getTotalFrame() >= timeline.framesPerTurn * 2)
+        {
+            Debug.Log("ぷち王撃！3倍ダメージ");
+            multiply *= 3;
+        }
+        //即撃 1ターン目のみつよい
+        if (effect.hasAttribute(Effect.Attribute.SKIP) && timeline.getTotalFrame() <= timeline.framesPerTurn)
+        {
+            Debug.Log("即撃！2.5倍ダメージ");
+            multiply *= 2.5f;
+        }
+        //ぷち即撃 2ターン目までつよい
+        if (effect.hasAttribute(Effect.Attribute.PETIT_SKIP) && timeline.getTotalFrame() <= timeline.framesPerTurn * 2)
+        {
+            Debug.Log("ぷち即撃！1.5倍ダメージ");
+            multiply *= 1.5f;
+        }
 
-        //TODO
 
         //雷→水チェック
         if (target.hasAttribute(CharacterAttribute.AttributeID.WATER) && effect.hasAttribute(Effect.Attribute.THUNDER))

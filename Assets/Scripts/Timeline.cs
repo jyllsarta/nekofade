@@ -10,6 +10,7 @@ public class Timeline : MonoBehaviour{
     public List<TimelineAction> actionInstances;
     public List<TimelineEnemyAction> enemyActionInstances;
     public int framesPerTurn = 60;
+    public int totalFrame = 0;
 
     public TimelineAction commandInstance;
     public TimelineEnemyAction enemyCommandInstance;
@@ -27,6 +28,7 @@ public class Timeline : MonoBehaviour{
         currentPlayerActions = new List<Action>();
         currentEnemyActions = new List<EnemyAction>();
         currentFrame = 0;
+        totalFrame = 0;
     }
 
     public void flushEnemyActions()
@@ -69,6 +71,12 @@ public class Timeline : MonoBehaviour{
         }
         //なんにもないときにはnull返しちゃう
         return null;
+    }
+
+    //この戦闘で経過した総フレーム数
+    public int getTotalFrame()
+    {
+        return totalFrame;
     }
 
     //アクションリストのリセット
@@ -148,10 +156,10 @@ public class Timeline : MonoBehaviour{
  
 
     //フレームを1すすめる
-    //エフェクト再生中は進まない
     public void proceed()
     {
-       currentFrame++;
+        currentFrame++;
+        totalFrame++;
         updateFramePosition();
     }
 

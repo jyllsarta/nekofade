@@ -33,6 +33,8 @@ public class Effect{
         THUNDER,
         PETIT_KING, //ぷちビクトリー 3ターン目以降発動
         KING, //ビクトリー 5ターン目以降発動
+        SKIP, //即系 初手のみつよい
+        PETIT_SKIP,//プチ即 2ターン目まで強い
     }
 
     //この効果は敵一体を狙うのか、味方全体なのか
