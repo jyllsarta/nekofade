@@ -222,25 +222,31 @@ public class Battle : MonoBehaviour {
                 target.hp += calcDamage(actor, target, effect);
                 break;
             case Effect.EffectType.BUFF:
-                //防御だけは別で防御枚数の増加を行う
-                if (effect.buffID == Buff.BuffID.GUARD)
-                {
-                    target.addShield();
-                }
-                else
-                {
-                    Buff b = buffStore.instanciateBuffByBuffID(effect.buffID, target.buffContainer.transform);
-                    //もうすでにそのバフを持ってて、それが重複しない場合は古いやつは消す
-                    if (target.hasBuff(b.buffID) && !b.duplicates)
-                    {
-                        target.removeBuff(b.buffID);
-                        //ここ実は結構危ない橋でややこしい挙動なので今度なんとかしたい
-                        //instanciateしたばかりのやつはbuffsにまだ載ってないからここで消しても大丈夫なのでremoveBuffを呼んでる
-                    }
-                    
-                    target.buffs.Add(b);
-                }
+                enchantBuff(effect.buffID, ref target);
                 break;
+        }
+    }
+
+    public void enchantBuff(Buff.BuffID buffID, ref BattleCharacter target)
+    {
+        //防御だけは別で防御枚数の増加を行う
+        if (buffID == Buff.BuffID.GUARD)
+        {
+            target.addShield();
+        }
+        else
+        {
+            Buff b = buffStore.instanciateBuffByBuffID(buffID, target.buffContainer.transform);
+            b.text.text = b.isPermanent ? "∞" : b.length.ToString();
+            //もうすでにそのバフを持ってて、それが重複しない場合は古いやつは消す
+            if (target.hasBuff(b.buffID) && !b.duplicates)
+            {
+                target.removeBuff(b.buffID);
+                //ここ実は結構危ない橋でややこしい挙動なので今度なんとかしたい
+                //instanciateしたばかりのやつはbuffsにまだ載ってないからここで消しても大丈夫なのでremoveBuffを呼んでる
+            }
+
+            target.buffs.Add(b);
         }
     }
 

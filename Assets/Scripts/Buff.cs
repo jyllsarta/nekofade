@@ -11,6 +11,7 @@ public class Buff : MonoBehaviour {
         POISON,
         GUARD,
         REGENERATE,
+        DARK_EROSION,
     }
     public BuffID buffID;
     public int length;
@@ -18,6 +19,7 @@ public class Buff : MonoBehaviour {
     public Image icon;
     public TextMeshProUGUI text;
     public bool duplicates;
+    public bool isPermanent;
     public void setImage(string resourcePath)
     {
         string pathHeader = "SimpleVectorIcons/";

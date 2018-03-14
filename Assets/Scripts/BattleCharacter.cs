@@ -95,12 +95,46 @@ public class BattleCharacter : MonoBehaviour {
                 return 0.88f;
             case 7:
                 return 0.90f;
+            case 8:
+                return 0.91f;
+            case 9:
+                return 0.92f;
             default:
                 Debug.LogWarning("getDefenceCutRateのdefault呼ばれた");
                 return 1f;
         }
     }
-    //防御カット率
+    //恒常防御カット率
+    public float getNormalCutRate()
+    {
+        switch (defence)
+        {
+            case 0:
+                return 0.0f;
+            case 1:
+                return 0.08f;
+            case 2:
+                return 0.16f;
+            case 3:
+                return 0.24f;
+            case 4:
+                return 0.32f;
+            case 5:
+                return 0.40f;
+            case 6:
+                return 0.48f;
+            case 7:
+                return 0.56f;
+            case 8:
+                return 0.64f;
+            case 9:
+                return 0.72f;
+            default:
+                Debug.LogWarning("getDefenceCutRateのdefault呼ばれた");
+                return 1f;
+        }
+    }
+    //ウェイトカット率
     public float getWaitTimeCutRate()
     {
         switch (speed)
@@ -121,14 +155,18 @@ public class BattleCharacter : MonoBehaviour {
                 return 0.55f;
             case 7:
                 return 0.51f;
+            case 8:
+                return 0.48f;
+            case 9:
+                return 0.46f;
             default:
                 Debug.LogWarning("getWaitTimeCutRateのdefault呼ばれた");
                 return 1f;
         }
     }
     //最大防御回数 Lv3, Lv6で追加+1回
-    //01234567
-    //11122233
+    //0123456789
+    //1112223334
     public int getMaxDefenceCount()
     {
         return 1 + defence / 3;
@@ -156,11 +194,15 @@ public class BattleCharacter : MonoBehaviour {
     {
         foreach(Buff buff in buffs)
         {
-            //残存期間を減らす
-            buff.length -= 1;
+            //非恒久バフのみ処理
+            if (!buff.isPermanent)
+            {
+                //残存期間を減らす
+                buff.length -= 1;
 
-            //見た目を更新
-            buff.text.text = buff.length.ToString();
+                //見た目を更新
+                buff.text.text = buff.length.ToString();
+            }
         }
         //removeAllのためにtrueを返しながら自身を画面上から消す副作用のあるラムダ式
         Func<Buff, bool> destroyIt = (x) => { Destroy(x.gameObject); return true; };
@@ -171,6 +213,18 @@ public class BattleCharacter : MonoBehaviour {
     public bool hasBuff(Buff.BuffID buffID)
     {
         return buffs.FindIndex(b => b.buffID == buffID) != -1;
+    }
+
+    public int getBuffCount(Buff.BuffID buffID)
+    {
+        int count = 0;
+        foreach (Buff b in buffs) {
+            if (b.buffID == buffID)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     //指定したバフIDのバフを全部消す
@@ -186,10 +240,18 @@ public class BattleCharacter : MonoBehaviour {
     void activateTurnBuffEffect()
     {
         //毒状態なら10点のダメージを受ける
-        if (hasBuff(Buff.BuffID.POISON))
+        int poison_count = getBuffCount(Buff.BuffID.POISON);
+        if (poison_count > 0)
         {
-            Debug.Log(string.Format("{0}は毒で10ダメージ!", characterName));
-            hp -= 10;
+            Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 10 * poison_count));
+            hp -= 10 * poison_count;
+        }
+        //闇侵食
+        int erosion_count = getBuffCount(Buff.BuffID.DARK_EROSION);
+        if (erosion_count > 0)
+        {
+            Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 20 * erosion_count));
+            hp -= 20 * erosion_count;
         }
     }
 

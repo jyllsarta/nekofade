@@ -39,6 +39,19 @@ public class BattleSceneConstructor : MonoBehaviour {
     void setEquips()
     {
         //装備とは、戦闘開始前に処理を行い「パラメータの上昇」「バフの付与」を行うアイテムである とすれば処理しやすそう
+        foreach (string s in status.equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            battleModel.player.strength += e.strength;
+            battleModel.player.intelligence += e.intelligence;
+            battleModel.player.speed += e.speed;
+            battleModel.player.toughness += e.toughness;
+            battleModel.player.defence += e.defence;
+            foreach (Buff.BuffID buffID in e.enchants)
+            {
+                battleModel.enchantBuff(buffID, ref battleModel.player);
+            }
+        }
     }
 
     public void initialize()

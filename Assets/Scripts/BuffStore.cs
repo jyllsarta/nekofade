@@ -16,6 +16,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild.buffID = Buff.BuffID.BLANK;
                 createdChild.setImage("UI_Icon_Warning");
                 createdChild.duplicates = false;
+                createdChild.isPermanent = false;
                 return createdChild;
                 //到達できないコードパスの緑線出るけどswitchでbreak書かないの嫌すぎ
             case Buff.BuffID.GUARD:
@@ -25,6 +26,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild.buffID = Buff.BuffID.GUARD;
                 createdChild.setImage("UI_Icon_Defend");
                 createdChild.duplicates = true;
+                createdChild.isPermanent = false;
                 return createdChild;
             case Buff.BuffID.POISON:
                 createdChild = Instantiate(prefab, parent);
@@ -32,6 +34,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild.buffID = Buff.BuffID.POISON;
                 createdChild.setImage("UI_Icon_Skull");
                 createdChild.duplicates = true;
+                createdChild.isPermanent = false;
                 return createdChild;
             case Buff.BuffID.REGENERATE:
                 createdChild = Instantiate(prefab, parent);
@@ -39,6 +42,15 @@ public class BuffStore : MonoBehaviour {
                 createdChild.buffID = Buff.BuffID.REGENERATE;
                 createdChild.setImage("UI_Icon_HeartEmpty");
                 createdChild.duplicates = false;
+                createdChild.isPermanent = false;
+                return createdChild;
+            case Buff.BuffID.DARK_EROSION:
+                createdChild = Instantiate(prefab, parent);
+                createdChild.length = 999;
+                createdChild.buffID = Buff.BuffID.DARK_EROSION;
+                createdChild.setImage("UI_Icon_FaithTaosim");
+                createdChild.duplicates = true;
+                createdChild.isPermanent = true;
                 return createdChild;
             default:
                 Debug.LogWarning("getBuffByBuffIDのデフォルトが呼ばれてる");
