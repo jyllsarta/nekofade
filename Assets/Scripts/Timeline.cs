@@ -14,8 +14,8 @@ public class Timeline : MonoBehaviour{
 
     public TimelineAction commandInstance;
     public TimelineEnemyAction enemyCommandInstance;
-    public GameObject commandsView;
-    public GameObject enemyCommandsView;
+    public RectTransform commandsView;
+    public RectTransform enemyCommandsView;
     public GameObject FramePointer;
     public TextMeshProUGUI remainingFrameText;
     public BattleCharacter siroko;
@@ -166,9 +166,8 @@ public class Timeline : MonoBehaviour{
     public void Add(Action a)
     {
         //アクションをプレハブから生成
-        TimelineAction createdChild = Instantiate(commandInstance);
+        TimelineAction createdChild = Instantiate(commandInstance,commandsView.transform);
         //該当アクション用のパラメータに書き換え
-        createdChild.transform.parent = commandsView.transform;
         createdChild.transform.localPosition = getNextActionPositionStart();
         createdChild.text.text = a.actionName;
 
@@ -246,6 +245,10 @@ public class Timeline : MonoBehaviour{
         }
     }
 
+    public void Start()
+    {
+        frameWidth = (int)commandsView.rect.width;
+    }
 
     public void Update()
     {

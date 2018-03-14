@@ -111,7 +111,11 @@ public class Battle : MonoBehaviour {
         {
             Debug.Log("まけ");
             //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
-            Destroy(FindObjectOfType<SirokoStats>().gameObject);
+            SirokoStats s = FindObjectOfType<SirokoStats>();
+            if (s)
+            {
+                Destroy(s.gameObject);
+            }
             SceneManager.LoadScene("debugBattleSimulator");
 
         }
@@ -120,7 +124,11 @@ public class Battle : MonoBehaviour {
         {
             Debug.Log("勝ち");
             //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
-            Destroy(FindObjectOfType<SirokoStats>().gameObject);
+            SirokoStats s = FindObjectOfType<SirokoStats>();
+            if (s)
+            {
+                Destroy(s.gameObject);
+            }
             SceneManager.LoadScene("debugBattleSimulator");
         }
 
