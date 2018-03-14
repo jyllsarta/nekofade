@@ -15,7 +15,7 @@ public class Buff : MonoBehaviour {
     }
     public BuffID buffID;
     public int length;
-    public string iconFileName;
+    public string description;
     public Image icon;
     public TextMeshProUGUI text;
     public bool duplicates;

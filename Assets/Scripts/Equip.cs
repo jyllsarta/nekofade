@@ -10,7 +10,8 @@ public class Equip{
     public int defence;
     public int toughness;
     public List<Buff.BuffID> enchants;
-    public Equip(int strength, int intelligence, int speed, int defence, int toughness, List<Buff.BuffID> enchants)
+    public string description;
+    public Equip(int strength, int intelligence, int speed, int defence, int toughness, List<Buff.BuffID> enchants, string description)
     {
         this.strength = strength;
         this.intelligence = intelligence;
@@ -18,5 +19,6 @@ public class Equip{
         this.defence = defence;
         this.toughness = toughness;
         this.enchants = enchants;
+        this.description = description;
     }
 }

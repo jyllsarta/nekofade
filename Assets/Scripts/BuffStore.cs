@@ -14,6 +14,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 999;
                 createdChild.buffID = Buff.BuffID.BLANK;
+                createdChild.description = "空のバフ。ゲーム中だと見えないはずなんだけどなー...";
                 createdChild.setImage("UI_Icon_Warning");
                 createdChild.duplicates = false;
                 createdChild.isPermanent = false;
@@ -24,6 +25,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 999;
                 createdChild.buffID = Buff.BuffID.GUARD;
+                createdChild.description = "防御している状態。次に受ける物理ダメージを大幅に軽減する。";
                 createdChild.setImage("UI_Icon_Defend");
                 createdChild.duplicates = true;
                 createdChild.isPermanent = false;
@@ -32,6 +34,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 300;
                 createdChild.buffID = Buff.BuffID.POISON;
+                createdChild.description = "毒状態。ターンの終了時に10点の固定ダメージ。";
                 createdChild.setImage("UI_Icon_Skull");
                 createdChild.duplicates = true;
                 createdChild.isPermanent = false;
@@ -40,6 +43,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 180;
                 createdChild.buffID = Buff.BuffID.REGENERATE;
+                createdChild.description = "癒しの陣により再生力が増加している状態。1Fごとに1HP回復する。";
                 createdChild.setImage("UI_Icon_HeartEmpty");
                 createdChild.duplicates = false;
                 createdChild.isPermanent = false;
@@ -48,6 +52,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 999;
                 createdChild.buffID = Buff.BuffID.DARK_EROSION;
+                createdChild.description = "闇に侵食されている状態。ターンの終了時に20点の固定ダメージ。";
                 createdChild.setImage("UI_Icon_FaithTaosim");
                 createdChild.duplicates = true;
                 createdChild.isPermanent = true;
@@ -57,6 +62,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 999;
                 createdChild.buffID = Buff.BuffID.BLANK;
+                createdChild.description = "よりひどい空のバフ。ゲーム中だと見えないはずなんだけどなー...";
                 createdChild.setImage("UI_Icon_Warning");
                 createdChild.duplicates = false;
                 return createdChild;

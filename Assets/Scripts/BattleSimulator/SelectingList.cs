@@ -13,32 +13,63 @@ public class SelectingList : MonoBehaviour {
     public GameObject masterObject;
     public GameObject childObject;
 
+    public MessageArea messageArea;
+
+    public enum ListType {
+        EQUIP,
+        ENEMY,
+        ATTENDANT,
+        ACTION,
+    }
+    public ListType listType;
+
+
     public void init()
     {
         childDataInstances = new List<ListItem>();
         foreach (string s in masterData)
         {
-            addMaster(s);
+            string description = "";
+            switch (listType)
+            {
+                case ListType.ACTION:
+                    description = ActionStore.getActionByName(s).descriptionText;
+                    break;
+                case ListType.ATTENDANT:
+                    description = "同行者さん！完全未定なので固定メッセージです";
+                    break;
+                case ListType.ENEMY:
+                    description = EnemyStore.getEnemyDescriptionByName(s);
+                    break;
+                case ListType.EQUIP:
+                    description = EquipStore.getEquipByName(s).description;
+                    break;
+            }
+            addMaster(s,description);
         }
     }
 
     //子要素の追加
-    public void addChild(string data)
+    public void addChild(string data, string description)
     {
         ListItem createdChild = Instantiate(listItemPrefab, childObject.transform);
         createdChild.setName(data);
-        createdChild.parent = this;
+        createdChild.description = description;
         createdChild.isChild = true;
+        createdChild.parent = this;
         childDataInstances.Add(createdChild);
+        createdChild.messageArea = messageArea;
     }
 
     //親要素側に追加
-    public void addMaster(string data)
+    public void addMaster(string data, string description)
     {
         ListItem createdChild = Instantiate(listItemPrefab, masterObject.transform);
         createdChild.setName(data);
-        createdChild.parent = this;
+        createdChild.description = description;
         createdChild.isChild = false;
+        createdChild.parent = this;
+        createdChild.messageArea = messageArea;
     }
 
     //ハッシュ指定で子要素を削除
