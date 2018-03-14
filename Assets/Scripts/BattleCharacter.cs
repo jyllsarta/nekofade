@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using System;
 
 
 //敵味方共通の処理
@@ -26,6 +27,7 @@ public class BattleCharacter : MonoBehaviour {
 
     //今かかってる効果一覧
     public List<Buff> buffs;
+
     //技一覧
     public List<string> actions;
     //キャラのアトリビュート
@@ -38,6 +40,7 @@ public class BattleCharacter : MonoBehaviour {
     public Slider mpGauge;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI mpText;
+    public GameObject buffContainer;
 
     public bool isDead()
     {
@@ -149,29 +152,41 @@ public class BattleCharacter : MonoBehaviour {
     }
 
     //バフの残存期間を1F減らし、0になったものを削除する
-    void updateBuffState()
+    public void updateBuffState()
     {
-        //リストのイテレートしながらの削除は怪しいので、セーフなものリストを作ってそれと入れ替える
-        List<Buff> newbuffs = new List<Buff>();
-        foreach (Buff buff in buffs)
+        foreach(Buff buff in buffs)
         {
-            //残存期間を減らし
+            //残存期間を減らす
             buff.length -= 1;
-            //まだ生きているもののみ新リストに放り込む
-            if (buff.length > 0)
-            {
-                newbuffs.Add(buff);
-            }
+
+            //見た目を更新
+            buff.text.text = buff.length.ToString();
         }
-        //バフリストをごっそり挿げ替え
-        this.buffs = newbuffs;
+        //removeAllのためにtrueを返しながら自身を画面上から消す副作用のあるラムダ式
+        Func<Buff, bool> destroyIt = (x) => { Destroy(x.gameObject); return true; };
+        //残存期間0のものをDestroyしながら自身のもつ参照からも消してく
+        buffs.RemoveAll(x => (x.length < 0 ? destroyIt(x) : false));
+    }
+
+    public bool hasBuff(Buff.BuffID buffID)
+    {
+        return buffs.FindIndex(b => b.buffID == buffID) != -1;
+    }
+
+    //指定したバフIDのバフを全部消す
+    public void removeBuff(Buff.BuffID buffID)
+    {
+        //removeAllのためにtrueを返しながら自身を画面上から消す副作用のあるラムダ式
+        Func<Buff, bool> destroyIt = (x) => { Destroy(x.gameObject); return true; };
+        //残存期間0のものをDestroyしながら自身のもつ参照からも消してく
+        buffs.RemoveAll(x => (x.buffID==buffID ? destroyIt(x) : false));
     }
 
     //ターン毎のバフ効果の処理を行う
     void activateTurnBuffEffect()
     {
         //毒状態なら10点のダメージを受ける
-        if (buffs.FindIndex(b => b.buffID == Buff.BuffID.POISON) != -1)
+        if (hasBuff(Buff.BuffID.POISON))
         {
             Debug.Log(string.Format("{0}は毒で10ダメージ!", characterName));
             hp -= 10;
@@ -186,9 +201,8 @@ public class BattleCharacter : MonoBehaviour {
 
     //こいつがここにあるのが正しいかどうかわからないけどとりあえず置いておく
     //1ターンに一度行う処理
-    void OnTurnEnd()
+    public void OnTurnEnd()
     {
-        updateBuffState();
         activateTurnBuffEffect();
     }
 
@@ -249,6 +263,15 @@ public class BattleCharacter : MonoBehaviour {
     public void OnClick()
     {
         battle.targetEnemyByHash(this.GetHashCode());
+    }
+
+    //ゲーム内フレームごとに行う処理
+    public void onEveryFrame()
+    {
+        if (hasBuff(Buff.BuffID.REGENERATE) && hp < maxHp)
+        {
+            hp += 1;
+        }
     }
 
     //毎フレーム行う処理 

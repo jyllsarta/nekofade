@@ -1,20 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
-public class Buff {
+public class Buff : MonoBehaviour {
     public enum BuffID{
         BLANK,
         POISON,
         GUARD,
         REGENERATE,
     }
-    public Buff(BuffID buffID, int length)
-    {
-        this.length = length;
-        this.buffID = buffID;
-    }
     public BuffID buffID;
     public int length;
+    public string iconFileName;
+    public Image icon;
+    public TextMeshProUGUI text;
+    public bool duplicates;
+    public void setImage(string resourcePath)
+    {
+        string pathHeader = "SimpleVectorIcons/";
+        string path = pathHeader + resourcePath;
+        Sprite s = Resources.Load<Sprite>(path);
+        icon.sprite = s;
+    }
 }

@@ -7,6 +7,7 @@ public class Battle : MonoBehaviour {
     public BattleCharacter player;
     public List<BattleCharacter> enemies;
     public EnemyStore enemyStore;
+    public BuffStore buffStore;
     public Timeline timeline;
     public GameObject enemiesUI;
     public GameObject targetCircle;
@@ -228,8 +229,16 @@ public class Battle : MonoBehaviour {
                 }
                 else
                 {
-                    //ステートを付与
-                    target.buffs.Add(BuffStore.getBuffByBuffID(effect.buffID));
+                    Buff b = buffStore.instanciateBuffByBuffID(effect.buffID, target.buffContainer.transform);
+                    //もうすでにそのバフを持ってて、それが重複しない場合は古いやつは消す
+                    if (target.hasBuff(b.buffID) && !b.duplicates)
+                    {
+                        target.removeBuff(b.buffID);
+                        //ここ実は結構危ない橋でややこしい挙動なので今度なんとかしたい
+                        //instanciateしたばかりのやつはbuffsにまだ載ってないからここで消しても大丈夫なのでremoveBuffを呼んでる
+                    }
+                    
+                    target.buffs.Add(b);
                 }
                 break;
         }
@@ -374,6 +383,35 @@ public class Battle : MonoBehaviour {
         currentGameState = GameState.TURN_PROCEEDING;
     }
 
+    //全キャラの毎フレームごとの処理を呼ぶ
+    public void triggerEveryCharacterEveryFrameEffect()
+    {
+        player.onEveryFrame();
+        foreach (BattleCharacter e in enemies)
+        {
+            e.onEveryFrame();
+        }
+    }
+    //全キャラのターンエンドごとの処理を呼ぶ
+    public void triggerEveryCharacterTurnEndEffect()
+    {
+        player.OnTurnEnd();
+        foreach (BattleCharacter e in enemies)
+        {
+            e.OnTurnEnd();
+        }
+    }
+
+    //全キャラのバフを1Fぶん進める
+    public void proceedEveryCharactersBuffState()
+    {
+        player.updateBuffState();
+        foreach (BattleCharacter e in enemies)
+        {
+            e.updateBuffState();
+        }
+    }
+
     //このフレームに積んであるアクションを実行
     public void playActionCurrentFrame()
     {
@@ -469,9 +507,12 @@ public class Battle : MonoBehaviour {
             case GameState.TURN_PROCEEDING:
                 timeline.proceed(); //これだと0フレーム目にアクションおかれたらすかされる 大丈夫か検討
                 playActionCurrentFrame();
+                triggerEveryCharacterEveryFrameEffect();
+                proceedEveryCharactersBuffState();
                 //最後のフレームで再生中エフェクトが無くなったらターン終わり
                 if (timeline.currentFrame >= timeline.framesPerTurn && effectQueue.Count == 0)
                 {
+                    triggerEveryCharacterTurnEndEffect();
                     onTurnStart();
                 }
                 break;
