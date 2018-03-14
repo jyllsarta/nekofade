@@ -17,7 +17,7 @@ public class BattleActionsArea : MonoBehaviour{
     
     public void addAction(string actionName)
     {
-        ActionButton created = Instantiate(actionButtonPrefab);
+        ActionButton created = Instantiate(actionButtonPrefab,contents.transform);
         Action a = ActionStore.getActionByName(actionName,siroko);
         created.actionName.text = actionName;
         created.mp.text = a.cost.ToString();
@@ -31,7 +31,6 @@ public class BattleActionsArea : MonoBehaviour{
         };
         addButtonClickEvent(created.button,actionName);
         created.messageArea = messageArea;
-        created.transform.SetParent(contents.transform);
     }
 
 

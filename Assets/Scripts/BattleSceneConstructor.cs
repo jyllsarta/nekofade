@@ -43,6 +43,12 @@ public class BattleSceneConstructor : MonoBehaviour {
 
     public void initialize()
     {
+        if (status == null)
+        {
+            Debug.Log("直接バトルシーンを起動したな デフォルト値を読み込みます");
+            actionsArea.loadActions(battleModel.player.actions);
+            return;
+        }
         setSirokoParameter();
         setActions();
         setAttendant();

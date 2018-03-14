@@ -7,10 +7,10 @@ public class EnemyStore : MonoBehaviour{
 
     public BattleCharacter prefab;
 
-    public BattleCharacter getEnemyByName(string enemyName)
+    public BattleCharacter getEnemyByName(string enemyName,Transform parent)
     {
         BattleCharacter createdChild;
-        createdChild = Instantiate(prefab);
+        createdChild = Instantiate(prefab,parent);
 
         switch (enemyName)
         {

@@ -52,9 +52,8 @@ public class Battle : MonoBehaviour {
         for (int i=0;i<3;++i)
         {
             BattleCharacter enemy;
-            enemy = enemyStore.getEnemyByName("scp");
-            enemy.transform.SetParent(enemiesUI.transform);
-            enemy.transform.localPosition = new Vector3((i-1)*400, (1 - i) * 30, 0);
+            enemy = enemyStore.getEnemyByName("scp", enemiesUI.transform);
+            enemy.transform.Translate(new Vector3((i-1)*150, (1 - i) * 10, 0));
             enemy.battle = this;
             enemies.Add(enemy);
         }
