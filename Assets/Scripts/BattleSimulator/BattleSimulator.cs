@@ -14,10 +14,11 @@ public class BattleSimulator : MonoBehaviour {
     public SelectingList attendants;
 
     public Slider strength;
-    public Slider vitality;
     public Slider intelligence;
+    public Slider magicCapacity;
     public Slider speed;
     public Slider defence;
+    public Slider vitality;
 
     //
     public void setParameters()
@@ -45,12 +46,11 @@ public class BattleSimulator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         siroko.strength = (int)strength.value;
-        siroko.vitality = (int)vitality.value;
+        siroko.intelligence = (int)intelligence.value;
+        siroko.magicCapacity = (int)magicCapacity.value;
         siroko.speed = (int)speed.value;
         siroko.defence = (int)defence.value;
-        siroko.intelligence = (int)intelligence.value;
-        siroko.maxMp = 1000;
-        siroko.mp = 1000;
+        siroko.vitality = (int)vitality.value;
         setDefaultBattleData();
     }
 

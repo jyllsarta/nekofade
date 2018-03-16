@@ -7,10 +7,11 @@ using UnityEngine;
 public class SirokoStats : MonoBehaviour{
     //各種パラメータ
     public int strength;
-    public int speed;
     public int intelligence;
-    public int vitality;
+    public int magicCapacity;
+    public int speed;
     public int defence;
+    public int vitality;
     public int maxHp; //hpはバトル画面以外では全回復する
     public int mp;
     public int maxMp;

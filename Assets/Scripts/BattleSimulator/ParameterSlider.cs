@@ -17,6 +17,7 @@ public class ParameterSlider : MonoBehaviour, IPointerEnterHandler{
     {
         STRENGTH,
         INTELLIGENCE,
+        MAGICCAPACITY,
         SPEED,
         DEFENCE,
         VITALITY,
@@ -32,6 +33,9 @@ public class ParameterSlider : MonoBehaviour, IPointerEnterHandler{
                 break;
             case ParameterKind.INTELLIGENCE:
                 sim.siroko.intelligence = (int)slider.value;
+                break;
+            case ParameterKind.MAGICCAPACITY:
+                sim.siroko.magicCapacity = (int)slider.value;
                 break;
             case ParameterKind.SPEED:
                 sim.siroko.speed = (int)slider.value;
@@ -52,11 +56,13 @@ public class ParameterSlider : MonoBehaviour, IPointerEnterHandler{
             case ParameterKind.STRENGTH:
                 return "筋力Lv:ちからの強さを表す。1Lvにつき物理ダメージ+40%。";
             case ParameterKind.INTELLIGENCE:
-                return "魔力Lv:魔力の強さ、マナを引き出す能力を表す。1Lvにつき魔法ダメージ+40%。";
+                return "魔力Lv:魔力の強さを表す。1Lvにつき魔法ダメージ+40%。";
+            case ParameterKind.MAGICCAPACITY:
+                return "収魔Lv:マナを引き出し、取り込む能力。1LvにつきMP+40, 一定LvでMP回復ペース上昇。";
             case ParameterKind.SPEED:
                 return "速度Lv:すばやさを表す。1LvごとにWTを減少。最大のLv5時は行動時間40%カット。";
             case ParameterKind.DEFENCE:
-                return "防御Lv:物理障壁を扱う能力。防御のカット率上昇,3Lv到達で障壁を2枚まで貯蓄可能に。";
+                return "防御Lv:物理障壁を扱う能力。防御効果上昇,非防御時ダメージカット,最大障壁枚数上昇。";
             case ParameterKind.VITALITY:
                 return "体力Lv:へこたれない元気さを表す。1LvにつきHP+40。";
             default:

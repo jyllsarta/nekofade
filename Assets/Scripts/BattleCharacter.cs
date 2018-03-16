@@ -19,9 +19,10 @@ public class BattleCharacter : MonoBehaviour {
 
     //各種基礎パラメータ
     public int strength;
-    public int defence;
     public int intelligence;
+    public int magicCapacity;
     public int speed;
+    public int defence;
     public int vitality;
 
     //思考ルーチン系
@@ -95,6 +96,16 @@ public class BattleCharacter : MonoBehaviour {
     public int getMaxHP()
     {
         return 100 + vitality * 40;
+    }
+    //最大HP
+    public int getMaxMP()
+    {
+        return 100 + magicCapacity * 40;
+    }
+    //MP自然回復率 収魔Lv3以上なら10、それ以外なら5点回復
+    public int getMPHealRate()
+    {
+        return magicCapacity>=3 ? 10 : 5;
     }
     //防御カット率
     public float getDefenceCutRate()
@@ -328,6 +339,12 @@ public class BattleCharacter : MonoBehaviour {
     public void OnTurnEnd()
     {
         activateTurnBuffEffect();
+        //MP回復処理 エフェクトが付いたら関数に隔離
+        mp += getMPHealRate();
+        if (mp > maxMp)
+        {
+            mp = maxMp;
+        }
     }
 
     //aのコスト払えるかチェック
@@ -375,6 +392,7 @@ public class BattleCharacter : MonoBehaviour {
         if (mpGauge)
         {
             mpGauge.value = mp;
+            mpGauge.maxValue = maxMp;
         }
         if (mpText)
         {
