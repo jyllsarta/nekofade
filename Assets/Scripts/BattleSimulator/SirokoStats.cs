@@ -9,7 +9,7 @@ public class SirokoStats : MonoBehaviour{
     public int strength;
     public int speed;
     public int intelligence;
-    public int toughness;
+    public int vitality;
     public int defence;
     public int maxHp; //hpはバトル画面以外では全回復する
     public int mp;

@@ -14,7 +14,7 @@ public class BattleSceneConstructor : MonoBehaviour {
         battleModel.player.strength = status.strength;
         battleModel.player.intelligence = status.intelligence;
         battleModel.player.speed = status.speed;
-        battleModel.player.toughness = status.toughness;
+        battleModel.player.vitality = status.vitality;
         battleModel.player.defence = status.defence;
         battleModel.player.hp = battleModel.player.getMaxHP();
         battleModel.player.maxHp = battleModel.player.getMaxHP();
@@ -33,7 +33,7 @@ public class BattleSceneConstructor : MonoBehaviour {
 
     void setEnemy()
     {
-        //EnemyStoreがいるね
+        battleModel.setEnemy(status.enemies);
     }
 
     void setEquips()
@@ -45,7 +45,7 @@ public class BattleSceneConstructor : MonoBehaviour {
             battleModel.player.strength += e.strength;
             battleModel.player.intelligence += e.intelligence;
             battleModel.player.speed += e.speed;
-            battleModel.player.toughness += e.toughness;
+            battleModel.player.vitality += e.vitality;
             battleModel.player.defence += e.defence;
             foreach (Buff.BuffID buffID in e.enchants)
             {
@@ -60,6 +60,7 @@ public class BattleSceneConstructor : MonoBehaviour {
         {
             Debug.Log("直接バトルシーンを起動したな デフォルト値を読み込みます");
             actionsArea.loadActions(battleModel.player.actions);
+            battleModel.setEnemy(new List<string>() { "scp","scp","scp"});
             return;
         }
         setSirokoParameter();

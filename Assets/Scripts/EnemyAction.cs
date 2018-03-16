@@ -20,4 +20,5 @@ public class EnemyAction : Action{
         this.cost = a.cost;
         this.effectList = a.effectList;
     }
+
 }

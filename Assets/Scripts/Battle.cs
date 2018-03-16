@@ -41,20 +41,21 @@ public class Battle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        setEnemy();
         currentTargettingEnemyIndex = 0;
         effectQueue = new Queue<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
 	}
 
-    //デバッグ用 適当に敵を置く
-    void setEnemy()
+    //リストの内容に従って敵を置く
+    public void setEnemy(List<string> enemyList)
     {
-        for (int i=0;i<3;++i)
+        int enemysize = enemyList.Count;
+
+        for(int i=0;i<enemyList.Count;++i)
         {
             BattleCharacter enemy;
-            enemy = enemyStore.getEnemyByName("scp", enemiesUI.transform);
-            enemy.transform.Translate(new Vector3((i-1)*150, (1 - i) * 10, 0));
+            enemy = enemyStore.instanciateEnemyByName(enemyList[i], enemiesUI.transform);
+            enemy.transform.Translate(new Vector3((i-1)*250, (1 - i) * 10, 0));
             enemy.battle = this;
             enemies.Add(enemy);
         }
@@ -151,7 +152,11 @@ public class Battle : MonoBehaviour {
         else
         {
             multiply *= actor.getAttackRate();
+
+            //物理攻撃は相手側の防御Lvに応じてダメージカット
+            multiply *= (1f - target.getNormalCutRate());
         }
+
 
         //相手が防御してたら防御回数を減らしつつダメージ減衰
         if (target.hasShield())
@@ -381,6 +386,11 @@ public class Battle : MonoBehaviour {
         timeline.newTurn();
         currentGameState = GameState.PLAYER_THINK;
         putEnemyAction();
+        player.OnTurnStart();
+        foreach (BattleCharacter e in enemies)
+        {
+            e.OnTurnStart();
+        }
 
     }
 
@@ -446,7 +456,7 @@ public class Battle : MonoBehaviour {
         }
     }
 
-    //生きてる敵が雑に行動を積む
+    //生きてる敵が自分の行動を積む
     void putEnemyAction()
     {
         foreach (BattleCharacter enemy in enemies)
@@ -455,7 +465,8 @@ public class Battle : MonoBehaviour {
             {
                 continue;
             }
-            EnemyAction a = new EnemyAction(ActionStore.getActionByName(enemy.actions[0]));
+            string actionName = enemy.nextAction();
+            EnemyAction a = new EnemyAction(ActionStore.getActionByName(actionName,enemy));
             a.actorHash = enemy.GetHashCode();
             a.frame = Random.Range(1, timeline.framesPerTurn);
             timeline.addEnemyAction(a);

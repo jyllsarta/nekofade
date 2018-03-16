@@ -1,21 +1,72 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemyStore : MonoBehaviour{
 
 
     public BattleCharacter prefab;
 
-    public BattleCharacter getEnemyByName(string enemyName,Transform parent)
+    public BattleCharacter instanciateEnemyByName(string enemyName,Transform parent)
     {
+
         BattleCharacter createdChild;
         createdChild = Instantiate(prefab,parent);
+
+        //デフォルトでくっついてるアクションを消す
+        createdChild.actions = new List<string>();
 
         switch (enemyName)
         {
             case "scp":
+                createdChild.actions.Add("ねこアタック");
+                createdChild.actions.Add("両手ひっかき");
+                createdChild.actions.Add("ねこクリティカル");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(30,0,0,0,0,0,0);
+                createdChild.setImage("Enemy/siroNeko");
+                return createdChild;
+            case "ねこ":
+                createdChild.actions.Add("両手ひっかき");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(50, 0, 0, 0, 0, 0, 0);
+                createdChild.setImage("Enemy/akaNeko");
+                return createdChild;
+            case "ねこ隊長":
+                createdChild.actions.Add("ねこアタック");
+                createdChild.actions.Add("プチファイア");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.initializeParameters(150, 10, 1, 0, 0, 0, 0);
+                createdChild.setImage("Enemy/kingNeko");
+                return createdChild;
+            case "魔王":
                 createdChild.actions.Add("刺突");
+                createdChild.actions.Add("魔王ソード");
+                createdChild.actions.Add("プチファイア");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(550, 10, 1, 2, 0, 1, 0);
+                createdChild.setImage("Enemy/kingNeko");
+                return createdChild;
+            case "ねこベス":
+                createdChild.actions.Add("プチファイア");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(100, 0, 0, 2, 0, 0, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "ねこ隊長α":
+                createdChild.actions.Add("ねこアタック");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(300, 0, 5, 5, 5, 5, 5);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "カニ":
+                createdChild.actions.Add("刺突");
+                createdChild.actions.Add("刺突");
+                createdChild.actions.Add("雷光");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(100, 0, 1, 1, 1, 9, 2);
+                createdChild.setImage("Enemy/kani");
                 return createdChild;
             default:
                 Debug.LogWarning("EnemyName素通りしました");
@@ -39,6 +90,8 @@ public class EnemyStore : MonoBehaviour{
                 return "赤いねこ。魔法を使ってくれると嬉しいなあ、いつ実装されんだろ";
             case "ねこ隊長α":
                 return "αが描画できるかテストするために生み出された謎のねこ。魔王の3倍くらい強い";
+            case "カニ":
+                return "カニ。物防がバカみたいに高いので魔法で倒そう。";
             default:
                 return "デフォルトのエネミーの説明だよん";
         }

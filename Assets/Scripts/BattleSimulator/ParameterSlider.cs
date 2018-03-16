@@ -19,7 +19,7 @@ public class ParameterSlider : MonoBehaviour, IPointerEnterHandler{
         INTELLIGENCE,
         SPEED,
         DEFENCE,
-        TOUGHNESS,
+        VITALITY,
     }
 
     public void sliderHandler()
@@ -36,8 +36,8 @@ public class ParameterSlider : MonoBehaviour, IPointerEnterHandler{
             case ParameterKind.SPEED:
                 sim.siroko.speed = (int)slider.value;
                 break;
-            case ParameterKind.TOUGHNESS:
-                sim.siroko.toughness= (int)slider.value;
+            case ParameterKind.VITALITY:
+                sim.siroko.vitality= (int)slider.value;
                 break;
             case ParameterKind.DEFENCE:
                 sim.siroko.defence = (int)slider.value;
@@ -57,7 +57,7 @@ public class ParameterSlider : MonoBehaviour, IPointerEnterHandler{
                 return "速度Lv:すばやさを表す。1LvごとにWTを減少。最大のLv5時は行動時間40%カット。";
             case ParameterKind.DEFENCE:
                 return "防御Lv:物理障壁を扱う能力。防御のカット率上昇,3Lv到達で障壁を2枚まで貯蓄可能に。";
-            case ParameterKind.TOUGHNESS:
+            case ParameterKind.VITALITY:
                 return "体力Lv:へこたれない元気さを表す。1LvにつきHP+40。";
             default:
                 return "";

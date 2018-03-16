@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ActionStore : MonoBehaviour{
 
+
     //actorを指定すると素早さ補正を反映したアクションを返す
     public static Action getActionByName(string actionName="", BattleCharacter actor=null)
     {
@@ -199,6 +200,48 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
                 effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
                 return new Action(actionName,description, waitTime, cost, effects, actor);
+
+            //******************
+            //敵限定アクション
+            //******************
+            case "ねこアタック":
+                description = "ねこのスタンダード攻撃。";
+                waitTime = 99;
+                power = 14;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "両手ひっかき":
+                description = "両手でひっかいてくる。";
+                waitTime = 99;
+                power = 6;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "ねこクリティカル":
+                description = "ねこの会心の一撃。少し痛い。";
+                waitTime = 99;
+                power = 33;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "魔王ソード":
+                description = "魔王だから剣も使えます。";
+                waitTime = 99;
+                power = 74;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "プチファイア":
+                description = "小規模な火炎攻撃。詠唱中に攻撃を当てることで妨害できる。";
+                waitTime = 26;
+                power = 51;
+                cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
+                attributes.Add(Effect.Attribute.FIRE);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
             default:
                 Debug.LogWarning("getActionByNameのdefault:が呼ばれてる");
                 return new Action();

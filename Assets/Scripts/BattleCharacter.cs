@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 using System;
 
-
 //敵味方共通の処理
 public class BattleCharacter : MonoBehaviour {
 
@@ -23,7 +22,11 @@ public class BattleCharacter : MonoBehaviour {
     public int defence;
     public int intelligence;
     public int speed;
-    public int toughness;
+    public int vitality;
+
+    //思考ルーチン系
+    public int currentActionPosition;
+    public RoutineType routine;
 
     //今かかってる効果一覧
     public List<Buff> buffs;
@@ -42,6 +45,19 @@ public class BattleCharacter : MonoBehaviour {
     public TextMeshProUGUI mpText;
     public GameObject buffContainer;
 
+    public ShieldsContainer shieldContainer;
+
+    //自身の画像
+    public Image image;
+
+    //思考ルーチン
+    public enum RoutineType
+    {
+        ASCENDING, //リスト順
+        ASCENDING_RANDOMSTART, //初期位置ランダムだけどリスト順
+        RANDOM, //ランダム
+    }
+
     public bool isDead()
     {
         return hp <= 0;
@@ -54,6 +70,12 @@ public class BattleCharacter : MonoBehaviour {
         hpGauge.maxValue = maxHp;
         hpGauge.value = maxHp;
         shieldCount = 0;
+        currentActionPosition = 0;
+        if (routine == RoutineType.ASCENDING_RANDOMSTART)
+        {
+            currentActionPosition = UnityEngine.Random.Range(0, actions.Count);
+        }
+        shieldContainer.initialize(getMaxDefenceCount(), shieldCount);
     }
 
     //*************************************
@@ -72,7 +94,7 @@ public class BattleCharacter : MonoBehaviour {
     //最大HP
     public int getMaxHP()
     {
-        return 100 + toughness * 40;
+        return 100 + vitality * 40;
     }
     //防御カット率
     public float getDefenceCutRate()
@@ -261,6 +283,46 @@ public class BattleCharacter : MonoBehaviour {
         return attributes.Contains(attr);
     }
 
+    public void setActionPositionToNext()
+    {
+        currentActionPosition++;
+        if (currentActionPosition >= actions.Count)
+        {
+            currentActionPosition = 0;
+        }
+    }
+
+    //アクションを取り、次のアクションへ
+    public string nextAction()
+    {
+        string actionName;
+        switch (routine)
+        {
+            case RoutineType.ASCENDING:
+                actionName = actions[currentActionPosition];
+                break;
+            case RoutineType.ASCENDING_RANDOMSTART:
+                actionName = actions[currentActionPosition];
+                break;
+            case RoutineType.RANDOM:
+                actionName = actions[UnityEngine.Random.Range(0,actions.Count)];
+                break;
+            default:
+                Debug.LogWarning("nextActionでdefaultラベル飛んでる");
+                actionName = "";
+                break;
+        }
+        setActionPositionToNext();
+        return actionName;
+    }
+
+    //こいつがここにあるのが正しいかどうかわからないけどとりあえず置いておく
+    //1ターンに一度行う処理
+    public void OnTurnStart()
+    {
+        shieldContainer.initialize(getMaxDefenceCount(), shieldCount);
+    }
+
     //こいつがここにあるのが正しいかどうかわからないけどとりあえず置いておく
     //1ターンに一度行う処理
     public void OnTurnEnd()
@@ -321,6 +383,12 @@ public class BattleCharacter : MonoBehaviour {
         }
     }
 
+    public void setImage(string resourcePath)
+    {
+        Sprite s = Resources.Load<Sprite>(resourcePath);
+        image.sprite = s;
+    }
+
     //クリック時
     public void OnClick()
     {
@@ -334,6 +402,22 @@ public class BattleCharacter : MonoBehaviour {
         {
             hp += 1;
         }
+        //防御枚数の更新　重ければ厳密に加減のタイミングで取るようにする
+        shieldContainer.updateShieldCount(shieldCount);
+    }
+
+    //パラメータを一気に設定 vitは死にパラになるけどまあしかたなし
+    public void initializeParameters(int hp, int mp, int strength, int intelligence, int speed, int defence, int vitality)
+    {
+        this.hp = hp;
+        this.maxHp = hp;
+        this.mp = mp;
+        this.maxMp = mp;
+        this.strength = strength;
+        this.intelligence = intelligence;
+        this.speed = speed;
+        this.defence = defence;
+        this.vitality = vitality;
     }
 
     //毎フレーム行う処理 

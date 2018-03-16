@@ -15,7 +15,8 @@ public class Action{
 
     public Action()
     {
-        Debug.LogWarning("Actionクラスのデフォルトコンストラクタが呼ばれてる");
+        //EnemyActionは派生型コンストラクタ経由でこれを呼ぶのでWarningなかったことに
+        //Debug.LogWarning("Actionクラスのデフォルトコンストラクタが呼ばれてる");
         actionName = "アタック(by defaultConstructor)";
         descriptionText = "駄目な感じのアタック。これが呼ばれてはいけない";
         waitTime = 35;
