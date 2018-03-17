@@ -28,11 +28,11 @@ public class ShieldsContainer : MonoBehaviour {
         {
             if (i < count)
             {
-                shields[i].icon.color = new Color(0.5f, 0.5f, 1, 1);
+                shields[i].icon.color = new Color(0.7f, 0.7f, 1, 0.9f);
             }
             else
             {
-                shields[i].icon.color = new Color(255, 255, 255, 1);
+                shields[i].icon.color = new Color(1, 1, 1, 0.25f);
             }
         }
     }
