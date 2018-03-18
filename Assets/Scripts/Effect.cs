@@ -43,6 +43,9 @@ public class Effect{
     //ベース威力(この値ベースに最終ダメージ量はキャラによって増減)
     public int effectAmount;
 
+    //この効果の再生時に停止する時間
+    public int blockingFrames;
+
     //回復なのか攻撃なのか状態異常付与なのか
     public EffectType effectType;
 
@@ -65,11 +68,13 @@ public class Effect{
         attributes = new List<Attribute>();
     }
     //ダメージ・回復の場合
-    public Effect(TargetType ttype, int eAmount, EffectType etype, List<Attribute> attributes=null)
+    public Effect(TargetType targetType, int effectAmount, EffectType effectType, int blockingFrames=20, List<Attribute> attributes=null)
     {
-        targetType = ttype;
-        effectAmount = eAmount;
-        effectType = etype;
+        this.targetType = targetType;
+        this.effectAmount = effectAmount;
+        this.effectType = effectType;
+        this.blockingFrames = blockingFrames;
+        
         if (attributes != null)
         {
             this.attributes = attributes;
@@ -80,11 +85,12 @@ public class Effect{
         }
     }
     //バフかける場合
-    public Effect(TargetType targetType, int effectAmount, Buff.BuffID buffID, List<Attribute> attributes=null)
+    public Effect(TargetType targetType, int effectAmount, Buff.BuffID buffID,int blockingFrames=0, List<Attribute> attributes=null)
     {
         this.targetType = targetType;
         this.effectAmount = effectAmount;
         this.effectType = EffectType.BUFF;
+        this.blockingFrames = blockingFrames;
         this.buffID = buffID;
         if (attributes != null)
         {

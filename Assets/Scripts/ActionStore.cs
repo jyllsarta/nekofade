@@ -58,16 +58,16 @@ public class ActionStore : MonoBehaviour{
                 waitTime = 27;
                 power = 18;
                 cost = 0;
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 20));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 20));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "虚撃":
                 description = "フェイントで一撃加え、本命の打撃を打ち込む。";
                 waitTime = 32;
                 power = 18;
                 cost = 0;
-                effects.Add(new Effect(TARGET_SINGLE, power / 3, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE, power * 3, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE, power / 3, DAMAGE,15));
+                effects.Add(new Effect(TARGET_SINGLE, power * 3, DAMAGE,20));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "盾打":
                 description = "障壁を1枚展開しつつ攻撃する。";
@@ -83,7 +83,7 @@ public class ActionStore : MonoBehaviour{
                 power = 30;
                 cost = 0;
                 attributes.Add(Effect.Attribute.PETIT_KING);
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 30, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "真王":
                 description = "5ターン目以降に威力が7倍となる一撃。すべてを終わらせる時が来たようだな";
@@ -91,7 +91,7 @@ public class ActionStore : MonoBehaviour{
                 power = 38;
                 cost = 0;
                 attributes.Add(Effect.Attribute.KING);
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 30, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "王舞":
                 description = "5ターン目以降威力7倍の12連撃。防壁を蹴散らす王者の突進。";
@@ -99,28 +99,28 @@ public class ActionStore : MonoBehaviour{
                 power = 8;
                 cost = 0;
                 attributes.Add(Effect.Attribute.KING);
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.5), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.6), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.7), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.8), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.9), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.0), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.1), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.2), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.3), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.4), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.8), DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 2.2), DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.5), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.6), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.7), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.8), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.9), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.0), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.1), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.2), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.3), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.4), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.8), DAMAGE, 15, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 2.2), DAMAGE, 15, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "四爪":
                 description = "ランダムな敵に合計4回攻撃を行う。一回ごとの威力は低い。";
                 waitTime = 25;
                 power = 14;
                 cost = 0;
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 10));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 10));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 10));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 10));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "一閃":
                 description = "大振りの攻撃で敵全体にダメージ。やや隙が大きいが威力も高い。";
@@ -136,7 +136,7 @@ public class ActionStore : MonoBehaviour{
                 cost = 16;
                 attributes.Add(Effect.Attribute.MAGIC);
                 attributes.Add(Effect.Attribute.FIRE);
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 30, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "治癒":
                 description = "癒しの魔力を開放し、自身のHPを即座に(40+魔力Lv*16)程度回復する。";
@@ -144,7 +144,7 @@ public class ActionStore : MonoBehaviour{
                 power = 40;
                 cost = 30;
                 attributes.Add(Effect.Attribute.MAGIC);
-                effects.Add(new Effect(ME, power, HEAL, attributes));
+                effects.Add(new Effect(ME, power, HEAL, 30, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "癒陣":
                 description = "発動時わずかに味方全体を回復しつつ、3ターンの間継続的に回復を続ける陣を生成。";
@@ -185,7 +185,7 @@ public class ActionStore : MonoBehaviour{
                 power = 50;
                 cost = 60;
                 attributes.Add(Effect.Attribute.MAGIC);
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 30, attributes));
                 effects.Add(new Effect(ME, power / 2, HEAL));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "雷光":
@@ -195,10 +195,10 @@ public class ActionStore : MonoBehaviour{
                 cost = 100;
                 attributes.Add(Effect.Attribute.THUNDER);
                 attributes.Add(Effect.Attribute.MAGIC);
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
-                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 23, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 23, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 23, attributes));
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 23, attributes));
                 return new Action(actionName,description, waitTime, cost, effects, actor);
 
             //******************

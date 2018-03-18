@@ -13,6 +13,7 @@ public class Battle : MonoBehaviour {
     public GameObject targetCircle;
 
     public DamageEffect damageEffect;
+    public DamageEffect healEffect;
 
     //エフェクトキュー
     public Queue<PlayableEffect> effectQueue;
@@ -71,8 +72,7 @@ public class Battle : MonoBehaviour {
                 return i;
             }
         }
-        //死体のアクションが残ってる場合がある
-        //Debug.LogWarning("getEnemyIndexByHashCode失敗したけど大丈夫かな");
+        Debug.LogWarning("getEnemyIndexByHashCode失敗したけど大丈夫かな");
         return -1;
     }
 
@@ -157,32 +157,32 @@ public class Battle : MonoBehaviour {
         {
             multiply *= (1f-target.getDefenceCutRate());
             target.shieldCount -= 1;
-            Debug.LogFormat("防御！{0}%ダメージカット", target.getDefenceCutRate()*100);
+            //Debug.LogFormat("防御！{0}%ダメージカット", target.getDefenceCutRate()*100);
         }
 
         //特効枠
         //王撃 5ターン目以降のみつよい
         if (effect.hasAttribute(Effect.Attribute.KING) && timeline.getTotalFrame() >= timeline.framesPerTurn * 4)
         {
-            Debug.Log("王撃！7倍ダメージ");
+            //Debug.Log("王撃！7倍ダメージ");
             multiply *= 7;
         }
         //ぷち王撃 3ターン目以降のみつよい
         if (effect.hasAttribute(Effect.Attribute.PETIT_KING) && timeline.getTotalFrame() >= timeline.framesPerTurn * 2)
         {
-            Debug.Log("ぷち王撃！3倍ダメージ");
+            //Debug.Log("ぷち王撃！3倍ダメージ");
             multiply *= 3;
         }
         //即撃 1ターン目のみつよい
         if (effect.hasAttribute(Effect.Attribute.SKIP) && timeline.getTotalFrame() <= timeline.framesPerTurn)
         {
-            Debug.Log("即撃！2.5倍ダメージ");
+            //Debug.Log("即撃！2.5倍ダメージ");
             multiply *= 2.5f;
         }
         //ぷち即撃 2ターン目までつよい
         if (effect.hasAttribute(Effect.Attribute.PETIT_SKIP) && timeline.getTotalFrame() <= timeline.framesPerTurn * 2)
         {
-            Debug.Log("ぷち即撃！1.5倍ダメージ");
+            //Debug.Log("ぷち即撃！1.5倍ダメージ");
             multiply *= 1.5f;
         }
 
@@ -191,7 +191,7 @@ public class Battle : MonoBehaviour {
         if (target.hasAttribute(CharacterAttribute.AttributeID.WATER) && effect.hasAttribute(Effect.Attribute.THUNDER))
         {
             multiply *= 2;
-            Debug.Log("雷特効！");
+            //Debug.Log("雷特効！");
         }
 
 
@@ -199,10 +199,32 @@ public class Battle : MonoBehaviour {
         int finalDamage = (int)(effect.effectAmount * multiply);
 
 
-        Debug.LogFormat("{0}が{1}に{2}ダメージ!",actor.name,target.name,finalDamage);
+        //Debug.LogFormat("{0}が{1}に{2}ダメージ!",actor.name,target.name,finalDamage);
         return finalDamage;
     }
 
+    void resolveDamage(BattleCharacter actor, ref BattleCharacter target, int damage)
+    {
+        target.hp -= damage;
+        //エフェクトの再生
+        DamageEffect createdDamageEffect = Instantiate(damageEffect, target.transform);
+        createdDamageEffect.damageText.text = damage.ToString();
+        createdDamageEffect.transform.position = target.transform.position;
+        target.playDamageAnimation();
+    }
+
+    void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value)
+    {
+        target.hp += value;
+        if (target.hp > target.maxHp)
+        {
+            target.hp = target.maxHp;
+        }
+        //エフェクトの再生
+        DamageEffect createdEffect = Instantiate(healEffect, target.transform);
+        createdEffect.damageText.text = value.ToString();
+        createdEffect.transform.position = target.transform.position;
+    }
 
     //実際のEffect一つの処理
     void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
@@ -211,15 +233,11 @@ public class Battle : MonoBehaviour {
         {
             case Effect.EffectType.DAMAGE:
                 int damage = calcDamage(actor, target, effect);
-                target.hp -= damage;
-                //エフェクトの再生
-                DamageEffect createdDamageEffect = Instantiate(damageEffect,target.transform);
-                createdDamageEffect.damageText.text = damage.ToString();
-                createdDamageEffect.transform.position = target.transform.position;
-                target.playDamageAnimation();
+                resolveDamage(actor, ref target, damage);
                 break;
             case Effect.EffectType.HEAL:
-                target.hp += calcDamage(actor, target, effect);
+                int value = calcDamage(actor, target, effect);
+                resolveHeal(actor, ref target, value);
                 break;
             case Effect.EffectType.BUFF:
                 enchantBuff(effect.buffID, ref target);
