@@ -7,12 +7,12 @@ public class DamageEffect : MonoBehaviour {
 
     public int lifetime;
     public TextMeshProUGUI damageText;
-    public Animation fadeout;
+    public Animator animator;
 
 	// Use this for initialization
 	void Start () {
         lifetime = 90;
-        fadeout.Play();
+        animator.Play("damageTextEffect");
 	}
 	
 	// Update is called once per frame

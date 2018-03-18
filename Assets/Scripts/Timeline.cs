@@ -101,6 +101,22 @@ public class Timeline : MonoBehaviour{
         actionInstances.Clear();
     }
 
+    //このハッシュを持つキャラの行動をキャンセル
+    public void removeEnemyActionByHash(int hashCode)
+    {
+        //画面に残ったインスタンスを消す
+        foreach (TimelineEnemyAction a in enemyActionInstances)
+        {
+            if (a.actorHash == hashCode)
+            {
+                Debug.Log("けすー");
+                Destroy(a.gameObject);
+            }
+        }
+        enemyActionInstances.RemoveAll(x=>x.actorHash == hashCode);
+        currentEnemyActions.RemoveAll(x=>x.actorHash == hashCode);
+    }
+
     //現在のコマンド状況から次に積むコマンドの設置場所を計算
     public Vector3 getNextActionPositionStart()
     {
@@ -212,6 +228,9 @@ public class Timeline : MonoBehaviour{
         createdChild.timeline = this;
         //アクションのハッシュコードを得ておいて削除時にこれだって伝える
         createdChild.hashCode = a.GetHashCode();
+
+        //そのアクションを取ったキャラのハッシュ(キャラ死亡時に該当キャラのアクションを全部消すため)
+        createdChild.actorHash = a.actorHash;
     }
 
     //現在積まれてるアクションの合計フレーム数を返す

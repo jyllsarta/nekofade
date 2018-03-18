@@ -48,6 +48,8 @@ public class BattleCharacter : MonoBehaviour {
 
     public ShieldsContainer shieldContainer;
 
+    public Animator animator;
+
     //自身の画像
     public Image image;
 
@@ -422,6 +424,19 @@ public class BattleCharacter : MonoBehaviour {
         }
         //防御枚数の更新　重ければ厳密に加減のタイミングで取るようにする
         shieldContainer.updateShieldCount(shieldCount);
+    }
+
+    //ほにゃほにゃ～っと死ぬ感じのアニメーションして死ぬ
+    public void playDeathAnimationThenRemoveFromScene()
+    {
+        animator.Play("Death");
+    }
+
+    //ダメージ食らうアニメーションする
+    public void playDamageAnimation()
+    {
+
+        animator.Play("hit");
     }
 
     //パラメータを一気に設定 vitは死にパラになるけどまあしかたなし

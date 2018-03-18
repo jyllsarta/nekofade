@@ -71,21 +71,15 @@ public class Battle : MonoBehaviour {
                 return i;
             }
         }
-        Debug.LogWarning("getEnemyIndexByHashCode失敗したけど大丈夫かな");
+        //死体のアクションが残ってる場合がある
+        //Debug.LogWarning("getEnemyIndexByHashCode失敗したけど大丈夫かな");
         return -1;
     }
 
     //生きてる中で一番近いやつをターゲットする
     int getIndexOfActiveEnemy()
     {
-        for (int i=0;i< enemies.Count; ++i)
-        {
-            if (!enemies[i].isDead())
-            {
-                return i;
-            }
-        }
-        Debug.LogError("生きてる敵探しましたが敵全部死んでますよ");
+        //enemiesは死んだ敵を保持しなくなったので最初の要素が常に「生きてる中で一番近いやつ」になる
         return 0;
     }
 
@@ -222,6 +216,7 @@ public class Battle : MonoBehaviour {
                 DamageEffect createdDamageEffect = Instantiate(damageEffect,target.transform);
                 createdDamageEffect.damageText.text = damage.ToString();
                 createdDamageEffect.transform.position = target.transform.position;
+                target.playDamageAnimation();
                 break;
             case Effect.EffectType.HEAL:
                 target.hp += calcDamage(actor, target, effect);
@@ -371,7 +366,6 @@ public class Battle : MonoBehaviour {
     //味方の場合actorIndexは自明に0なので省略可
     public void consumeAction(Action action, ActorType actortype, int actorIndex=0)
     {
-        effectQueue.Clear();
         foreach(Effect effect in action.effectList)
         {
             effectQueue.Enqueue(new PlayableEffect(effect,actortype,actorIndex));
@@ -436,8 +430,6 @@ public class Battle : MonoBehaviour {
         if (a != null && !player.isDead())
         {
             consumeAction(a, ActorType.PLAYER);
-            //キルとったかもしれないからリターゲット
-            currentTargettingEnemyIndex = getIndexOfActiveEnemy();
         }
         //敵行動
         EnemyAction ea = timeline.getEnemyActionByFrame(timeline.currentFrame);
@@ -445,7 +437,7 @@ public class Battle : MonoBehaviour {
         {
             int enemyIndex = getEnemyIndexByHashCode(ea.actorHash);
             //死んでなかったらやる
-            if (!enemies[enemyIndex].isDead())
+            if (enemyIndex != -1 && !enemies[enemyIndex].isDead())
             {
                 consumeAction(ea, ActorType.ENEMY, enemyIndex);
             }
@@ -513,6 +505,19 @@ public class Battle : MonoBehaviour {
         }
     }
 
+    void removeDeadEnemyFromScene()
+    {
+        foreach (BattleCharacter enemy in enemies)
+        {
+            if (enemy.isDead())
+            {
+                timeline.removeEnemyActionByHash(enemy.GetHashCode());
+                enemy.playDeathAnimationThenRemoveFromScene();
+            }
+        }
+        enemies.RemoveAll(x => x.isDead());
+    }
+
     // Update is called once per frame
     void Update(){
             checkBattleFinish();
@@ -550,6 +555,13 @@ public class Battle : MonoBehaviour {
                 //エフェクトの再生が終わり、キューにも残ってない場合
                 else
                 {
+                    //このアクションで敵が死んだ場合にはリターゲット
+                    if (enemies[currentTargettingEnemyIndex].isDead())
+                    {
+                        currentTargettingEnemyIndex = getIndexOfActiveEnemy();
+                        targetCircle.SetActive(false);                        
+                    }
+                    removeDeadEnemyFromScene();
                     currentGameState = GameState.TURN_PROCEEDING;
                 }
                 break;

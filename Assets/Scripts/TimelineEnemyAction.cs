@@ -17,6 +17,9 @@ public class TimelineEnemyAction : MonoBehaviour {
     //こいつが指してるアクションのID(削除時に気にする)
     public int hashCode;
 
+    //こいつを発生させたキャラのハッシュ(削除時に気にする)
+    public int actorHash;
+
     public void onClick()
     {
         Debug.Log("クリックされたかー");
