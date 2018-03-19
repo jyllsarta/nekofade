@@ -13,6 +13,8 @@ public class EnemyStore : MonoBehaviour{
 
         BattleCharacter createdChild;
         createdChild = Instantiate(prefab,parent);
+        createdChild.characterName = enemyName;
+        createdChild.characterNameText.text = enemyName;
 
         //デフォルトでくっついてるアクションを消す
         createdChild.actions = new List<string>();

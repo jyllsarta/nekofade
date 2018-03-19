@@ -44,6 +44,7 @@ public class BattleCharacter : MonoBehaviour {
     public Slider mpGauge;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI mpText;
+    public TextMeshProUGUI characterNameText;
     public GameObject buffContainer;
 
     public ShieldsContainer shieldContainer;
