@@ -14,6 +14,9 @@ public class BattleActionsArea : MonoBehaviour{
     public Timeline timeline;
     public ScrollRect scroll;
     public MessageArea messageArea;
+
+    public Sprite spear;
+    public Sprite rod;
     
     public void addAction(string actionName)
     {
@@ -22,6 +25,14 @@ public class BattleActionsArea : MonoBehaviour{
         created.actionName.text = actionName;
         created.mp.text = a.cost.ToString();
         created.wt.text = a.waitTime.ToString();
+        if (a.effectList.Exists(x=>x.hasAttribute(Effect.Attribute.MAGIC)))
+        {
+            created.actionTypeImage.sprite = rod;
+        }
+        else
+        {
+            created.actionTypeImage.sprite = spear;
+        }
         UnityAction<Button, string> addButtonClickEvent = (Button b, string str) =>
         {
             b.onClick.AddListener(() =>

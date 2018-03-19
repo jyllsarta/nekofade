@@ -12,6 +12,7 @@ public class ActionButton : MonoBehaviour, IPointerEnterHandler{
     public TextMeshProUGUI wt;
     public Button button;
     public MessageArea messageArea;
+    public Image actionTypeImage;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
