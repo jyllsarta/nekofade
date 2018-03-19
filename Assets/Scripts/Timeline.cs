@@ -210,14 +210,39 @@ public class Timeline : MonoBehaviour{
         siroko.payCastCost(a);
     }
 
+    //直前/直後のアクションの位置を見てなるべく被らないようにアクションを設置する
+    public bool shouldBePlacedToUpperSide(int frame)
+    {
+        //なんにもアクションがないなら上に置く
+        if (currentEnemyActions.Count == 0)
+        {
+            return true;
+        }
+
+        //前か後ろ15Fにアクションがあるなら、一番近いものと逆の位置に置く(O(n^2)のコードなので遅くて気になるなら工夫する)
+        for (int i=0;i<12;++i)
+        {
+            List<EnemyAction> filtered = currentEnemyActions.FindAll(x => x.frame == frame - i || x.frame == frame + i);
+            if (filtered.Count > 0)
+            {
+                return !filtered[0].isUpperSide;
+            }
+        }
+
+        //近くにないなら上に置く
+        return true;
+    }
+
     public void addEnemyAction(EnemyAction a)
-    {        
+    {
         //アクションをプレハブから生成
-        TimelineEnemyAction createdChild = Instantiate(enemyCommandInstance);
+        TimelineEnemyAction createdChild = Instantiate(enemyCommandInstance, enemyCommandsView.transform);
         //該当アクション用のパラメータに書き換え
-        createdChild.transform.parent = enemyCommandsView.transform;
-        createdChild.transform.localPosition = new Vector3(a.frame * frameWidth / framesPerTurn,0,0);
-        createdChild.text.text = a.actionName;
+        createdChild.transform.localPosition = new Vector3(a.frame * frameWidth / framesPerTurn, a.isUpperSide?0:-60 ,0);
+        //すぐ近くに既にアクションが置いてあったら下にずれる
+        createdChild.actionName.text = a.actionName;
+
+        createdChild.predictDamage.text = a.predictedDamage.ToString();
 
         //現在アクションリストに追加
         currentEnemyActions.Add(a);
@@ -228,7 +253,6 @@ public class Timeline : MonoBehaviour{
         createdChild.timeline = this;
         //アクションのハッシュコードを得ておいて削除時にこれだって伝える
         createdChild.hashCode = a.GetHashCode();
-
         //そのアクションを取ったキャラのハッシュ(キャラ死亡時に該当キャラのアクションを全部消すため)
         createdChild.actorHash = a.actorHash;
     }

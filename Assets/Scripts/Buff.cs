@@ -12,6 +12,7 @@ public class Buff : MonoBehaviour {
         GUARD,
         REGENERATE,
         DARK_EROSION,
+        CANSEL_ENEMYFIRSTTURN,
     }
     public BuffID buffID;
     public int length;

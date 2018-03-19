@@ -204,14 +204,14 @@ public class ActionStore : MonoBehaviour{
             //******************
             //敵限定アクション
             //******************
-            case "ねこアタック":
+            case "ひっかき":
                 description = "ねこのスタンダード攻撃。";
                 waitTime = 99;
                 power = 14;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
-            case "両手ひっかき":
+            case "爪":
                 description = "両手でひっかいてくる。";
                 waitTime = 99;
                 power = 6;
@@ -219,21 +219,21 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
-            case "ねこクリティカル":
+            case "強パンチ":
                 description = "ねこの会心の一撃。少し痛い。";
                 waitTime = 99;
                 power = 33;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
-            case "魔王ソード":
+            case "魔王剣":
                 description = "魔王だから剣も使えます。";
                 waitTime = 99;
                 power = 74;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
-            case "プチファイア":
+            case "プチ火炎":
                 description = "小規模な火炎攻撃。詠唱中に攻撃を当てることで妨害できる。";
                 waitTime = 26;
                 power = 51;

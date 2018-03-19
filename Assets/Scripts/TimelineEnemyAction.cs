@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TimelineEnemyAction : MonoBehaviour {
 
-    //子要素にある画像
-    public RectTransform frameImage;
-
     //子要素にある文字列
-    public TextMeshProUGUI text;
+    public TextMeshProUGUI actionName;
+
+    //予測ダメージ量
+    public TextMeshProUGUI predictDamage;
+
+    public Image character;
 
     //生成時にtimelineさんがうまく代入してくれます
     public Timeline timeline;

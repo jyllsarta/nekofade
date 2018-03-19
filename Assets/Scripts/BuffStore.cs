@@ -52,9 +52,18 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 999;
                 createdChild.buffID = Buff.BuffID.DARK_EROSION;
-                createdChild.description = "闇に侵食されている状態。ターンの終了時に20点の固定ダメージ。";
+                createdChild.description = "【闇の侵食】闇に飲まれている。ターンの終了時に20点の固定ダメージ。";
                 createdChild.setImage("UI_Icon_FaithTaosim");
                 createdChild.duplicates = true;
+                createdChild.isPermanent = true;
+                return createdChild;
+            case Buff.BuffID.CANSEL_ENEMYFIRSTTURN:
+                createdChild = Instantiate(prefab, parent);
+                createdChild.length = 999;
+                createdChild.buffID = Buff.BuffID.CANSEL_ENEMYFIRSTTURN;
+                createdChild.description = "【先攻奪取】初ターン一方的に行動できる。";
+                createdChild.setImage("UI_Icon_Award");
+                createdChild.duplicates = false;
                 createdChild.isPermanent = true;
                 return createdChild;
             default:

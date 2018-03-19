@@ -77,6 +77,7 @@ public class BattleSceneConstructor : MonoBehaviour {
 	void Start () {
         status = FindObjectOfType<SirokoStats>();
         initialize();
+        battleModel.onTurnStart();//こっち側で設定が終わったのでバトルを開始する
 	}
 	
 	// Update is called once per frame

@@ -15,6 +15,8 @@ public class Battle : MonoBehaviour {
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
 
+    public EffectSystem effectSystem;
+
     //エフェクトキュー
     public Queue<PlayableEffect> effectQueue;
 
@@ -26,6 +28,9 @@ public class Battle : MonoBehaviour {
 
     //バトルシーンの状態　プレイヤーのコマンド受付なのかバトル中なのか
     public GameState currentGameState;
+
+    //今なんターン目？(timelineとどっちが持つべきだろう)
+    public int turnCount;
 
     public enum GameState
     {
@@ -43,6 +48,7 @@ public class Battle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         currentTargettingEnemyIndex = 0;
+        turnCount = 0;
         effectQueue = new Queue<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
 	}
@@ -131,7 +137,7 @@ public class Battle : MonoBehaviour {
     }
 
     //ダメージ計算
-    int calcDamage(BattleCharacter actor, BattleCharacter target, Effect effect)
+    int calcDamage(BattleCharacter actor, BattleCharacter target, Effect effect, bool ignoreShield=false)
     {
         //ダメージ倍率
         float multiply = 1.0f;
@@ -153,7 +159,7 @@ public class Battle : MonoBehaviour {
 
 
         //相手が防御してたら防御回数を減らしつつダメージ減衰
-        if (target.hasShield())
+        if (target.hasShield() && !ignoreShield)
         {
             multiply *= (1f-target.getDefenceCutRate());
             target.shieldCount -= 1;
@@ -162,25 +168,25 @@ public class Battle : MonoBehaviour {
 
         //特効枠
         //王撃 5ターン目以降のみつよい
-        if (effect.hasAttribute(Effect.Attribute.KING) && timeline.getTotalFrame() >= timeline.framesPerTurn * 4)
+        if (effect.hasAttribute(Effect.Attribute.KING) && turnCount >= 5)
         {
             //Debug.Log("王撃！7倍ダメージ");
             multiply *= 7;
         }
         //ぷち王撃 3ターン目以降のみつよい
-        if (effect.hasAttribute(Effect.Attribute.PETIT_KING) && timeline.getTotalFrame() >= timeline.framesPerTurn * 2)
+        if (effect.hasAttribute(Effect.Attribute.PETIT_KING) && turnCount >= 3)
         {
             //Debug.Log("ぷち王撃！3倍ダメージ");
             multiply *= 3;
         }
         //即撃 1ターン目のみつよい
-        if (effect.hasAttribute(Effect.Attribute.SKIP) && timeline.getTotalFrame() <= timeline.framesPerTurn)
+        if (effect.hasAttribute(Effect.Attribute.SKIP) && turnCount == 1)
         {
             //Debug.Log("即撃！2.5倍ダメージ");
             multiply *= 2.5f;
         }
         //ぷち即撃 2ターン目までつよい
-        if (effect.hasAttribute(Effect.Attribute.PETIT_SKIP) && timeline.getTotalFrame() <= timeline.framesPerTurn * 2)
+        if (effect.hasAttribute(Effect.Attribute.PETIT_SKIP) && turnCount <= 2)
         {
             //Debug.Log("ぷち即撃！1.5倍ダメージ");
             multiply *= 1.5f;
@@ -211,6 +217,7 @@ public class Battle : MonoBehaviour {
         createdDamageEffect.damageText.text = damage.ToString();
         createdDamageEffect.transform.position = target.transform.position;
         target.playDamageAnimation();
+        
     }
 
     void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value)
@@ -226,6 +233,21 @@ public class Battle : MonoBehaviour {
         createdEffect.transform.position = target.transform.position;
     }
 
+    //敵が攻撃してきた際の予測ダメージ量を返す
+    public int getPredictedDamage(BattleCharacter actor, BattleCharacter target, Action action)
+    {
+        int sum = 0;
+        foreach (Effect e in action.effectList)
+        {
+            //攻撃効果なら
+            if (e.targetType == Effect.TargetType.TARGET_ALL || e.targetType == Effect.TargetType.TARGET_SINGLE || e.targetType == Effect.TargetType.TARGET_SINGLE_RANDOM)
+            {
+                sum += calcDamage(actor, target, e, true);
+            }
+        }
+        return sum;
+    }
+
     //実際のEffect一つの処理
     void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
@@ -234,6 +256,7 @@ public class Battle : MonoBehaviour {
             case Effect.EffectType.DAMAGE:
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
+                effectSystem.playEffectByName("hit", target.transform);
                 break;
             case Effect.EffectType.HEAL:
                 int value = calcDamage(actor, target, effect);
@@ -395,6 +418,7 @@ public class Battle : MonoBehaviour {
     //ターンの初めの処理
     public void onTurnStart()
     {
+        turnCount++;
         timeline.newTurn();
         currentGameState = GameState.PLAYER_THINK;
         putEnemyAction();
@@ -469,6 +493,11 @@ public class Battle : MonoBehaviour {
     //生きてる敵が自分の行動を積む
     void putEnemyAction()
     {
+        if (player.hasBuff(Buff.BuffID.CANSEL_ENEMYFIRSTTURN) && turnCount==1)
+        {
+            Debug.Log("【先攻奪取】発動！");
+            return;
+        }
         foreach (BattleCharacter enemy in enemies)
         {
             if (enemy.isDead())
@@ -479,6 +508,8 @@ public class Battle : MonoBehaviour {
             EnemyAction a = new EnemyAction(ActionStore.getActionByName(actionName,enemy));
             a.actorHash = enemy.GetHashCode();
             a.frame = Random.Range(1, timeline.framesPerTurn);
+            a.predictedDamage = getPredictedDamage(enemy,player,a);
+            a.isUpperSide = timeline.shouldBePlacedToUpperSide(a.frame);
             timeline.addEnemyAction(a);
         }
     }

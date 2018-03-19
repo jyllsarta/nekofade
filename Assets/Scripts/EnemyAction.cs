@@ -12,6 +12,11 @@ public class EnemyAction : Action{
     //行動するキャラのハッシュコード
     public int actorHash;
 
+    public int predictedDamage;
+
+    //画面上で上に置くか下に置くか
+    public bool isUpperSide;
+
     //コピーして作るコンストラクタ(ちょっとダメ設計かも)
     public EnemyAction(Action a)
     {

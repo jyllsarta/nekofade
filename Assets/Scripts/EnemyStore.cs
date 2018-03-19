@@ -20,42 +20,42 @@ public class EnemyStore : MonoBehaviour{
         switch (enemyName)
         {
             case "scp":
-                createdChild.actions.Add("ねこアタック");
-                createdChild.actions.Add("両手ひっかき");
-                createdChild.actions.Add("ねこクリティカル");
+                createdChild.actions.Add("ひっかき");
+                createdChild.actions.Add("爪");
+                createdChild.actions.Add("強パンチ");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.initializeParameters(30,0,0,0,0,0,0);
                 createdChild.setImage("Enemy/siroNeko");
                 return createdChild;
             case "ねこ":
-                createdChild.actions.Add("両手ひっかき");
+                createdChild.actions.Add("爪");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.initializeParameters(50, 0, 0, 0, 0, 0, 0);
                 createdChild.setImage("Enemy/akaNeko");
                 return createdChild;
             case "ねこ隊長":
-                createdChild.actions.Add("ねこアタック");
-                createdChild.actions.Add("プチファイア");
+                createdChild.actions.Add("ひっかき");
+                createdChild.actions.Add("プチ火炎");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
                 createdChild.initializeParameters(150, 10, 1, 0, 0, 0, 0);
                 createdChild.setImage("Enemy/kingNeko");
                 return createdChild;
             case "魔王":
                 createdChild.actions.Add("刺突");
-                createdChild.actions.Add("魔王ソード");
-                createdChild.actions.Add("プチファイア");
+                createdChild.actions.Add("魔王剣");
+                createdChild.actions.Add("プチ火炎");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(550, 10, 1, 2, 0, 1, 0);
                 createdChild.setImage("Enemy/kingNeko");
                 return createdChild;
             case "ねこベス":
-                createdChild.actions.Add("プチファイア");
+                createdChild.actions.Add("プチ火炎");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.initializeParameters(100, 0, 0, 2, 0, 0, 0);
                 createdChild.setImage("Enemy/queenNeko");
                 return createdChild;
             case "ねこ隊長α":
-                createdChild.actions.Add("ねこアタック");
+                createdChild.actions.Add("ひっかき");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.initializeParameters(300, 0, 5, 5, 5, 5, 5);
                 createdChild.setImage("Enemy/queenNeko");
