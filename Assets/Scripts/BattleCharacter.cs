@@ -42,8 +42,8 @@ public class BattleCharacter : MonoBehaviour {
 
     public Slider hpGauge;
     public Slider mpGauge;
-    public TextMeshProUGUI hpText;
-    public TextMeshProUGUI mpText;
+    public NumeratableText hpText;
+    public NumeratableText mpText;
     public TextMeshProUGUI characterNameText;
     public GameObject buffContainer;
 
@@ -419,8 +419,7 @@ public class BattleCharacter : MonoBehaviour {
         }
         if (hpText)
         {
-            hpText.text = hp.ToString();
-
+            hpText.numerate(hp);
         }
         if (mpGauge)
         {
@@ -429,8 +428,7 @@ public class BattleCharacter : MonoBehaviour {
         }
         if (mpText)
         {
-            mpText.text = mp.ToString();
-
+            mpText.numerate(mp);
         }
     }
 

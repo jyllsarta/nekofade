@@ -17,7 +17,7 @@ public class Timeline : MonoBehaviour{
     public RectTransform commandsView;
     public RectTransform enemyCommandsView;
     public GameObject FramePointer;
-    public TextMeshProUGUI remainingFrameText;
+    public NumeratableText remainingFrameText;
     public BattleCharacter siroko;
 
     //現在のゲーム内フレーム
@@ -91,7 +91,7 @@ public class Timeline : MonoBehaviour{
             }
         }
         currentPlayerActions = new List<Action>();
-        remainingFrameText.text = framesPerTurn.ToString();
+        remainingFrameText.set(framesPerTurn);
 
         //画面に残ったインスタンスを消す
         foreach(TimelineAction a in actionInstances)
@@ -204,7 +204,7 @@ public class Timeline : MonoBehaviour{
 
         //UI反映
         int remainingFrames = framesPerTurn - countTotalFrameOfSelectingCommand();
-        remainingFrameText.text = remainingFrames.ToString();
+        remainingFrameText.numerate(remainingFrames);
 
         //キャラ側のMP消費(積む前にcanPayThisでMP不足かどうかはチェック済のはず)
         siroko.payCastCost(a);
