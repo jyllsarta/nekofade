@@ -70,6 +70,73 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.initializeParameters(100, 0, 1, 1, 1, 9, 2);
                 createdChild.setImage("Enemy/kani");
                 return createdChild;
+
+            //ここまでデバッグ用敵
+            //ここから本番で見る敵
+            case "野うさぎ":
+                createdChild.actions.Add("てしてし");
+                createdChild.actions.Add("ひっかき");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.initializeParameters(30, 0, 0, 0, 0, 1, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "スケルトン":
+                createdChild.actions.Add("打撃");
+                createdChild.actions.Add("ひっかき");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.initializeParameters(30, 0, 1, 0, 0, 4, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "従者ガニ":
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("爪");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.initializeParameters(20, 0, 1, 0, 0, 6, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "ヒグマ":
+                createdChild.actions.Add("てしてし");
+                createdChild.actions.Add("ひっかき");
+                createdChild.actions.Add("てしてし");
+                createdChild.actions.Add("噛みつく");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.initializeParameters(400, 0, 4, 0, 2, 3, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "ゴンザレス":
+                createdChild.actions.Add("打撃");
+                createdChild.actions.Add("強化");
+                createdChild.actions.Add("打撃");
+                createdChild.actions.Add("二重障壁");
+                createdChild.actions.Add("火炎");
+                createdChild.actions.Add("魔王剣");
+                createdChild.actions.Add("強化");
+                createdChild.actions.Add("大凍結");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(700, 0, 3, 0, 2, 3, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "妖精":
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("プチ火炎");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(50, 40, 0, 1, 1, 0, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "大妖精":
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("プチ火炎");
+                createdChild.actions.Add("てしてし");
+                createdChild.actions.Add("大凍結");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(240, 40, 0, 2, 1, 1, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+
+
             default:
                 Debug.LogWarning("EnemyName素通りしました");
                 return createdChild;

@@ -211,6 +211,13 @@ public class ActionStore : MonoBehaviour{
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "打撃":
+                description = "攻撃。";
+                waitTime = 99;
+                power = 21;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
             case "爪":
                 description = "両手でひっかいてくる。";
                 waitTime = 99;
@@ -222,9 +229,38 @@ public class ActionStore : MonoBehaviour{
             case "強パンチ":
                 description = "ねこの会心の一撃。少し痛い。";
                 waitTime = 99;
-                power = 33;
+                power = 42;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "てしてし":
+                description = "じゃれてくる。全然痛くない";
+                waitTime = 99;
+                power = 2;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "噛みつく":
+                description = "強力な顎で噛み付いてくる。";
+                waitTime = 99;
+                power = 63;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "毒牙":
+                description = "毒を持った牙による噛みつき。毒状態になる。";
+                waitTime = 99;
+                power = 34;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE, 99, Buff.BuffID.POISON));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "強化":
+                description = "一時的に身体を強化する。筋力魔力収魔速度防御を1Lv上昇。";
+                waitTime = 20;
+                power = 34;
+                cost = 0;
+                effects.Add(new Effect(ME, 99, Buff.BuffID.POWERUP));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "魔王剣":
                 description = "魔王だから剣も使えます。";
@@ -233,6 +269,15 @@ public class ActionStore : MonoBehaviour{
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "静電気":
+                description = "ピリッとしてくる。";
+                waitTime = 20;
+                power = 17;
+                cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
+                attributes.Add(Effect.Attribute.THUNDER);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE,30,attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
             case "プチ火炎":
                 description = "小規模な火炎攻撃。詠唱中に攻撃を当てることで妨害できる。";
                 waitTime = 26;
@@ -240,7 +285,32 @@ public class ActionStore : MonoBehaviour{
                 cost = 10;
                 attributes.Add(Effect.Attribute.MAGIC);
                 attributes.Add(Effect.Attribute.FIRE);
-                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 30, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "大凍結":
+                description = "本気で凍らせてくる。";
+                waitTime = 55;
+                power = 96;
+                cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 30, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "障壁展開":
+                description = "周囲の味方に障壁を配る。";
+                waitTime = 25;
+                power = 999;
+                cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(ALLY_ALL, 99, Buff.BuffID.GUARD, 30, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "二重障壁":
+                description = "2枚の障壁を展開。";
+                waitTime = 25;
+                power = 999;
+                cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(ME, 99, Buff.BuffID.GUARD, 30, attributes));
+                effects.Add(new Effect(ME, 99, Buff.BuffID.GUARD, 30, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             default:
                 Debug.LogWarning("getActionByNameのdefault:が呼ばれてる");

@@ -88,12 +88,22 @@ public class BattleCharacter : MonoBehaviour {
     //攻撃倍率
     public float getAttackRate()
     {
-        return 1 + strength * 0.4f;
+        int str = strength;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            str++;
+        }
+        return 1 + str * 0.4f;
     }
     //魔法攻撃倍率
     public float getMagicRate()
     {
-        return 1 + intelligence * 0.4f;
+        int inte = intelligence;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            inte++;
+        }
+        return 1 + inte * 0.4f;
     }
     //最大HP
     public int getMaxHP()
@@ -108,12 +118,22 @@ public class BattleCharacter : MonoBehaviour {
     //MP自然回復率 収魔Lv3以上なら10、それ以外なら5点回復
     public int getMPHealRate()
     {
-        return magicCapacity>=3 ? 10 : 5;
+        int mc = magicCapacity;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            mc++;
+        }
+        return mc>=3 ? 10 : 5;
     }
     //防御カット率
     public float getDefenceCutRate()
     {
-        switch (defence)
+        int def = defence;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            def++;
+        }
+        switch (def)
         {
             case 0:
                 return 0.5f;
@@ -143,7 +163,12 @@ public class BattleCharacter : MonoBehaviour {
     //恒常防御カット率
     public float getNormalCutRate()
     {
-        switch (defence)
+        int def = defence;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            def++;
+        }
+        switch (def)
         {
             case 0:
                 return 0.0f;
@@ -173,7 +198,12 @@ public class BattleCharacter : MonoBehaviour {
     //ウェイトカット率
     public float getWaitTimeCutRate()
     {
-        switch (speed)
+        int spd = speed;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            spd++;
+        }
+        switch (spd)
         {
             case 0:
                 return 1f;
@@ -279,14 +309,14 @@ public class BattleCharacter : MonoBehaviour {
         int poison_count = getBuffCount(Buff.BuffID.POISON);
         if (poison_count > 0)
         {
-            Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 10 * poison_count));
+            Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 20 * poison_count));
             hp -= 10 * poison_count;
         }
         //闇侵食
         int erosion_count = getBuffCount(Buff.BuffID.DARK_EROSION);
         if (erosion_count > 0)
         {
-            Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 20 * erosion_count));
+            Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 25 * erosion_count));
             hp -= 20 * erosion_count;
         }
     }

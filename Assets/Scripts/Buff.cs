@@ -13,6 +13,7 @@ public class Buff : MonoBehaviour {
         REGENERATE,
         DARK_EROSION,
         CANSEL_ENEMYFIRSTTURN,
+        POWERUP,
     }
     public BuffID buffID;
     public int length;

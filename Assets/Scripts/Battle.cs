@@ -15,6 +15,8 @@ public class Battle : MonoBehaviour {
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
 
+    public ActionCutIn actionCutIn;
+
     public EffectSystem effectSystem;
 
     //エフェクトキュー
@@ -91,7 +93,7 @@ public class Battle : MonoBehaviour {
 
     public void targetEnemyByHash(int hashCode)
     {
-        Debug.LogFormat("{0}!これね",hashCode);
+        //Debug.LogFormat("{0}!これね",hashCode);
 
         for (int i = 0; i < enemies.Count; ++i)
         {
@@ -103,7 +105,7 @@ public class Battle : MonoBehaviour {
                 return;
             }
         }
-        Debug.Log("もしや");
+        //Debug.Log("敵のハッシュ検索失敗したよ");
     }
 
     void checkBattleFinish()
@@ -403,10 +405,29 @@ public class Battle : MonoBehaviour {
 
     }
 
+    //アクション名を表示
+    public void putActionName(string actionName, BattleCharacter actor)
+    {
+        ActionCutIn created = Instantiate(actionCutIn, actor.transform);
+        created.text.text = actionName + "！";
+        //アクション名表示で時間を少し止める
+        remainingEffectAnimationframes = 50;
+    }
+
     //どのアクションを、 敵と味方どっちの、何人目が行うかを指定して実際の効果となるエフェクトをキューに積む
     //味方の場合actorIndexは自明に0なので省略可
     public void consumeAction(Action action, ActorType actortype, int actorIndex=0)
     {
+        //アクション名を表示
+        if(actortype == ActorType.PLAYER)
+        {
+            putActionName(action.actionName, player);
+        }
+        else
+        {
+            putActionName(action.actionName, enemies[actorIndex]);
+        }
+        
         foreach(Effect effect in action.effectList)
         {
             effectQueue.Enqueue(new PlayableEffect(effect,actortype,actorIndex));

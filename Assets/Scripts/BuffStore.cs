@@ -34,7 +34,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 300;
                 createdChild.buffID = Buff.BuffID.POISON;
-                createdChild.description = "毒状態。ターンの終了時に10点の固定ダメージ。";
+                createdChild.description = "毒状態。ターンの終了時に20点の固定ダメージ。";
                 createdChild.setImage("UI_Icon_Skull");
                 createdChild.duplicates = true;
                 createdChild.isPermanent = false;
@@ -52,7 +52,7 @@ public class BuffStore : MonoBehaviour {
                 createdChild = Instantiate(prefab, parent);
                 createdChild.length = 999;
                 createdChild.buffID = Buff.BuffID.DARK_EROSION;
-                createdChild.description = "【闇の侵食】闇に飲まれている。ターンの終了時に20点の固定ダメージ。";
+                createdChild.description = "【闇の侵食】闇に飲まれている。ターンの終了時に25点の固定ダメージ。";
                 createdChild.setImage("UI_Icon_FaithTaosim");
                 createdChild.duplicates = true;
                 createdChild.isPermanent = true;
@@ -65,6 +65,15 @@ public class BuffStore : MonoBehaviour {
                 createdChild.setImage("UI_Icon_Award");
                 createdChild.duplicates = false;
                 createdChild.isPermanent = true;
+                return createdChild;
+            case Buff.BuffID.POWERUP:
+                createdChild = Instantiate(prefab, parent);
+                createdChild.length = 300;
+                createdChild.buffID = Buff.BuffID.POWERUP;
+                createdChild.description = "【強化】筋力,魔力,収魔,防御,速度が1Lv上昇する。";
+                createdChild.setImage("UI_Icon_Curves");
+                createdChild.duplicates = false;
+                createdChild.isPermanent = false;
                 return createdChild;
             default:
                 Debug.LogWarning("getBuffByBuffIDのデフォルトが呼ばれてる");
