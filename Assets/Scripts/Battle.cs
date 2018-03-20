@@ -16,6 +16,7 @@ public class Battle : MonoBehaviour {
     public DamageEffect healEffect;
 
     public ActionCutIn actionCutIn;
+    public GameObject interruptEffect;
 
     public EffectSystem effectSystem;
 
@@ -250,12 +251,45 @@ public class Battle : MonoBehaviour {
         return sum;
     }
 
+    //該当キャラが魔法を詠唱中で防壁がなかった場合、行動をキャンセルさせる
+    void tryInterrptEffect(BattleCharacter target, Effect effect)
+    {
+        if (target.hasShield() && !effect.hasAttribute(Effect.Attribute.MAGIC))
+        {
+            //Debug.Log("防壁に弾かれた！");
+            return;
+        }
+        foreach(EnemyAction e in timeline.currentEnemyActions)
+        {
+            if (e.actorHash != target.GetHashCode())
+            {
+                //Debug.Log("この人のアクションじゃなかった！");
+                continue;
+            }
+            if (!(e.frame - e.waitTime <= timeline.currentFrame && timeline.currentFrame < e.frame))
+            {
+                //Debug.Log("詠唱中じゃなかった！");
+                continue;
+            }
+            if (e.effectList.Exists(x => x.hasAttribute(Effect.Attribute.MAGIC)))
+            {
+                //Debug.Log("魔法だ！これが正解なので消して処理を中断！");
+                GameObject created = Instantiate(interruptEffect, timeline.transform);
+                timeline.removeEnemyActionByActionHash(e.GetHashCode());
+                return;
+            }   
+            
+        }
+
+    }
+
     //実際のEffect一つの処理
     void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
         switch (effect.effectType)
         {
             case Effect.EffectType.DAMAGE:
+                tryInterrptEffect(target, effect);        
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
                 effectSystem.playEffectByName("hit", target.transform);

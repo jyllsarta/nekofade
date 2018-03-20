@@ -75,7 +75,7 @@ public class SelectingList : MonoBehaviour {
     //ハッシュ指定で子要素を削除
     public void removeChild(int hashCode)
     {
-        Debug.LogFormat("{0}",hashCode);
+        //Debug.LogFormat("{0}",hashCode);
         foreach (ListItem l in childDataInstances)
         {
             if (l.GetHashCode() == hashCode)

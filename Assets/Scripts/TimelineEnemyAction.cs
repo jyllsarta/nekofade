@@ -14,6 +14,8 @@ public class TimelineEnemyAction : MonoBehaviour {
 
     public Image character;
 
+    public RectTransform spellCast;
+
     //生成時にtimelineさんがうまく代入してくれます
     public Timeline timeline;
 

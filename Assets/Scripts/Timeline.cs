@@ -20,6 +20,7 @@ public class Timeline : MonoBehaviour{
     public NumeratableText remainingFrameText;
     public BattleCharacter siroko;
 
+
     //現在のゲーム内フレーム
     public int currentFrame;
 
@@ -109,12 +110,25 @@ public class Timeline : MonoBehaviour{
         {
             if (a.actorHash == hashCode)
             {
-                Debug.Log("けすー");
                 Destroy(a.gameObject);
             }
         }
-        enemyActionInstances.RemoveAll(x=>x.actorHash == hashCode);
-        currentEnemyActions.RemoveAll(x=>x.actorHash == hashCode);
+        enemyActionInstances.RemoveAll(x => x.actorHash == hashCode);
+        currentEnemyActions.RemoveAll(x => x.actorHash == hashCode);
+    }
+    //このハッシュのアクションをキャンセル
+    public void removeEnemyActionByActionHash(int hashCode)
+    {
+        //画面に残ったインスタンスを消す
+        foreach (TimelineEnemyAction a in enemyActionInstances)
+        {
+            if (a.hashCode == hashCode)
+            {
+                Destroy(a.gameObject);
+            }
+        }
+        enemyActionInstances.RemoveAll(x => x.hashCode == hashCode);
+        currentEnemyActions.RemoveAll(x => x.GetHashCode() == hashCode);
     }
 
     //現在のコマンド状況から次に積むコマンドの設置場所を計算
@@ -241,6 +255,12 @@ public class Timeline : MonoBehaviour{
         createdChild.transform.localPosition = new Vector3(a.frame * frameWidth / framesPerTurn, a.isUpperSide?0:-60 ,0);
         //すぐ近くに既にアクションが置いてあったら下にずれる
         createdChild.actionName.text = a.actionName;
+
+        //詠唱中時間を表すバーを表示
+        if (a.effectList.Exists(x=>x.hasAttribute(Effect.Attribute.MAGIC)))
+        {
+            createdChild.spellCast.sizeDelta = new Vector2(a.waitTime * frameWidth / framesPerTurn, createdChild.spellCast.sizeDelta.y);
+        }
 
         createdChild.predictDamage.text = a.predictedDamage.ToString();
 
