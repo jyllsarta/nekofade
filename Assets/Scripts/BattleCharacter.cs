@@ -93,6 +93,14 @@ public class BattleCharacter : MonoBehaviour {
         {
             str++;
         }
+        if (hasBuff(Buff.BuffID.STRUP))
+        {
+            str += 3;
+        }
+        if (hasBuff(Buff.BuffID.DCS))
+        {
+            str += 3;
+        }
         return 1 + str * 0.4f;
     }
     //魔法攻撃倍率
@@ -102,6 +110,10 @@ public class BattleCharacter : MonoBehaviour {
         if (hasBuff(Buff.BuffID.POWERUP))
         {
             inte++;
+        }
+        if (hasBuff(Buff.BuffID.INTUP))
+        {
+            inte += 3;
         }
         return 1 + inte * 0.4f;
     }
@@ -132,6 +144,10 @@ public class BattleCharacter : MonoBehaviour {
         if (hasBuff(Buff.BuffID.POWERUP))
         {
             def++;
+        }
+        if (def > 9)
+        {
+            def = 9;
         }
         switch (def)
         {
@@ -168,6 +184,10 @@ public class BattleCharacter : MonoBehaviour {
         {
             def++;
         }
+        if (def > 9)
+        {
+            def = 9;
+        }
         switch (def)
         {
             case 0:
@@ -202,6 +222,14 @@ public class BattleCharacter : MonoBehaviour {
         if (hasBuff(Buff.BuffID.POWERUP))
         {
             spd++;
+        }
+        if (hasBuff(Buff.BuffID.DCS))
+        {
+            spd+=3;
+        }
+        if (spd > 9)
+        {
+            spd = 9;
         }
         switch (spd)
         {
@@ -273,7 +301,7 @@ public class BattleCharacter : MonoBehaviour {
         //removeAllのためにtrueを返しながら自身を画面上から消す副作用のあるラムダ式
         Func<Buff, bool> destroyIt = (x) => { Destroy(x.gameObject); return true; };
         //残存期間0のものをDestroyしながら自身のもつ参照からも消してく
-        buffs.RemoveAll(x => (x.length < 0 ? destroyIt(x) : false));
+        buffs.RemoveAll(x => (x.length <= 0 ? destroyIt(x) : false));
     }
 
     public bool hasBuff(Buff.BuffID buffID)
@@ -325,6 +353,12 @@ public class BattleCharacter : MonoBehaviour {
     public bool hasAttribute(CharacterAttribute.AttributeID attr)
     {
         return attributes.Contains(attr);
+    }
+
+    //アトリビュートを追加
+    public void addAttribute(CharacterAttribute.AttributeID attr)
+    {
+        attributes.Add(attr);
     }
 
     public void setActionPositionToNext()

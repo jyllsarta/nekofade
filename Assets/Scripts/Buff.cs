@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
-public class Buff : MonoBehaviour {
+public class Buff : MonoBehaviour, IPointerEnterHandler{
     public enum BuffID{
         BLANK,
         POISON,
@@ -14,6 +15,11 @@ public class Buff : MonoBehaviour {
         DARK_EROSION,
         CANSEL_ENEMYFIRSTTURN,
         POWERUP,
+        STRUP,
+        INTUP,
+        ENCHANT_FIRE,
+        DCS,
+        INVINCIBLE,
     }
     public BuffID buffID;
     public int length;
@@ -22,6 +28,7 @@ public class Buff : MonoBehaviour {
     public TextMeshProUGUI text;
     public bool duplicates;
     public bool isPermanent;
+    public MessageArea messageArea;
     public void setImage(string resourcePath)
     {
         string pathHeader = "SimpleVectorIcons/";
@@ -29,4 +36,14 @@ public class Buff : MonoBehaviour {
         Sprite s = Resources.Load<Sprite>(path);
         icon.sprite = s;
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!messageArea)
+        {
+            return;
+        }
+        messageArea.updateText(description);
+    }
+
 }

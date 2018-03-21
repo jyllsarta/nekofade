@@ -20,6 +20,7 @@ public class Timeline : MonoBehaviour{
     public NumeratableText remainingFrameText;
     public BattleCharacter siroko;
 
+    public MessageArea messageArea;
 
     //現在のゲーム内フレーム
     public int currentFrame;
@@ -268,6 +269,9 @@ public class Timeline : MonoBehaviour{
         currentEnemyActions.Add(a);
         //削除したとき用にインスタンスを握っとく
         enemyActionInstances.Add(createdChild);
+
+        createdChild.messageArea = messageArea;
+        createdChild.description = a.descriptionText;
 
         //そいつの削除時に伝えてもらうために自身への参照をこどもに渡す
         createdChild.timeline = this;

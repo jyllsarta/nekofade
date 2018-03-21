@@ -33,6 +33,11 @@ public class BattleSceneConstructor : MonoBehaviour {
         //TODO ずっと後でいい ターン1で独自行動してくれる味方 味方に攻撃は飛ばない 手数が増えるだけ
     }
 
+    void setItems()
+    {
+        battleModel.setItems(status.items);
+    }
+
     void setEnemy()
     {
         battleModel.setEnemy(status.enemies);
@@ -70,6 +75,7 @@ public class BattleSceneConstructor : MonoBehaviour {
         setAttendant();
         setEnemy();
         setEquips();
+        setItems();
         battleModel.player.shieldContainer.initialize(battleModel.player.getMaxDefenceCount(),0);
     }
 

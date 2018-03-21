@@ -6,6 +6,6 @@ using UnityEngine;
 public class CharacterAttribute{
     public enum AttributeID{
         WATER,
-
+        ACTIONS_TWICE,
     }
 }

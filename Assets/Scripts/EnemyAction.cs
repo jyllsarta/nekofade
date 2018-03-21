@@ -24,6 +24,7 @@ public class EnemyAction : Action{
         this.waitTime = a.waitTime;
         this.cost = a.cost;
         this.effectList = a.effectList;
+        this.descriptionText = a.descriptionText;
     }
 
 }

@@ -14,6 +14,7 @@ public class BattleActionsArea : MonoBehaviour{
     public Timeline timeline;
     public ScrollRect scroll;
     public MessageArea messageArea;
+    public List<ActionButton> actionbuttons;
 
     public Sprite spear;
     public Sprite rod;
@@ -42,12 +43,24 @@ public class BattleActionsArea : MonoBehaviour{
         };
         addButtonClickEvent(created.button,actionName);
         created.messageArea = messageArea;
+
+        actionbuttons.Add(created);
     }
 
+    //WTを現在の速度に応じたものに更新
+    public void updateActionWaitTime()
+    {
+        foreach (ActionButton button in actionbuttons)
+        {
+            int wt = ActionStore.getActionByName(button.actionName.text, siroko).waitTime;
+            button.wt.text = wt.ToString();
+        }
+    }
 
     //引数のアクションを読み込み
     public void loadActions(List<string> actions)
     {
+        actionbuttons = new List<ActionButton>();
         foreach (string actionName in actions)
         {
             addAction(actionName);

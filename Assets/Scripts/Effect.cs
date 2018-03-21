@@ -19,7 +19,13 @@ public class Effect{
     public enum EffectType
     {
         DAMAGE,
+        CONSTANTDAMAGE,
         HEAL,
+        CONSTANTHEAL,
+        CONSTANTEXCEEDHEAL,
+        MPHEAL,
+        CONSTANTMPHEAL,
+        CONSTANTEXCEEDMPHEAL,
         BUFF,
     }
 
@@ -68,7 +74,7 @@ public class Effect{
         attributes = new List<Attribute>();
     }
     //ダメージ・回復の場合
-    public Effect(TargetType targetType, int effectAmount, EffectType effectType, int blockingFrames=20, List<Attribute> attributes=null)
+    public Effect(TargetType targetType, int effectAmount, EffectType effectType, int blockingFrames=60, List<Attribute> attributes=null)
     {
         this.targetType = targetType;
         this.effectAmount = effectAmount;
@@ -85,7 +91,7 @@ public class Effect{
         }
     }
     //バフかける場合
-    public Effect(TargetType targetType, int effectAmount, Buff.BuffID buffID,int blockingFrames=0, List<Attribute> attributes=null)
+    public Effect(TargetType targetType, int effectAmount, Buff.BuffID buffID,int blockingFrames=30, List<Attribute> attributes=null)
     {
         this.targetType = targetType;
         this.effectAmount = effectAmount;

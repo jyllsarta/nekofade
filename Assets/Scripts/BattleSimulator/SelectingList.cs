@@ -20,6 +20,7 @@ public class SelectingList : MonoBehaviour {
         ENEMY,
         ATTENDANT,
         ACTION,
+        ITEM,
     }
     public ListType listType;
 
@@ -43,6 +44,9 @@ public class SelectingList : MonoBehaviour {
                     break;
                 case ListType.EQUIP:
                     description = EquipStore.getEquipByName(s).description;
+                    break;
+                case ListType.ITEM:
+                    description = "アイテムでーす";
                     break;
             }
             addMaster(s,description);

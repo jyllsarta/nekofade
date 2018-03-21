@@ -47,6 +47,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("魔王剣");
                 createdChild.actions.Add("プチ火炎");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(550, 10, 1, 2, 0, 1, 0);
                 createdChild.setImage("Enemy/kingNeko");
                 return createdChild;
@@ -133,6 +134,20 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("大凍結");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(240, 40, 0, 2, 1, 1, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "神":
+                createdChild.actions.Add("大凍結");
+                createdChild.actions.Add("力溜");
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("魔王剣");
+                createdChild.actions.Add("大凍結");
+                createdChild.actions.Add("魔王剣");
+                createdChild.actions.Add("二重障壁");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(2400, 40, 5, 5, 5, 5, 5);
+                
                 createdChild.setImage("Enemy/queenNeko");
                 return createdChild;
 

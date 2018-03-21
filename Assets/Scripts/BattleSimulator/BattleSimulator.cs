@@ -12,6 +12,7 @@ public class BattleSimulator : MonoBehaviour {
     public SelectingList enemies;
     public SelectingList actions;
     public SelectingList attendants;
+    public SelectingList items;
 
     public Slider strength;
     public Slider intelligence;
@@ -27,6 +28,7 @@ public class BattleSimulator : MonoBehaviour {
         siroko.equipments = equips.getChildContents();
         siroko.actions = actions.getChildContents();
         siroko.attendants = attendants.getChildContents();
+        siroko.items = items.getChildContents();
     }
 
     void setDefaultBattleData()

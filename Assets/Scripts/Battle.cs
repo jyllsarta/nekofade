@@ -6,11 +6,16 @@ using UnityEngine.SceneManagement;
 public class Battle : MonoBehaviour {
     public BattleCharacter player;
     public List<BattleCharacter> enemies;
+    public List<BattleItem> items;
     public EnemyStore enemyStore;
     public BuffStore buffStore;
+    public ItemStore itemStore;
     public Timeline timeline;
     public GameObject enemiesUI;
     public GameObject targetCircle;
+    public GameObject itemsContainer;
+    public BattleActionsArea actionButtonArea;
+    public MessageArea messageArea;
 
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
@@ -20,8 +25,8 @@ public class Battle : MonoBehaviour {
 
     public EffectSystem effectSystem;
 
-    //エフェクトキュー
-    public Queue<PlayableEffect> effectQueue;
+    //のこりエフェクトリスト
+    public LinkedList<PlayableEffect> effectList;
 
     //あと何フレームエフェクト再生で止まるか
     public int remainingEffectAnimationframes;
@@ -40,6 +45,7 @@ public class Battle : MonoBehaviour {
         PLAYER_THINK,
         TURN_PROCEEDING,
         EFFECT_WAITING,
+        ITEM_EFFECT_WAITING,
     }
 
     public enum ActorType
@@ -52,7 +58,7 @@ public class Battle : MonoBehaviour {
 	void Start () {
         currentTargettingEnemyIndex = 0;
         turnCount = 0;
-        effectQueue = new Queue<PlayableEffect>();
+        effectList = new LinkedList<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
 	}
 
@@ -69,6 +75,25 @@ public class Battle : MonoBehaviour {
             enemy.battle = this;
             enemies.Add(enemy);
         }
+    }
+
+    //リストに従ってアイテムを置く
+    public void setItems(List<string> itemList)
+    {
+        //TODO 戦闘をまたぐ場合アイテム個数は消耗していることがある
+        items = new List<BattleItem>();
+        foreach (string s in itemList)
+        {
+            BattleItem created = itemStore.instanciateItemByName(s, itemsContainer.transform);
+            items.Add(created);
+        }
+
+    }
+
+    //アイテム
+    public void useItem(BattleItem item)
+    {
+        consumeActionByItem(item.action, ActorType.PLAYER);
     }
 
     //このハッシュコードを持つ敵は何番目だ
@@ -114,6 +139,19 @@ public class Battle : MonoBehaviour {
         //プレイヤーが死んだら負け
         if (player.isDead())
         {
+            if (items.Exists(x=>x.itemName=="復活の御魂"))
+            {
+                BattleItem item = items.Find(x => x.itemName == "復活の御魂");
+                //開放効果はターン1回まで
+                if (!item.isUsed)
+                {
+                    Debug.Log("御魂により復活！");
+                    showActionName("御魂の開放", player);
+                    player.hp = player.maxHp;
+                    item.useItemPassive();
+                    return;
+                }
+            }
             Debug.Log("まけ");
             //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
             SirokoStats s = FindObjectOfType<SirokoStats>();
@@ -140,8 +178,28 @@ public class Battle : MonoBehaviour {
     }
 
     //ダメージ計算
-    int calcDamage(BattleCharacter actor, BattleCharacter target, Effect effect, bool ignoreShield=false)
+    int calcDamage(BattleCharacter actor, BattleCharacter target, Effect effect, bool ignoreShield=false, bool isCheck=false)
     {
+        //無敵状態だったらダメージは受けない　防御も消費しない
+        if (target.hasBuff(Buff.BuffID.INVINCIBLE))
+        {
+            return 0;
+        }
+
+        //消魔印を持っている場合魔法ダメージは1(isCheckがついてる場合予測ダメージ計算でしかないのでスルーする)
+        if (items.Exists(x => x.itemName == "消魔印") && effect.hasAttribute(Effect.Attribute.MAGIC) && !isCheck)
+        {
+            BattleItem item = items.Find(x => x.itemName == "消魔印");
+            //開放効果はターン1回まで
+            if (!item.isUsed)
+            {
+                showActionName("消魔印", player);
+                item.useItemPassive();
+                return 1;
+            }
+        }
+
+
         //ダメージ倍率
         float multiply = 1.0f;
 
@@ -161,8 +219,8 @@ public class Battle : MonoBehaviour {
         }
 
 
-        //相手が防御してたら防御回数を減らしつつダメージ減衰
-        if (target.hasShield() && !ignoreShield)
+        //物理攻撃で相手が防御してたら防御回数を減らしつつダメージ減衰
+        if (!effect.hasAttribute(Effect.Attribute.MAGIC) &&  target.hasShield() && !ignoreShield)
         {
             multiply *= (1f-target.getDefenceCutRate());
             target.shieldCount -= 1;
@@ -223,12 +281,24 @@ public class Battle : MonoBehaviour {
         
     }
 
-    void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value)
+    void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
     {
         target.hp += value;
-        if (target.hp > target.maxHp)
+        if (target.hp > target.maxHp && !isExceed)
         {
             target.hp = target.maxHp;
+        }
+        //エフェクトの再生
+        DamageEffect createdEffect = Instantiate(healEffect, target.transform);
+        createdEffect.damageText.text = value.ToString();
+        createdEffect.transform.position = target.transform.position;
+    }
+    void resolveMpHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
+    {
+        target.mp += value;
+        if (target.mp > target.maxMp && !isExceed)
+        {
+            target.mp = target.maxMp;
         }
         //エフェクトの再生
         DamageEffect createdEffect = Instantiate(healEffect, target.transform);
@@ -245,7 +315,7 @@ public class Battle : MonoBehaviour {
             //攻撃効果なら
             if (e.targetType == Effect.TargetType.TARGET_ALL || e.targetType == Effect.TargetType.TARGET_SINGLE || e.targetType == Effect.TargetType.TARGET_SINGLE_RANDOM)
             {
-                sum += calcDamage(actor, target, e, true);
+                sum += calcDamage(actor, target, e, true,true);
             }
         }
         return sum;
@@ -274,7 +344,7 @@ public class Battle : MonoBehaviour {
             if (e.effectList.Exists(x => x.hasAttribute(Effect.Attribute.MAGIC)))
             {
                 //Debug.Log("魔法だ！これが正解なので消して処理を中断！");
-                GameObject created = Instantiate(interruptEffect, timeline.transform);
+                Instantiate(interruptEffect, timeline.transform);
                 timeline.removeEnemyActionByActionHash(e.GetHashCode());
                 return;
             }   
@@ -283,20 +353,51 @@ public class Battle : MonoBehaviour {
 
     }
 
+    void checkEnchantedAttack(BattleCharacter actor, Effect effect)
+    {
+        //エンチャントファイアによる追加攻撃
+        //エンチャントファイア状態を持ってて魔法攻撃でないなら追加攻撃
+        //この効果を使うのは自分のみなのでActorTypeにPLAYERを決め撃ちしてる
+        if (actor.hasBuff(Buff.BuffID.ENCHANT_FIRE) && !effect.hasAttribute(Effect.Attribute.MAGIC))
+        {
+            List<Effect.Attribute> attributes = new List<Effect.Attribute>() { Effect.Attribute.MAGIC, Effect.Attribute.FIRE};
+            Effect fire = new Effect(Effect.TargetType.TARGET_SINGLE_RANDOM, 20, Effect.EffectType.DAMAGE, 30, attributes);
+            PlayableEffect pe = new PlayableEffect(fire, ActorType.PLAYER, 0);
+            effectList.AddFirst(pe);
+        }
+    }
+
     //実際のEffect一つの処理
     void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
         switch (effect.effectType)
         {
             case Effect.EffectType.DAMAGE:
-                tryInterrptEffect(target, effect);        
+                tryInterrptEffect(target, effect);
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
                 effectSystem.playEffectByName("hit", target.transform);
+                checkEnchantedAttack(actor, effect);
                 break;
             case Effect.EffectType.HEAL:
                 int value = calcDamage(actor, target, effect);
                 resolveHeal(actor, ref target, value);
+                break;
+            case Effect.EffectType.CONSTANTHEAL:
+                resolveHeal(actor, ref target, effect.effectAmount);
+                break;
+            case Effect.EffectType.CONSTANTEXCEEDHEAL:
+                resolveHeal(actor, ref target, effect.effectAmount, true);
+                break;
+            case Effect.EffectType.MPHEAL:
+                int mpvalue = calcDamage(actor, target, effect);
+                resolveMpHeal(actor, ref target, mpvalue);
+                break;
+            case Effect.EffectType.CONSTANTMPHEAL:
+                resolveMpHeal(actor, ref target, effect.effectAmount);
+                break;
+            case Effect.EffectType.CONSTANTEXCEEDMPHEAL:
+                resolveMpHeal(actor, ref target, effect.effectAmount, true);
                 break;
             case Effect.EffectType.BUFF:
                 enchantBuff(effect.buffID, ref target);
@@ -440,7 +541,7 @@ public class Battle : MonoBehaviour {
     }
 
     //アクション名を表示
-    public void putActionName(string actionName, BattleCharacter actor)
+    public void showActionName(string actionName, BattleCharacter actor)
     {
         ActionCutIn created = Instantiate(actionCutIn, actor.transform);
         created.text.text = actionName + "！";
@@ -450,24 +551,46 @@ public class Battle : MonoBehaviour {
 
     //どのアクションを、 敵と味方どっちの、何人目が行うかを指定して実際の効果となるエフェクトをキューに積む
     //味方の場合actorIndexは自明に0なので省略可
-    public void consumeAction(Action action, ActorType actortype, int actorIndex=0)
+    public void consumeAction(Action action, ActorType actortype, int actorIndex = 0)
     {
         //アクション名を表示
-        if(actortype == ActorType.PLAYER)
+        if (actortype == ActorType.PLAYER)
         {
-            putActionName(action.actionName, player);
+            showActionName(action.actionName, player);
         }
         else
         {
-            putActionName(action.actionName, enemies[actorIndex]);
+            showActionName(action.actionName, enemies[actorIndex]);
         }
-        
-        foreach(Effect effect in action.effectList)
+
+        foreach (Effect effect in action.effectList)
         {
-            effectQueue.Enqueue(new PlayableEffect(effect,actortype,actorIndex));
+            effectList.AddLast(new PlayableEffect(effect, actortype, actorIndex));
         }
         //今積んだエフェクト再生が終わるまでタイムラインは停止する
         currentGameState = GameState.EFFECT_WAITING;
+    }
+
+    //どのアクションを、 敵と味方どっちの、何人目が行うかを指定して実際の効果となるエフェクトをキューに積む
+    //味方の場合actorIndexは自明に0なので省略可
+    public void consumeActionByItem(Action action, ActorType actortype, int actorIndex = 0)
+    {
+        //アクション名を表示
+        if (actortype == ActorType.PLAYER)
+        {
+            showActionName(action.actionName, player);
+        }
+        else
+        {
+            showActionName(action.actionName, enemies[actorIndex]);
+        }
+
+        foreach (Effect effect in action.effectList)
+        {
+            effectList.AddLast(new PlayableEffect(effect, actortype, actorIndex));
+        }
+        //今積んだエフェクト再生が終わるまでタイムラインは停止する
+        currentGameState = GameState.ITEM_EFFECT_WAITING;
     }
 
     //ターンの初めの処理
@@ -482,12 +605,17 @@ public class Battle : MonoBehaviour {
         {
             e.OnTurnStart();
         }
-
+        foreach (BattleItem i in items)
+        {
+            i.setUsed(false);
+        }
+        actionButtonArea.updateActionWaitTime();
     }
 
     public void turnEnd()
     {
         currentGameState = GameState.TURN_PROCEEDING;
+        messageArea.updateText("");
     }
 
     //全キャラの毎フレームごとの処理を呼ぶ
@@ -545,6 +673,17 @@ public class Battle : MonoBehaviour {
         }
     }
 
+    void addEnemyAction(BattleCharacter enemy)
+    {
+        string actionName = enemy.nextAction();
+        EnemyAction a = new EnemyAction(ActionStore.getActionByName(actionName, enemy));
+        a.actorHash = enemy.GetHashCode();
+        a.frame = Random.Range(1, timeline.framesPerTurn);
+        a.predictedDamage = getPredictedDamage(enemy, player, a);
+        a.isUpperSide = timeline.shouldBePlacedToUpperSide(a.frame);
+        timeline.addEnemyAction(a);
+    }
+
     //生きてる敵が自分の行動を積む
     void putEnemyAction()
     {
@@ -559,56 +698,15 @@ public class Battle : MonoBehaviour {
             {
                 continue;
             }
-            string actionName = enemy.nextAction();
-            EnemyAction a = new EnemyAction(ActionStore.getActionByName(actionName,enemy));
-            a.actorHash = enemy.GetHashCode();
-            a.frame = Random.Range(1, timeline.framesPerTurn);
-            a.predictedDamage = getPredictedDamage(enemy,player,a);
-            a.isUpperSide = timeline.shouldBePlacedToUpperSide(a.frame);
-            timeline.addEnemyAction(a);
+            addEnemyAction(enemy);
+            //2回行動する敵はもう一回積んでくる
+            if (enemy.hasAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE))
+            {
+                addEnemyAction(enemy);
+            }
         }
     }
-
-    void debugInputAction()
-    {
-        //キー入力で強制コマンド実行
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            Action act = ActionStore.getActionByName("刺突");
-            consumeAction(act, ActorType.PLAYER, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Action act = ActionStore.getActionByName("衝波");
-            consumeAction(act, ActorType.PLAYER, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Action act = ActionStore.getActionByName("火炎");
-            consumeAction(act, ActorType.PLAYER, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Action act = ActionStore.getActionByName("治癒");
-            consumeAction(act, ActorType.PLAYER, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Action act = ActionStore.getActionByName("吸収");
-            consumeAction(act, ActorType.PLAYER, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            Action act = ActionStore.getActionByName("雷光");
-            consumeAction(act, ActorType.PLAYER, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Action act = ActionStore.getActionByName("");
-            consumeAction(act, ActorType.ENEMY, 0);
-        }
-    }
-
+    
     void removeDeadEnemyFromScene()
     {
         foreach (BattleCharacter enemy in enemies)
@@ -622,10 +720,28 @@ public class Battle : MonoBehaviour {
         enemies.RemoveAll(x => x.isDead());
     }
 
+    //エフェクト再生を1フレームぶん進める
+    void proceedEffectPlay()
+    {
+        //再生中ならとりあえずそれが終了するまでエフェクトの再生を続けてもらう
+        if (remainingEffectAnimationframes > 0)
+        {
+            remainingEffectAnimationframes--;
+            return;
+        }
+        //再生終わり、まだエフェクトが残ってるなら次のエフェクトの再生に移る
+        else if (effectList.Count > 0)
+        {
+            PlayableEffect pe = effectList.First.Value;
+            effectList.RemoveFirst();
+            consumeEffect(pe);
+            remainingEffectAnimationframes = pe.blockingFrames;
+        }
+    }
+
     // Update is called once per frame
     void Update(){
             checkBattleFinish();
-            debugInputAction();
         switch (currentGameState)
         {
             case GameState.PLAYER_THINK:
@@ -636,37 +752,44 @@ public class Battle : MonoBehaviour {
                 triggerEveryCharacterEveryFrameEffect();
                 proceedEveryCharactersBuffState();
                 //最後のフレームで再生中エフェクトが無くなったらターン終わり
-                if (timeline.currentFrame >= timeline.framesPerTurn && effectQueue.Count == 0)
+                if (timeline.currentFrame >= timeline.framesPerTurn && effectList.Count == 0)
                 {
                     triggerEveryCharacterTurnEndEffect();
                     onTurnStart();
                 }
                 break;
             case GameState.EFFECT_WAITING:
-                //再生中ならとりあえずそれが終了するまでエフェクトの再生を続けてもらう
-                if (remainingEffectAnimationframes > 0)
-                {
-                    remainingEffectAnimationframes--;
-                    return;
-                }
-                //再生終わり、まだエフェクトが残ってるなら次のエフェクトの再生に移る
-                else if (effectQueue.Count > 0)
-                {
-                    PlayableEffect pe = effectQueue.Dequeue();
-                    consumeEffect(pe);
-                    remainingEffectAnimationframes = pe.blockingFrames;
-                }
-                //エフェクトの再生が終わり、キューにも残ってない場合
-                else
+                proceedEffectPlay();
+                //再生が終わったら後始末をしてターンに戻る
+                if (remainingEffectAnimationframes <= 0 && effectList.Count == 0)
                 {
                     //このアクションで敵が死んだ場合にはリターゲット
                     if (enemies[currentTargettingEnemyIndex].isDead())
                     {
                         currentTargettingEnemyIndex = getIndexOfActiveEnemy();
-                        targetCircle.SetActive(false);                        
+                        targetCircle.SetActive(false);
                     }
+                    //キャラが死んだり速度に変化があるかもしれないので反映
                     removeDeadEnemyFromScene();
+                    actionButtonArea.updateActionWaitTime();
                     currentGameState = GameState.TURN_PROCEEDING;
+                }
+                break;
+            case GameState.ITEM_EFFECT_WAITING:
+                proceedEffectPlay();
+                //再生が終わったら行動選択に戻る
+                if (remainingEffectAnimationframes <= 0 && effectList.Count == 0)
+                {
+                    //このアクションで敵が死んだ場合にはリターゲット
+                    if (enemies[currentTargettingEnemyIndex].isDead())
+                    {
+                        currentTargettingEnemyIndex = getIndexOfActiveEnemy();
+                        targetCircle.SetActive(false);
+                    }
+                    //キャラが死んだり速度に変化があるかもしれないので反映
+                    removeDeadEnemyFromScene();
+                    actionButtonArea.updateActionWaitTime();
+                    currentGameState = GameState.PLAYER_THINK;
                 }
                 break;
         }
