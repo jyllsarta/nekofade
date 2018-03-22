@@ -20,6 +20,12 @@ public class Buff : MonoBehaviour, IPointerEnterHandler{
         ENCHANT_FIRE,
         DCS,
         INVINCIBLE,
+        SPDUP,
+        ADDITIONAL_ATTACK,
+        ADDITIONAL_ENDATTACK,
+        AUTO_SHIELD,
+        ADDITIONAL_MAGIC,
+        REGENERATE_MP,
     }
     public BuffID buffID;
     public int length;

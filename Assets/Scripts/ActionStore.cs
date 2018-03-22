@@ -22,7 +22,7 @@ public class ActionStore : MonoBehaviour{
 
         string description;
         int waitTime;
-        int power;
+        int power=1;
         int cost;
         List<Effect> effects = new List<Effect>();
         List<Effect.Attribute> attributes = new List<Effect.Attribute>();
@@ -40,9 +40,9 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "刺突":
-                description = "すばやく敵を一突きにする。威力は大きくないが、隙が少ない。";
-                waitTime = 17;
-                power = 28;
+                description = "すばやく敵を一突き。威力は大きくないが、隙が少ない。";
+                waitTime = 19;
+                power = 23;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
@@ -61,18 +61,10 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 40));
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 40));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
-            case "虚撃":
-                description = "フェイントで一撃加え、本命の打撃を打ち込む。";
-                waitTime = 32;
-                power = 18;
-                cost = 0;
-                effects.Add(new Effect(TARGET_SINGLE, power / 3, DAMAGE,30));
-                effects.Add(new Effect(TARGET_SINGLE, power * 3, DAMAGE,40));
-                return new Action(actionName, description, waitTime, cost, effects, actor);
             case "盾打":
                 description = "障壁を1枚展開しつつ攻撃する。";
-                waitTime = 32;
-                power = 44;
+                waitTime = 26;
+                power = 56;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power / 3, DAMAGE));
                 effects.Add(new Effect(ME, power, Buff.BuffID.GUARD));
@@ -87,16 +79,16 @@ public class ActionStore : MonoBehaviour{
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "真王":
                 description = "5ターン目以降に威力が7倍となる一撃。すべてを終わらせる時が来たようだな";
-                waitTime = 27;
-                power = 38;
+                waitTime = 40;
+                power = 52;
                 cost = 0;
                 attributes.Add(Effect.Attribute.KING);
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "王舞":
-                description = "5ターン目以降威力7倍の12連撃。防壁を蹴散らす王者の突進。";
+                description = "5ターン目以降威力7倍の7連撃。防壁を蹴散らす王者の突進。";
                 waitTime = 60;
-                power = 8;
+                power = 11;
                 cost = 0;
                 attributes.Add(Effect.Attribute.KING);
                 effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.5), DAMAGE, 30, attributes));
@@ -104,13 +96,8 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.7), DAMAGE, 30, attributes));
                 effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.8), DAMAGE, 30, attributes));
                 effects.Add(new Effect(TARGET_SINGLE, (int)(power * 0.9), DAMAGE, 30, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.0), DAMAGE, 30, attributes));
                 effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.1), DAMAGE, 30, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.2), DAMAGE, 30, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.3), DAMAGE, 30, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.4), DAMAGE, 30, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.8), DAMAGE, 30, attributes));
-                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 2.2), DAMAGE, 30, attributes));
+                effects.Add(new Effect(TARGET_SINGLE, (int)(power * 1.7), DAMAGE, 30, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "四爪":
                 description = "ランダムな敵に合計4回攻撃を行う。一回ごとの威力は低い。";
@@ -124,16 +111,16 @@ public class ActionStore : MonoBehaviour{
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "一閃":
                 description = "大振りの攻撃で敵全体にダメージ。やや隙が大きいが威力も高い。";
-                waitTime = 36;
-                power = 45;
+                waitTime = 31;
+                power = 71;
                 cost = 0;
                 effects.Add(new Effect(TARGET_ALL, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "火炎":
-                description = "魔力の炎で敵単体に(80*魔力Lv*32)程度のダメージ。魔法ダメージは防御を貫通する。";
-                waitTime = 35;
-                power = 80;
-                cost = 16;
+                description = "魔力の炎で敵単体に大ダメージ。魔法ダメージは防御を貫通する。";
+                waitTime = 28;
+                power = 82;
+                cost = 15;
                 attributes.Add(Effect.Attribute.MAGIC);
                 attributes.Add(Effect.Attribute.FIRE);
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
@@ -142,7 +129,7 @@ public class ActionStore : MonoBehaviour{
                 description = "癒しの魔力を開放し、自身のHPを即座に(40+魔力Lv*16)程度回復する。";
                 waitTime = 28;
                 power = 40;
-                cost = 30;
+                cost = 10;
                 attributes.Add(Effect.Attribute.MAGIC);
                 effects.Add(new Effect(ME, power, HEAL, 60, attributes));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
@@ -157,21 +144,19 @@ public class ActionStore : MonoBehaviour{
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "防御":
                 description = "物理障壁を周囲に展開し、次に受ける物理ダメージを(防御Lv依存で)50%以上軽減する。";
-                waitTime = 14;
-                power = 80;//いみなし
+                waitTime = 17;
                 cost = 0;
                 effects.Add(new Effect(ME, power, Buff.BuffID.GUARD));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "双盾":
                 description = "物理障壁を一度に2枚展開する。防壁の維持できる枚数は防御Lvで決まる。";
-                waitTime = 23;
-                power = 80;//いみなし
-                cost = 0;
+                waitTime = 22;
+                cost = 10;
                 effects.Add(new Effect(ME, power, Buff.BuffID.GUARD));
                 effects.Add(new Effect(ME, power, Buff.BuffID.GUARD));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "毒霧":
-                description = "毒霧を敵の周囲に固定し、継続的なダメージを相手に与える。";
+                description = "敵全体にわずかな魔法ダメージを与え、毒状態にする。";
                 waitTime = 23;
                 power = 24;
                 cost = 20;
@@ -182,17 +167,17 @@ public class ActionStore : MonoBehaviour{
             case "吸収":
                 description = "敵一体の生命力に直接干渉し、一部を奪い取る。奪い取った分の半分を回復する。";
                 waitTime = 40;
-                power = 50;
-                cost = 60;
+                power = 70;
+                cost = 20;
                 attributes.Add(Effect.Attribute.MAGIC);
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
                 effects.Add(new Effect(ME, power / 2, HEAL));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "雷光":
-                description = "合計4回、ランダムな敵に(55+魔力Lv21)の魔法ダメージを与える。";
+                description = "合計4回、ランダムな敵に強力な魔法ダメージを与える。";
                 waitTime = 55;
-                power = 55;
-                cost = 100;
+                power = 85;
+                cost = 50;
                 attributes.Add(Effect.Attribute.THUNDER);
                 attributes.Add(Effect.Attribute.MAGIC);
                 effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE, 50, attributes));
@@ -203,23 +188,139 @@ public class ActionStore : MonoBehaviour{
             case "力溜":
                 description = "しばらく筋力Lv+3。";
                 waitTime = 26;
-                power = 80;//いみなし
-                cost = 40;
+                cost = 20;
                 effects.Add(new Effect(ME, power, Buff.BuffID.STRUP));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "集中":
                 description = "しばらく魔力Lv+3。";
                 waitTime = 26;
-                power = 80;//いみなし
-                cost = 40;
+                cost = 20;
                 effects.Add(new Effect(ME, power, Buff.BuffID.INTUP));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "響火":
                 description = "槍に火の魔力をまとわせ、物理攻撃のあとに火属性ダメージを追加。";
                 waitTime = 26;
-                power = 80;//いみなし
                 cost = 40;
                 effects.Add(new Effect(ME, power, Buff.BuffID.ENCHANT_FIRE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "加速":
+                description = "しばらく速度Lv+3。";
+                waitTime = 26;
+                cost = 40;
+                effects.Add(new Effect(ME, power, Buff.BuffID.SPDUP));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "幻閃":
+                description = "ターン開始時に今ターゲットしている敵に対して攻撃。";
+                waitTime = 35;
+                cost = 20;
+                effects.Add(new Effect(ME, power, Buff.BuffID.ADDITIONAL_ATTACK));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "追幻":
+                description = "ターン終了時にランダムな敵に対して強力な攻撃。";
+                waitTime = 37;
+                cost = 20;
+                effects.Add(new Effect(ME, power, Buff.BuffID.ADDITIONAL_ENDATTACK));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "幻閃起動":
+                description = "幻閃による追撃。";
+                waitTime = 0;
+                power = 61;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "追幻起動":
+                description = "追幻による追撃。";
+                waitTime = 0;
+                power = 129;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE_RANDOM, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "衝撃":
+                description = "魔力の塊をそのままぶつけて爆発させる。仕組みが単純なので高速に唱えられるが燃費が悪い。";
+                waitTime = 12;
+                power = 31;
+                cost = 15;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "破防":
+                description = "気合(魔力)を入れて敵の防壁を全部破壊しつつ物理攻撃。";
+                waitTime = 28;
+                power = 77;
+                cost = 10;
+                attributes.Add(Effect.Attribute.REMOVE_SHIELD);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "魔槍":
+                description = "魔力で体の動きをブーストして一撃を叩き込む。";
+                waitTime = 22;
+                power = 115;
+                cost = 15;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "残像":
+                description = "ターン開始時に防壁を1枚追加。";
+                waitTime = 19;
+                cost = 20;
+                effects.Add(new Effect(ME, power, Buff.BuffID.AUTO_SHIELD));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "鏡射":
+                description = "ターン終了時に現在ターゲットしている敵に魔法ダメージ。";
+                waitTime = 19;
+                cost = 10;
+                effects.Add(new Effect(ME, power, Buff.BuffID.ADDITIONAL_MAGIC));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "鏡射起動":
+                description = "鏡射による追撃。";
+                waitTime = 0;
+                power = 69;
+                cost = 0;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "凍結":
+                description = "敵全体に強力な魔法ダメージを与える。";
+                waitTime = 28;
+                power = 75;
+                cost = 30;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_ALL, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "烈風":
+                description = "敵単体に強力な魔法ダメージを与える。";
+                waitTime = 24;
+                power = 101;
+                cost = 10;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "瞬突":
+                description = "すばやく正確な一撃を加える。";
+                waitTime = 16;
+                power = 61;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "獄炎":
+                description = "敵全体に最高位の魔法ダメージを与える。";
+                waitTime = 51;
+                power = 385;
+                cost = 99;
+                attributes.Add(Effect.Attribute.MAGIC);
+                effects.Add(new Effect(TARGET_ALL, power, DAMAGE, 60, attributes));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "霊祈":
+                description = "ターン終了時にMPを回復。残りMPが少ないほど効果的。";
+                waitTime = 19;
+                cost = 20;
+                effects.Add(new Effect(ME, power, Buff.BuffID.AUTO_SHIELD));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "集霊":
+                description = "MPを40回復する。";
+                waitTime = 40;
+                power = 40;
+                cost = 0;
+                effects.Add(new Effect(ME, power,Effect.EffectType.CONSTANTMPHEAL));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
 
             //******************

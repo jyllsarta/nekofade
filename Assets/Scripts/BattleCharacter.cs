@@ -70,7 +70,7 @@ public class BattleCharacter : MonoBehaviour {
     void Start()
     {
         buffs = new List<Buff>();
-        attributes = new List<CharacterAttribute.AttributeID>();
+        //attributes = new List<CharacterAttribute.AttributeID>();
         hpGauge.maxValue = maxHp;
         hpGauge.value = maxHp;
         shieldCount = 0;
@@ -225,7 +225,11 @@ public class BattleCharacter : MonoBehaviour {
         }
         if (hasBuff(Buff.BuffID.DCS))
         {
-            spd+=3;
+            spd += 3;
+        }
+        if (hasBuff(Buff.BuffID.SPDUP))
+        {
+            spd += 3;
         }
         if (spd > 9)
         {
@@ -346,6 +350,22 @@ public class BattleCharacter : MonoBehaviour {
         {
             Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 25 * erosion_count));
             hp -= 20 * erosion_count;
+        }
+        //残像
+        int shield_count = getBuffCount(Buff.BuffID.AUTO_SHIELD);
+        if (shield_count > 0)
+        {
+            for (int i=0;i<shield_count;++i)
+            {
+                addShield();
+            }
+        }
+        if (hasBuff(Buff.BuffID.REGENERATE_MP))
+        {
+            float mp_percentage = mp / maxMp;
+            float recovery_rate = 0.1f;
+            int constant_healpoint = 5;
+            mp += (int)( constant_healpoint + (1 - mp_percentage)*recovery_rate * maxMp);
         }
     }
 

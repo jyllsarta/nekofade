@@ -187,7 +187,7 @@ public class Battle : MonoBehaviour {
         }
 
         //消魔印を持っている場合魔法ダメージは1(isCheckがついてる場合予測ダメージ計算でしかないのでスルーする)
-        if (items.Exists(x => x.itemName == "消魔印") && effect.hasAttribute(Effect.Attribute.MAGIC) && !isCheck)
+        if (target==player && items.Exists(x => x.itemName == "消魔印") && effect.hasAttribute(Effect.Attribute.MAGIC) && !isCheck)
         {
             BattleItem item = items.Find(x => x.itemName == "消魔印");
             //開放効果はターン1回まで
@@ -252,7 +252,6 @@ public class Battle : MonoBehaviour {
             //Debug.Log("ぷち即撃！1.5倍ダメージ");
             multiply *= 1.5f;
         }
-
 
         //雷→水チェック
         if (target.hasAttribute(CharacterAttribute.AttributeID.WATER) && effect.hasAttribute(Effect.Attribute.THUNDER))
@@ -367,12 +366,22 @@ public class Battle : MonoBehaviour {
         }
     }
 
+    void tryRemoveShieldEffect(ref BattleCharacter target, Effect effect)
+    {
+        if (effect.hasAttribute(Effect.Attribute.REMOVE_SHIELD))
+        {
+            target.shieldCount = 0;
+        }
+    }
+
+
     //実際のEffect一つの処理
     void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
         switch (effect.effectType)
         {
             case Effect.EffectType.DAMAGE:
+                tryRemoveShieldEffect(ref target, effect);
                 tryInterrptEffect(target, effect);
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
@@ -616,6 +625,10 @@ public class Battle : MonoBehaviour {
     {
         currentGameState = GameState.TURN_PROCEEDING;
         messageArea.updateText("");
+        if (player.hasBuff(Buff.BuffID.ADDITIONAL_ATTACK))
+        {
+            consumeAction(ActionStore.getActionByName("幻閃起動"), ActorType.PLAYER);
+        }
     }
 
     //全キャラの毎フレームごとの処理を呼ぶ
@@ -671,6 +684,13 @@ public class Battle : MonoBehaviour {
                 Debug.LogFormat("{0}番目の敵は死んでるのでアクションを実行しませんでした",enemyIndex);
             }
         }
+        if (timeline.currentFrame == timeline.framesPerTurn)
+        {
+            if (player.hasBuff(Buff.BuffID.ADDITIONAL_ENDATTACK))
+            {
+                consumeAction(ActionStore.getActionByName("追幻起動"), ActorType.PLAYER);
+            }
+        }
     }
 
     void addEnemyAction(BattleCharacter enemy)
@@ -702,6 +722,7 @@ public class Battle : MonoBehaviour {
             //2回行動する敵はもう一回積んでくる
             if (enemy.hasAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE))
             {
+                Debug.Log("二階行動");
                 addEnemyAction(enemy);
             }
         }

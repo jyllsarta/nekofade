@@ -41,6 +41,7 @@ public class Effect{
         KING, //ビクトリー 5ターン目以降発動
         SKIP, //即系 初手のみつよい
         PETIT_SKIP,//プチ即 2ターン目まで強い
+        REMOVE_SHIELD, //盾を全部壊す
     }
 
     //この効果は敵一体を狙うのか、味方全体なのか
