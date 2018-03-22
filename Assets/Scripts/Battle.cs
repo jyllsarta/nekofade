@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Battle : MonoBehaviour {
     public BattleCharacter player;
@@ -24,6 +25,8 @@ public class Battle : MonoBehaviour {
     public GameObject interruptEffect;
 
     public EffectSystem effectSystem;
+
+    public TextMeshProUGUI turnCountText;
 
     //のこりエフェクトリスト
     public LinkedList<PlayableEffect> effectList;
@@ -282,10 +285,13 @@ public class Battle : MonoBehaviour {
 
     void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
     {
-        target.hp += value;
-        if (target.hp > target.maxHp && !isExceed)
+        if (target.hp < target.maxHp)
         {
-            target.hp = target.maxHp;
+            target.hp += value;
+            if (target.hp > target.maxHp && !isExceed)
+            {
+                target.hp = target.maxHp;
+            }
         }
         //エフェクトの再生
         DamageEffect createdEffect = Instantiate(healEffect, target.transform);
@@ -294,10 +300,13 @@ public class Battle : MonoBehaviour {
     }
     void resolveMpHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
     {
-        target.mp += value;
-        if (target.mp > target.maxMp && !isExceed)
+        if (target.mp < target.maxMp)
         {
-            target.mp = target.maxMp;
+            target.mp += value;
+            if (target.mp > target.maxMp && !isExceed)
+            {
+                target.mp = target.maxMp;
+            }
         }
         //エフェクトの再生
         DamageEffect createdEffect = Instantiate(healEffect, target.transform);
@@ -619,6 +628,7 @@ public class Battle : MonoBehaviour {
             i.setUsed(false);
         }
         actionButtonArea.updateActionWaitTime();
+        turnCountText.text = turnCount.ToString();
     }
 
     public void turnEnd()

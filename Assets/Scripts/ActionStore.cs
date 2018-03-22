@@ -56,7 +56,7 @@ public class ActionStore : MonoBehaviour{
             case "双撃":
                 description = "すばやく2連撃を行う。防御を崩したり詠唱妨害が得意。";
                 waitTime = 27;
-                power = 18;
+                power = 31;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 40));
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE, 40));
@@ -66,7 +66,7 @@ public class ActionStore : MonoBehaviour{
                 waitTime = 26;
                 power = 56;
                 cost = 0;
-                effects.Add(new Effect(TARGET_SINGLE, power / 3, DAMAGE));
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 effects.Add(new Effect(ME, power, Buff.BuffID.GUARD));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "王衝":

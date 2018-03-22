@@ -40,8 +40,8 @@ public class BattleCharacter : MonoBehaviour {
     //自身がクリックされたことを伝えるためにバトルシーンへの参照を握っておく
     public Battle battle;
 
-    public Slider hpGauge;
-    public Slider mpGauge;
+    public NumeratableSlider hpGauge;
+    public NumeratableSlider mpGauge;
     public NumeratableText hpText;
     public NumeratableText mpText;
     public TextMeshProUGUI characterNameText;
@@ -71,8 +71,8 @@ public class BattleCharacter : MonoBehaviour {
     {
         buffs = new List<Buff>();
         //attributes = new List<CharacterAttribute.AttributeID>();
-        hpGauge.maxValue = maxHp;
-        hpGauge.value = maxHp;
+        hpGauge.setMaxValue(maxHp);
+        hpGauge.set(maxHp);
         shieldCount = 0;
         currentActionPosition = 0;
         if (routine == RoutineType.ASCENDING_RANDOMSTART)
@@ -360,12 +360,16 @@ public class BattleCharacter : MonoBehaviour {
                 addShield();
             }
         }
-        if (hasBuff(Buff.BuffID.REGENERATE_MP))
+        if (hasBuff(Buff.BuffID.REGENERATE_MP) && mp < maxMp)
         {
             float mp_percentage = mp / maxMp;
             float recovery_rate = 0.1f;
             int constant_healpoint = 5;
             mp += (int)( constant_healpoint + (1 - mp_percentage)*recovery_rate * maxMp);
+            if (mp > maxMp)
+            {
+                mp = maxMp;
+            }
         }
     }
 
@@ -468,8 +472,8 @@ public class BattleCharacter : MonoBehaviour {
         //各種ゲージがない敵もいる
         if (hpGauge)
         {
-            hpGauge.value = hp;
-            hpGauge.maxValue = maxHp;
+            hpGauge.toValue = hp;
+            hpGauge.setMaxValue(maxHp);
         }
         if (hpText)
         {
@@ -477,8 +481,8 @@ public class BattleCharacter : MonoBehaviour {
         }
         if (mpGauge)
         {
-            mpGauge.value = mp;
-            mpGauge.maxValue = maxMp;
+            mpGauge.toValue = mp;
+            mpGauge.setMaxValue(maxMp);
         }
         if (mpText)
         {
