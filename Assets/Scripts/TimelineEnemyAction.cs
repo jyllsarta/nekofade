@@ -31,6 +31,8 @@ public class TimelineEnemyAction : MonoBehaviour, IPointerEnterHandler{
 
     public MessageArea messageArea;
 
+    public Animator animator;
+
     public void onClick()
     {
         Debug.Log("クリックされたかー");
@@ -45,4 +47,8 @@ public class TimelineEnemyAction : MonoBehaviour, IPointerEnterHandler{
         messageArea.updateText(description);
     }
 
+    public void playDeleteAnimationAndRemoveFromScene()
+    {
+        animator.Play("removeEnemyAction");
+    }
 }

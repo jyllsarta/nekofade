@@ -38,7 +38,7 @@ public class Timeline : MonoBehaviour{
         //画面に残ったインスタンスを消す
         foreach (TimelineEnemyAction a in enemyActionInstances)
         {
-            Destroy(a.gameObject);
+            a.playDeleteAnimationAndRemoveFromScene();
         }
         enemyActionInstances.Clear();
         currentEnemyActions.Clear();
@@ -111,7 +111,7 @@ public class Timeline : MonoBehaviour{
         {
             if (a.actorHash == hashCode)
             {
-                Destroy(a.gameObject);
+                a.playDeleteAnimationAndRemoveFromScene();
             }
         }
         enemyActionInstances.RemoveAll(x => x.actorHash == hashCode);
@@ -125,7 +125,7 @@ public class Timeline : MonoBehaviour{
         {
             if (a.hashCode == hashCode)
             {
-                Destroy(a.gameObject);
+                a.playDeleteAnimationAndRemoveFromScene();
             }
         }
         enemyActionInstances.RemoveAll(x => x.hashCode == hashCode);
