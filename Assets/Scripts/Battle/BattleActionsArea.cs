@@ -68,6 +68,24 @@ public class BattleActionsArea : MonoBehaviour{
         scroll.horizontalNormalizedPosition = 0f;
     }
 
+    //選べないアクションはdisabledつける
+    public void updateState()
+    {
+        foreach (ActionButton a in actionbuttons)
+        {
+            //getActionByNameが重いとかgetRemainingFramesが重いとかあるならtimeline側で更新を厳密に制御
+            if (ActionStore.getActionByName(a.actionName.text, siroko).waitTime <= timeline.getRemainingFrames())
+            {
+                a.button.interactable = true;
+            }
+            else
+            {
+                a.button.interactable = false;
+            }
+
+        }
+    }
+
     // Use this for initialization
     void Start () {
         //読み込み順バグを避けるためにBattleSceneConstructor側でloadactionsを呼ぶことにしました
@@ -76,6 +94,6 @@ public class BattleActionsArea : MonoBehaviour{
 	
 	// Update is called once per frame
 	void Update () {
-		
+        updateState();
 	}
 }

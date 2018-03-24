@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Timeline : MonoBehaviour{
     public int frameWidth = 1250;
@@ -19,6 +20,8 @@ public class Timeline : MonoBehaviour{
     public GameObject FramePointer;
     public NumeratableText remainingFrameText;
     public BattleCharacter siroko;
+    public BattleActionsArea actionsArea;
+    public Button playerThinkFinishButton;
 
     public MessageArea messageArea;
 
@@ -101,6 +104,7 @@ public class Timeline : MonoBehaviour{
             Destroy(a.gameObject);
         }
         actionInstances.Clear();
+        updatePlayerThinkFinishButton();
     }
 
     //このハッシュを持つキャラの行動をキャンセル
@@ -218,11 +222,39 @@ public class Timeline : MonoBehaviour{
         createdChild.hashCode = a.GetHashCode();
 
         //UI反映
-        int remainingFrames = framesPerTurn - countTotalFrameOfSelectingCommand();
+        int remainingFrames = getRemainingFrames();
         remainingFrameText.numerate(remainingFrames);
 
         //キャラ側のMP消費(積む前にcanPayThisでMP不足かどうかはチェック済のはず)
         siroko.payCastCost(a);
+        updatePlayerThinkFinishButton();
+
+    }
+
+    public int getRemainingFrames()
+    {
+        return framesPerTurn - countTotalFrameOfSelectingCommand();
+    }
+
+    public void updatePlayerThinkFinishButton()
+    {
+        //この追加でアクションが積めるかどうか変わったはずなので変更を反映
+        if (isActionsAreaFull())
+        {
+            Debug.Log("いっか");
+            playerThinkFinishButton.image.color = new Color(1, 1, 0, 1);
+        }
+        else
+        {
+            Debug.Log("まだ");
+            playerThinkFinishButton.image.color = new Color(142f / 256, 178f / 256, 221f / 256, 1);
+        }
+    }
+
+    //アクションがこれ以上積めないかどうか
+    public bool isActionsAreaFull()
+    {
+        return siroko.actions.TrueForAll(x => !canAddThis(ActionStore.getActionByName(x,siroko)));
     }
 
     //直前/直後のアクションの位置を見てなるべく被らないようにアクションを設置する
