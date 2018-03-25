@@ -26,6 +26,7 @@ public class Buff : MonoBehaviour, IPointerEnterHandler{
         AUTO_SHIELD,
         ADDITIONAL_MAGIC,
         REGENERATE_MP,
+        EXALTED,
     }
     public BuffID buffID;
     public int length;

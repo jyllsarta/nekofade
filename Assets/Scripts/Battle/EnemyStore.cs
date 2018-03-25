@@ -45,10 +45,17 @@ public class EnemyStore : MonoBehaviour{
             case "魔王":
                 createdChild.actions.Add("刺突");
                 createdChild.actions.Add("魔王剣");
-                createdChild.actions.Add("プチ火炎");
-                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.actions.Add("火炎");
+                createdChild.actions.Add("刺突");
+                createdChild.actions.Add("刺突");
+                createdChild.actions.Add("二重障壁");
+                createdChild.actions.Add("高揚");
+                createdChild.actions.Add("刺突");
+                createdChild.actions.Add("魔王剣");
+                createdChild.actions.Add("魔王剣");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
-                createdChild.initializeParameters(550, 10, 1, 2, 0, 1, 0);
+                createdChild.initializeParameters(1310, 10, 2, 2, 6, 3, 1);
                 createdChild.setImage("Enemy/kingNeko");
                 return createdChild;
             case "ねこベス":
@@ -88,13 +95,29 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.initializeParameters(30, 0, 1, 0, 0, 4, 0);
                 createdChild.setImage("Enemy/queenNeko");
                 return createdChild;
+            case "スケルトンΩ":
+                createdChild.actions.Add("打撃");
+                createdChild.actions.Add("ひっかき");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
+                createdChild.initializeParameters(300, 0, 7, 0, 0, 7, 0);
+                createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            case "アルラウネ":
+                createdChild.actions.Add("打撃");
+                createdChild.actions.Add("打撃");
+                createdChild.actions.Add("火炎");
+                createdChild.actions.Add("打撃");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(600, 0, 1, 0, 0, 0, 0);
+                createdChild.setImage("Enemy/siroNeko");
+                return createdChild;
             case "従者ガニ":
                 createdChild.actions.Add("障壁展開");
                 createdChild.actions.Add("障壁展開");
                 createdChild.actions.Add("爪");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
-                createdChild.initializeParameters(20, 0, 1, 0, 0, 6, 0);
-                createdChild.setImage("Enemy/queenNeko");
+                createdChild.initializeParameters(90, 0, 1, 0, 0, 6, 0);
+                createdChild.setImage("Enemy/kani");
                 return createdChild;
             case "ヒグマ":
                 createdChild.actions.Add("てしてし");

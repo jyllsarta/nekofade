@@ -255,6 +255,11 @@ public class Battle : MonoBehaviour {
             //Debug.Log("ぷち即撃！1.5倍ダメージ");
             multiply *= 1.5f;
         }
+        //高揚 ダメージ2倍
+        if (actor.hasBuff(Buff.BuffID.EXALTED))
+        {
+            multiply *= 2;
+        }
 
         //雷→水チェック
         if (target.hasAttribute(CharacterAttribute.AttributeID.WATER) && effect.hasAttribute(Effect.Attribute.THUNDER))
@@ -280,7 +285,14 @@ public class Battle : MonoBehaviour {
         createdDamageEffect.damageText.text = damage.ToString();
         createdDamageEffect.transform.position = target.transform.position;
         target.playDamageAnimation();
-        
+        if (damage >= 100)
+        {
+            target.setEmotion("critical", 60);
+        }
+        else
+        {
+            target.setEmotion("damage", 60);
+        }
     }
 
     void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
@@ -297,6 +309,7 @@ public class Battle : MonoBehaviour {
         DamageEffect createdEffect = Instantiate(healEffect, target.transform);
         createdEffect.damageText.text = value.ToString();
         createdEffect.transform.position = target.transform.position;
+        target.setEmotion("happy",60);
     }
     void resolveMpHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
     {
@@ -312,6 +325,7 @@ public class Battle : MonoBehaviour {
         DamageEffect createdEffect = Instantiate(healEffect, target.transform);
         createdEffect.damageText.text = value.ToString();
         createdEffect.transform.position = target.transform.position;
+        target.setEmotion("happy", 60);
     }
 
     //敵が攻撃してきた際の予測ダメージ量を返す
@@ -369,7 +383,7 @@ public class Battle : MonoBehaviour {
         if (actor.hasBuff(Buff.BuffID.ENCHANT_FIRE) && !effect.hasAttribute(Effect.Attribute.MAGIC))
         {
             List<Effect.Attribute> attributes = new List<Effect.Attribute>() { Effect.Attribute.MAGIC, Effect.Attribute.FIRE};
-            Effect fire = new Effect(Effect.TargetType.TARGET_SINGLE_RANDOM, 20, Effect.EffectType.DAMAGE, 30, attributes);
+            Effect fire = new Effect(Effect.TargetType.TARGET_SINGLE_RANDOM, 30, Effect.EffectType.DAMAGE, 30, attributes);
             PlayableEffect pe = new PlayableEffect(fire, ActorType.PLAYER, 0);
             effectList.AddFirst(pe);
         }
@@ -575,6 +589,7 @@ public class Battle : MonoBehaviour {
         if (actortype == ActorType.PLAYER)
         {
             showActionName(action.actionName, player);
+            player.setEmotion("doya", -1);
         }
         else
         {
@@ -638,6 +653,14 @@ public class Battle : MonoBehaviour {
         if (player.hasBuff(Buff.BuffID.ADDITIONAL_ATTACK))
         {
             consumeAction(ActionStore.getActionByName("幻閃起動"), ActorType.PLAYER);
+        }
+        if (player.hasBuff(Buff.BuffID.ADDITIONAL_ENDATTACK))
+        {
+            consumeAction(ActionStore.getActionByName("追幻起動"), ActorType.PLAYER);
+        }
+        if (player.hasBuff(Buff.BuffID.ADDITIONAL_MAGIC))
+        {
+            consumeAction(ActionStore.getActionByName("鏡射起動"), ActorType.PLAYER);
         }
     }
 
@@ -779,6 +802,15 @@ public class Battle : MonoBehaviour {
                 break;
             case GameState.TURN_PROCEEDING:
                 timeline.proceed(); //これだと0フレーム目にアクションおかれたらすかされる 大丈夫か検討
+                //呪文詠唱中だったら表情替える
+                if (timeline.isPlayerSpellAriaing())
+                {
+                    player.setEmotion("spell", -1);
+                }
+                else
+                {
+                    player.setEmotion("normal", -1);
+                }
                 playActionCurrentFrame();
                 triggerEveryCharacterEveryFrameEffect();
                 proceedEveryCharactersBuffState();

@@ -121,6 +121,13 @@ public class BuffStore : MonoBehaviour {
                 createdChild.duplicates = false;
                 createdChild.isPermanent = false;
                 return createdChild;
+            case Buff.BuffID.ADDITIONAL_MAGIC:
+                createdChild.length = 180;
+                createdChild.description = "【鏡射】ターン終了時に今ターゲットしている敵に強力な追加の攻撃。";
+                createdChild.setImage("UI_Icon_Attack");
+                createdChild.duplicates = false;
+                createdChild.isPermanent = false;
+                return createdChild;
             case Buff.BuffID.AUTO_SHIELD:
                 createdChild.length = 240;
                 createdChild.description = "【残像】ターン開始時に1枚防壁を追加。";
@@ -131,6 +138,13 @@ public class BuffStore : MonoBehaviour {
             case Buff.BuffID.REGENERATE_MP:
                 createdChild.length = 240;
                 createdChild.description = "【霊祈】ターン終了時にMPを回復。残りMPが少ないほど効果大。";
+                createdChild.setImage("UI_Icon_FaithJudaism");
+                createdChild.duplicates = false;
+                createdChild.isPermanent = false;
+                return createdChild;
+            case Buff.BuffID.EXALTED:
+                createdChild.length = 100;
+                createdChild.description = "【高揚】与えるダメージが2倍。";
                 createdChild.setImage("UI_Icon_FaithJudaism");
                 createdChild.duplicates = false;
                 createdChild.isPermanent = false;

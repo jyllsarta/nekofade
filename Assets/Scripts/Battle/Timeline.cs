@@ -107,6 +107,31 @@ public class Timeline : MonoBehaviour{
         updatePlayerThinkFinishButton();
     }
 
+    public bool isPlayerSpellAriaing()
+    {
+        int sum = 0;
+        //次のスペルはどれ？
+        foreach (Action a in currentPlayerActions)
+        {
+            if (sum + a.waitTime >= currentFrame)
+            {
+                if (a.isMagic())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                sum += a.waitTime;
+            }
+        }
+        return false;
+    }
+
     //このハッシュを持つキャラの行動をキャンセル
     public void removeEnemyActionByHash(int hashCode)
     {

@@ -322,6 +322,13 @@ public class ActionStore : MonoBehaviour{
                 cost = 0;
                 effects.Add(new Effect(ME, power,Effect.EffectType.CONSTANTMPHEAL));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "高揚":
+                description = "与えるダメージが2倍になる。";
+                waitTime = 30;
+                cost = 25;
+                effects.Add(new Effect(ME, power, Buff.BuffID.EXALTED));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+
 
             //******************
             //敵限定アクション

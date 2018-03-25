@@ -40,4 +40,9 @@ public class Action{
         }
     }
 
+    public bool isMagic()
+    {
+        return effectList.Exists(x => x.hasAttribute(Effect.Attribute.MAGIC));
+    }
+
 }

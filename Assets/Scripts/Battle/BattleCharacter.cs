@@ -54,6 +54,9 @@ public class BattleCharacter : MonoBehaviour {
     //自身の画像
     public Image image;
 
+    //プレイヤー用 表情コントローラ
+    public CharacterEmotionController emote;
+
     //思考ルーチン
     public enum RoutineType
     {
@@ -65,6 +68,15 @@ public class BattleCharacter : MonoBehaviour {
     public bool isDead()
     {
         return hp <= 0;
+    }
+
+    public void setEmotion(string emotionName,int length=-1)
+    {
+        if (!emote)
+        {
+            return;
+        }
+        emote.setEmotion(emotionName,length);
     }
 
     void Start()
@@ -342,6 +354,7 @@ public class BattleCharacter : MonoBehaviour {
         if (poison_count > 0)
         {
             Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 20 * poison_count));
+            setEmotion("damage",90);
             hp -= 10 * poison_count;
         }
         //闇侵食
@@ -349,6 +362,7 @@ public class BattleCharacter : MonoBehaviour {
         if (erosion_count > 0)
         {
             Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 25 * erosion_count));
+            setEmotion("damage", 90);
             hp -= 20 * erosion_count;
         }
         //残像
