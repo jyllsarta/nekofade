@@ -8,6 +8,7 @@ public class Map : MonoBehaviour {
     public List<MapPoint> points;
     public MapPoint currentPoint;
     public float distance;
+    public MapSirokoIllust sirokoillust;
 
     //Sceneの座標情報を読み込む
     public void loadGeometry()
@@ -18,6 +19,12 @@ public class Map : MonoBehaviour {
         {
             points.Add(p);
         }
+    }
+
+    public void setCurrentPoint(MapPoint p)
+    {
+        currentPoint = p;
+        sirokoillust.destination = p;
     }
 
     void updateAvailablePoints()

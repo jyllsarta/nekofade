@@ -9,6 +9,7 @@ public class MapPoint : MonoBehaviour {
     public RectTransform pos;
     public bool isMoveAbailable;
     public Map map;
+    public Image siroko;
 
     public bool isDistanceLessThan(RectTransform target, float distance)
     {
@@ -32,7 +33,7 @@ public class MapPoint : MonoBehaviour {
 
     public void setCurrentPositionToThis()
     {
-        map.currentPoint = this;
+        map.setCurrentPoint(this);
     }
 
     public void onClick()
