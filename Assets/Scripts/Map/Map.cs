@@ -10,6 +10,8 @@ public class Map : MonoBehaviour {
     public float distance;
     public MapSirokoIllust sirokoillust;
 
+    public MapEventEnemy enemyEventPrefab;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -25,6 +27,10 @@ public class Map : MonoBehaviour {
     {
         currentPoint = p;
         sirokoillust.destination = p;
+        if (p.mapEvent.eventType != MapEvent.EventType.EMPTY)
+        {
+            p.mapEvent.startEvent();
+        }
     }
 
     void updateAvailablePoints()
@@ -42,9 +48,34 @@ public class Map : MonoBehaviour {
         }
     }
 
-	// Use this for initialization
-	void Start () {
+    public MapPoint findEmptyMapPoint()
+    {
+        //マップで空のものを選択
+        List<MapPoint> p = points.FindAll(x => x.mapEvent.eventType == MapEvent.EventType.EMPTY);
+        //そこから自分がいるところを削除
+        p.Remove(currentPoint);
+
+        //残りの場所からランダムな点を返す
+        return p[Random.Range(0, p.Count)];
+
+    }
+
+    //しろこのいないとこに適当に敵を撒く
+    public void putEnemies()
+    {
+        //TODO 敵をきまりにしたがって置く
+
+        //TODO 値を変更するのではなくprefabからInstanciateする
+
+        findEmptyMapPoint().mapEvent.setEventType();
+        findEmptyMapPoint().mapEvent.setEventType();
+        findEmptyMapPoint().mapEvent.setEventType();
+    }
+
+    // Use this for initialization
+    void Start () {
         loadGeometry();
+        putEnemies();
 	}
 	
 	// Update is called once per frame

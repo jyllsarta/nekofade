@@ -10,6 +10,7 @@ public class MapPoint : MonoBehaviour {
     public bool isMoveAbailable;
     public Map map;
     public Image siroko;
+    public MapEvent mapEvent;
 
     public bool isDistanceLessThan(RectTransform target, float distance)
     {
