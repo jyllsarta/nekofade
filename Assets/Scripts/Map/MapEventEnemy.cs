@@ -6,15 +6,18 @@ using UnityEngine.SceneManagement;
 public class MapEventEnemy : MapEvent {
 
     List<string> enemies;
+    SirokoStats status;
 
-    public MapEventEnemy(List<string> enemies)
+    public MapEventEnemy(List<string> enemies, SirokoStats status)
     {
         this.enemies = enemies;
+        this.status = status;
     }
 
     public override void startEvent()
     {
         Debug.Log("バトル開始！");
-        //SceneManager.LoadScene("battleAlpha");
+        status.enemies = this.enemies;
+        SceneManager.LoadScene("battleAlpha", LoadSceneMode.Additive);
     }
 }

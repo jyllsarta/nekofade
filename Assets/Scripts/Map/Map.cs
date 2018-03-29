@@ -72,7 +72,7 @@ public class Map : MonoBehaviour {
         //TODO 敵をきまりにしたがって置く
         MapPoint p = findEmptyMapPoint();
 
-        p.mapEvent = new MapEventEnemy(new List<string>() { "カニ" });
+        p.mapEvent = new MapEventEnemy(new List<string>() { "カニ" }, status);
         p.setImage("Enemy/kani");
 
     }
@@ -97,6 +97,7 @@ public class Map : MonoBehaviour {
         loadStatusData();
         loadGeometry();
         putEnemies();
+        DontDestroyOnLoad(status);
 
     }
 

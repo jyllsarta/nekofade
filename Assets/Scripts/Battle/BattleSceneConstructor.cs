@@ -19,7 +19,7 @@ public class BattleSceneConstructor : MonoBehaviour {
         battleModel.player.defence = status.defence;
         battleModel.player.hp = battleModel.player.getMaxHP();
         battleModel.player.maxHp = battleModel.player.getMaxHP();
-        battleModel.player.mp = battleModel.player.getMaxMP();
+        battleModel.player.mp = status.mp;
         battleModel.player.maxMp = battleModel.player.getMaxMP();
     }
 
@@ -83,6 +83,7 @@ public class BattleSceneConstructor : MonoBehaviour {
 	void Start () {
         status = FindObjectOfType<SirokoStats>();
         initialize();
+        battleModel.setLoadFinished();
         battleModel.onTurnStart();//こっち側で設定が終わったのでバトルを開始する
 	}
 	

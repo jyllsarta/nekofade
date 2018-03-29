@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.EventSystems;
+
 
 public class Battle : MonoBehaviour {
     public BattleCharacter player;
@@ -17,6 +19,12 @@ public class Battle : MonoBehaviour {
     public GameObject itemsContainer;
     public BattleActionsArea actionButtonArea;
     public MessageArea messageArea;
+    //他シーンからの呼び出しがあった場合
+    //EventSystemが二つ以上発生してしまうので
+    //自分のは持たずシーンロード時になかったら置く
+    public EventSystem eventSystem;
+    //カメラも同様に原則自力では持たない
+    public Camera camera;
 
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
@@ -27,6 +35,8 @@ public class Battle : MonoBehaviour {
     public EffectSystem effectSystem;
 
     public TextMeshProUGUI turnCountText;
+
+    public bool isLoading;
 
     //のこりエフェクトリスト
     public LinkedList<PlayableEffect> effectList;
@@ -57,13 +67,27 @@ public class Battle : MonoBehaviour {
         PLAYER,
     }
 
+    public void setLoadFinished()
+    {
+        isLoading = false;
+    }
+
 	// Use this for initialization
 	void Start () {
         currentTargettingEnemyIndex = 0;
         turnCount = 0;
+        isLoading = true;
         effectList = new LinkedList<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
-	}
+        if (FindObjectOfType<EventSystem>() == null)
+        {
+            Instantiate(eventSystem);
+        }
+        if (FindObjectOfType<Camera>() == null)
+        {
+            Instantiate(camera);
+        }
+    }
 
     //リストの内容に従って敵を置く
     public void setEnemy(List<string> enemyList)
@@ -137,6 +161,45 @@ public class Battle : MonoBehaviour {
         //Debug.Log("敵のハッシュ検索失敗したよ");
     }
 
+    //戦闘結果をステータスに反映する
+    void applyBattleStateToStatus()
+    {
+        SirokoStats status = FindObjectOfType<SirokoStats>();
+        //TODO アイテムをMonobehaviour依存のないクラスにまとめる
+        //status.items = items;
+        status.mp = player.mp;
+    }
+
+    void backToPreviousScene()
+    {
+        //マップ画面経由で呼び出されたバトルの場合には自身を削除してマップ画面に戻る
+        if (SceneManager.GetSceneByName("map") != null)
+        {
+            //マップに戻る場合には戦闘結果のステータスを反映する
+            applyBattleStateToStatus();
+            SceneManager.UnloadSceneAsync("battleAlpha");
+        }
+        //マップ画面がないならデバッグ呼びなのでシミュレータ画面に戻る
+        else
+        {
+            SceneManager.LoadScene("debugBattleSimulator");
+        }
+    }
+
+    //復活の御魂を使用
+    void useSoulOfRessurection()
+    {
+        BattleItem item = items.Find(x => x.itemName == "復活の御魂");
+        //開放効果はターン1回まで
+        if (!item.isUsed)
+        {
+            Debug.Log("御魂により復活！");
+            showActionName("御魂の開放", player);
+            player.hp = player.maxHp;
+            item.useItemPassive();
+        }
+    }
+
     void checkBattleFinish()
     {
         //プレイヤーが死んだら負け
@@ -144,38 +207,16 @@ public class Battle : MonoBehaviour {
         {
             if (items.Exists(x=>x.itemName=="復活の御魂"))
             {
-                BattleItem item = items.Find(x => x.itemName == "復活の御魂");
-                //開放効果はターン1回まで
-                if (!item.isUsed)
-                {
-                    Debug.Log("御魂により復活！");
-                    showActionName("御魂の開放", player);
-                    player.hp = player.maxHp;
-                    item.useItemPassive();
-                    return;
-                }
+                useSoulOfRessurection();
+                return;
             }
-            Debug.Log("まけ");
-            //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
-            SirokoStats s = FindObjectOfType<SirokoStats>();
-            if (s)
-            {
-                Destroy(s.gameObject);
-            }
-            SceneManager.LoadScene("debugBattleSimulator");
-
+            //負けの状態で戻る
+            backToPreviousScene();
         }
         //敵を全滅させたら勝ち
         if (enemies.TrueForAll((e)=>e.isDead()))
         {
-            Debug.Log("勝ち");
-            //掃除 今後これが正しいかどうかはともかくとりあえず置いておく
-            SirokoStats s = FindObjectOfType<SirokoStats>();
-            if (s)
-            {
-                Destroy(s.gameObject);
-            }
-            SceneManager.LoadScene("debugBattleSimulator");
+            backToPreviousScene();
         }
 
     }
@@ -795,7 +836,11 @@ public class Battle : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-            checkBattleFinish();
+        if (isLoading)
+        {
+            return;
+        }
+        checkBattleFinish();
         switch (currentGameState)
         {
             case GameState.PLAYER_THINK:
