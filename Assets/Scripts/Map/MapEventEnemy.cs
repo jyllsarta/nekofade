@@ -1,29 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapEventEnemy : MapEvent {
 
-    //どんな敵がいるかとかがここに書かれる
+    List<string> enemies;
+
+    public MapEventEnemy(List<string> enemies)
+    {
+        this.enemies = enemies;
+    }
 
     public override void startEvent()
     {
-        Debug.Log("敵との戦いがここで起こる");
+        Debug.Log("バトル開始！");
+        //SceneManager.LoadScene("battleAlpha");
     }
-
-    public override void setEventType()
-    {
-        setImage("kani");
-        eventType = EventType.ENEMY;
-    }
-
-
-    // Use this for initialization
-    void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

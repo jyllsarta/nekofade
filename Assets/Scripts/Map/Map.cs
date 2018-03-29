@@ -12,6 +12,9 @@ public class Map : MonoBehaviour {
 
     public MapEventEnemy enemyEventPrefab;
 
+    public SirokoStats status;
+    public SirokoStats status_default;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -23,19 +26,22 @@ public class Map : MonoBehaviour {
         }
     }
 
+
+    public void processEvent(MapEvent e)
+    {
+        e.startEvent();
+    }
+
     public void setCurrentPoint(MapPoint p)
     {
         currentPoint = p;
         sirokoillust.destination = p;
-        if (p.mapEvent.eventType != MapEvent.EventType.EMPTY)
-        {
-            p.mapEvent.startEvent();
-        }
+        processEvent(p.mapEvent);
     }
 
     void updateAvailablePoints()
     {
-        foreach(MapPoint p  in points)
+        foreach (MapPoint p in points)
         {
             if (p.isDistanceLessThan(currentPoint.pos, distance))
             {
@@ -64,22 +70,39 @@ public class Map : MonoBehaviour {
     public void putEnemies()
     {
         //TODO 敵をきまりにしたがって置く
+        MapPoint p = findEmptyMapPoint();
 
-        //TODO 値を変更するのではなくprefabからInstanciateする
+        p.mapEvent = new MapEventEnemy(new List<string>() { "カニ" });
+        p.setImage("Enemy/kani");
 
-        findEmptyMapPoint().mapEvent.setEventType();
-        findEmptyMapPoint().mapEvent.setEventType();
-        findEmptyMapPoint().mapEvent.setEventType();
+    }
+
+    public void loadStatusData()
+    {
+        SirokoStats s = FindObjectOfType<SirokoStats>();
+        if (s == null)
+        {
+            status = Instantiate(status_default);
+            DontDestroyOnLoad(s);
+        }
+        else
+        {
+            status = s;
+        }
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        loadStatusData();
         loadGeometry();
         putEnemies();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         updateAvailablePoints();
-	}
+    }
 }

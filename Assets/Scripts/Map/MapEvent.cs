@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class MapEvent : MonoBehaviour {
+[System.Serializable]
+public class MapEvent{
     
     public enum EventType
     {
@@ -15,29 +17,13 @@ public class MapEvent : MonoBehaviour {
 
     public EventType eventType;
 
-    public Image image;
-
-    public virtual void startEvent() { }
-    public virtual void setEventType() { }
-
-    public void setImage(string resourcePath)
+    public virtual void startEvent()
     {
-        string pathHeader = "Enemy/";
-        string path = pathHeader + resourcePath;
-        Sprite s = Resources.Load<Sprite>(path);
-        image.sprite = s;
-        image.color = new Color(1, 1, 1, 1);
+    } 
+
+    public MapEvent()
+    {
+        this.eventType = EventType.EMPTY;
     }
 
-
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
