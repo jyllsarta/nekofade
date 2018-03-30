@@ -12,19 +12,19 @@ public class Battle : MonoBehaviour {
     public List<BattleItem> items;
     public EnemyStore enemyStore;
     public BuffStore buffStore;
-    public ItemStore itemStore;
     public Timeline timeline;
     public GameObject enemiesUI;
     public GameObject targetCircle;
     public GameObject itemsContainer;
     public BattleActionsArea actionButtonArea;
     public MessageArea messageArea;
+    public BattleItem itemPrefab;
     //他シーンからの呼び出しがあった場合
     //EventSystemが二つ以上発生してしまうので
     //自分のは持たずシーンロード時になかったら置く
     public EventSystem eventSystem;
     //カメラも同様に原則自力では持たない
-    public Camera camera;
+    public Camera cameraPrefab;
 
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
@@ -85,7 +85,7 @@ public class Battle : MonoBehaviour {
         }
         if (FindObjectOfType<Camera>() == null)
         {
-            Instantiate(camera);
+            Instantiate(cameraPrefab);
         }
     }
 
@@ -111,7 +111,11 @@ public class Battle : MonoBehaviour {
         items = new List<BattleItem>();
         foreach (string s in itemList)
         {
-            BattleItem created = itemStore.instanciateItemByName(s, itemsContainer.transform);
+            Item item = ItemStore.getItemByName(s);
+            BattleItem created = Instantiate<BattleItem>(itemPrefab,itemsContainer.transform);
+            created.setItem(item);
+            created.messageArea = messageArea;
+            created.battle = this;
             items.Add(created);
         }
 
@@ -120,7 +124,7 @@ public class Battle : MonoBehaviour {
     //アイテム
     public void useItem(BattleItem item)
     {
-        consumeActionByItem(item.action, ActorType.PLAYER);
+        consumeActionByItem(item.item.action, ActorType.PLAYER);
     }
 
     //このハッシュコードを持つ敵は何番目だ
@@ -173,7 +177,7 @@ public class Battle : MonoBehaviour {
     void backToPreviousScene()
     {
         //マップ画面経由で呼び出されたバトルの場合には自身を削除してマップ画面に戻る
-        if (SceneManager.GetSceneByName("map") != null)
+        if (SceneManager.GetSceneByName("map").isLoaded)
         {
             //マップに戻る場合には戦闘結果のステータスを反映する
             applyBattleStateToStatus();
@@ -189,7 +193,7 @@ public class Battle : MonoBehaviour {
     //復活の御魂を使用
     void useSoulOfRessurection()
     {
-        BattleItem item = items.Find(x => x.itemName == "復活の御魂");
+        BattleItem item = items.Find(x => x.item.itemName == "復活の御魂");
         //開放効果はターン1回まで
         if (!item.isUsed)
         {
@@ -205,7 +209,7 @@ public class Battle : MonoBehaviour {
         //プレイヤーが死んだら負け
         if (player.isDead())
         {
-            if (items.Exists(x=>x.itemName=="復活の御魂"))
+            if (items.Exists(x=>x.item.itemName=="復活の御魂"))
             {
                 useSoulOfRessurection();
                 return;
@@ -231,9 +235,9 @@ public class Battle : MonoBehaviour {
         }
 
         //消魔印を持っている場合魔法ダメージは1(isCheckがついてる場合予測ダメージ計算でしかないのでスルーする)
-        if (target==player && items.Exists(x => x.itemName == "消魔印") && effect.hasAttribute(Effect.Attribute.MAGIC) && !isCheck)
+        if (target==player && items.Exists(x => x.item.itemName == "消魔印") && effect.hasAttribute(Effect.Attribute.MAGIC) && !isCheck)
         {
-            BattleItem item = items.Find(x => x.itemName == "消魔印");
+            BattleItem item = items.Find(x => x.item.itemName == "消魔印");
             //開放効果はターン1回まで
             if (!item.isUsed)
             {
@@ -338,7 +342,7 @@ public class Battle : MonoBehaviour {
 
     void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
     {
-        if (target.hp < target.maxHp)
+        if (target.hp <= target.maxHp || isExceed)
         {
             target.hp += value;
             if (target.hp > target.maxHp && !isExceed)
@@ -354,7 +358,7 @@ public class Battle : MonoBehaviour {
     }
     void resolveMpHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
     {
-        if (target.mp < target.maxMp)
+        if (target.mp <= target.maxMp || isExceed)
         {
             target.mp += value;
             if (target.mp > target.maxMp && !isExceed)

@@ -4,97 +4,99 @@ using UnityEngine;
 
 public class ItemStore : MonoBehaviour{
 
-    public BattleItem itemPrefab;
-    public Battle battle;
-    public MessageArea messageArea;
-
-    public BattleItem instanciateItemByName(string name, Transform parent)
+    public static Item getItemByName(string name)
     {
-        BattleItem createdChild = Instantiate(itemPrefab, parent);
+
+        string itemName;
+        string description;
+        string imagePath;
+        int count;
+        bool isPassiveItem;
         List<Effect> effects = new List<Effect>();
-        createdChild.battle = battle;
-        createdChild.messageArea = messageArea;
+        Action action;
 
         switch (name)
         {
             case "復活の御魂": //こいつはだけパッシブ発動で特別処理書くのでいいかもな
-                createdChild.itemName = "復活の御魂";
-                createdChild.description = "【復活の御魂】HPが0になるダメージを受けたときに自動発動。HP全快で復活する。";
-                createdChild.setImage("UI_Icon_Infinite");
-                createdChild.setCount(2);
-                createdChild.isPassiveItem = true;
-                return createdChild;
+                itemName = "復活の御魂";
+                description = "【復活の御魂】HPが0になるダメージを受けたときに自動発動。HP全快で復活する。";
+                imagePath = "UI_Icon_Infinite";
+                count = 2;
+                isPassiveItem = true;
+                action = new Action();
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "HPポーション":
-                createdChild.itemName = "HPポーション";
-                createdChild.description = "【HPポーション】HPを50回復する。HP上限を超えて回復できる。";
-                createdChild.setImage("UI_Icon_Trophy");
-                createdChild.setCount(5);
-                createdChild.isPassiveItem = false;
+                itemName = "HPポーション";
+                description = "【HPポーション】HPを50回復する。HP上限を超えて回復できる。";
+                imagePath = "UI_Icon_Trophy";
+                count = 5;
+                isPassiveItem = false;
                 effects.Add(new Effect(Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDHEAL));
-                createdChild.action = new Action("HPポーション", "stub", 0, 0, effects);
-                return createdChild;
+                action = new Action("HPポーション", "stub", 0, 0, effects);
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "MPポーション":
-                createdChild.itemName = "MPポーション";
-                createdChild.description = "【MPポーション】MPを50回復する。MP上限を超えて回復できる。";
-                createdChild.setImage("UI_Icon_FaithIslam");
-                createdChild.setCount(5);
-                createdChild.isPassiveItem = false;
+                itemName = "MPポーション";
+                description = "【MPポーション】MPを50回復する。MP上限を超えて回復できる。";
+                imagePath = "UI_Icon_FaithIslam";
+                count = 5;
+                isPassiveItem = false;
                 effects.Add(new Effect(Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDMPHEAL));
-                createdChild.action = new Action("MPポーション", "stub", 0, 0, effects);
-                return createdChild;
+                action = new Action("MPポーション", "stub", 0, 0, effects);
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "DCS":
-                createdChild.itemName = "魔ポテトのスープ";
-                createdChild.description = "【魔ポテトのスープ】HPを40回復し、200Fの間スープ状態になる。筋力Lv+3,速度Lv+3。";
-                createdChild.setImage("UI_Icon_FaithIslam");
-                createdChild.setCount(1);
-                createdChild.isPassiveItem = false;
+                itemName = "魔ポテトのスープ";
+                description = "【魔ポテトのスープ】HPを40回復し、200Fの間スープ状態になる。筋力Lv+3,速度Lv+3。";
+                imagePath = "UI_Icon_FaithIslam";
+                count = 1;
+                isPassiveItem = false;
                 effects.Add(new Effect(Effect.TargetType.ME, 40, Effect.EffectType.CONSTANTHEAL));
                 effects.Add(new Effect(Effect.TargetType.ME, 99, Buff.BuffID.DCS));
-                createdChild.action = new Action("魔ポテ", "stub", 0, 0, effects);
-                return createdChild;
+                action = new Action("魔ポテ", "stub", 0, 0, effects);
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "雷光の符":
-                createdChild.itemName = "雷光の符";
-                createdChild.description = "【雷光の符】雷光を発動。ランダムな敵に合計4回魔法ダメージ。";
-                createdChild.setImage("UI_Icon_Energy");
-                createdChild.setCount(4);
-                createdChild.isPassiveItem = false;
-                createdChild.action = ActionStore.getActionByName("雷光");
-                return createdChild;
+                itemName = "雷光の符";
+                description = "【雷光の符】雷光を発動。ランダムな敵に合計4回魔法ダメージ。";
+                imagePath = "UI_Icon_Energy";
+                count = 4;
+                isPassiveItem = false;
+                action = ActionStore.getActionByName("雷光");
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "無敵バリア":
-                createdChild.itemName = "無敵バリア";
-                createdChild.description = "【無敵バリア】60Fの間、敵からのダメージをすべて無効化するバリアを展開。";
-                createdChild.setImage("UI_Icon_Star");
-                createdChild.setCount(2);
-                createdChild.isPassiveItem = false;
+                itemName = "無敵バリア";
+                description = "【無敵バリア】60Fの間、敵からのダメージをすべて無効化するバリアを展開。";
+                imagePath = "UI_Icon_Star";
+                count = 2;
+                isPassiveItem = false;
                 effects.Add(new Effect(Effect.TargetType.ME, 99, Buff.BuffID.INVINCIBLE));
-                createdChild.action = new Action("バーリア", "stub", 0, 0, effects);
-                return createdChild;
+                action = new Action("バーリア", "stub", 0, 0, effects);
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "衝撃の符":
-                createdChild.itemName = "衝撃の符";
-                createdChild.description = "【衝撃の符】現在ターゲットしている敵に物理ダメージ。";
-                createdChild.setImage("UI_Icon_Bomb");
-                createdChild.setCount(9);
-                createdChild.isPassiveItem = false;
+                itemName = "衝撃の符";
+                description = "【衝撃の符】現在ターゲットしている敵に物理ダメージ。";
+                imagePath = "UI_Icon_Bomb";
+                count = 9;
+                isPassiveItem = false;
                 effects.Add(new Effect(Effect.TargetType.TARGET_SINGLE, 30, Effect.EffectType.DAMAGE));
-                createdChild.action = new Action("衝撃の符", "stub", 0, 0, effects);
-                return createdChild;
+                action = new Action("衝撃の符", "stub", 0, 0, effects);
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "響火の符":
-                createdChild.itemName = "響火の符";
-                createdChild.description = "【響火の符】響火を発動。90Fの間、物理攻撃後に炎ダメージを追加。";
-                createdChild.setImage("UI_Icon_Fire");
-                createdChild.setCount(4);
-                createdChild.isPassiveItem = false;
-                createdChild.action = ActionStore.getActionByName("響火");
-                return createdChild;
+                itemName = "響火の符";
+                description = "【響火の符】響火を発動。90Fの間、物理攻撃後に炎ダメージを追加。";
+                imagePath = "UI_Icon_Fire";
+                count = 4;
+                isPassiveItem = false;
+                action = ActionStore.getActionByName("響火");
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "消魔印":
-                createdChild.itemName = "消魔印";
-                createdChild.description = "【消魔印】ターンに1度、魔法ダメージを受けるときに自動発動。ダメージを1に軽減。";
-                createdChild.setImage("UI_Icon_CardDiamonds");
-                createdChild.setCount(3);
-                createdChild.isPassiveItem = true;
-                return createdChild;
+                itemName = "消魔印";
+                description = "【消魔印】ターンに1度、魔法ダメージを受けるときに自動発動。ダメージを1に軽減。";
+                imagePath = "UI_Icon_CardDiamonds";
+                count = 3;
+                isPassiveItem = true;
+                action = new Action();
+                return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             default:
-                return createdChild;
+                return new Item();
         }
     }
 }

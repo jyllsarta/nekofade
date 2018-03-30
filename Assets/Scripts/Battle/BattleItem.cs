@@ -7,21 +7,17 @@ using UnityEngine.EventSystems;
 
 public class BattleItem : MonoBehaviour, IPointerEnterHandler{
 
+    public Item item;
     public Image image;
     public TextMeshProUGUI countText;
-    public Action action;
-    public int count;
     public Battle battle;
-    public bool isPassiveItem;
-    public string description;
-    public string itemName;
     public RectTransform button;
     public MessageArea messageArea;
     public bool isUsed; //このターンもう使ったか
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        messageArea.updateText(description);
+        messageArea.updateText(item.description);
     }
 
     //使用済
@@ -48,13 +44,13 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
 
     public void setCount(int count)
     {
-        this.count = count;
+        this.item.count = count;
         countText.text = count.ToString();
     }
 
     public void showButton()
     {
-        if (isPassiveItem)
+        if (item.isPassiveItem)
         {
             return;
         }
@@ -72,8 +68,8 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
     //ターン1のパッシブ効果発動
     public void useItemPassive()
     {
-        setCount(count - 1);
-        if (count == 0)
+        setCount(item.count - 1);
+        if (item.count == 0)
         {
             battle.items.Remove(this);
             Destroy(this.gameObject);
@@ -83,14 +79,21 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
 
     public void useItem()
     {
-        setCount(count - 1);
+        setCount(item.count - 1);
         battle.useItem(this);
-        if (count == 0)
+        if (item.count == 0)
         {
             battle.items.Remove(this);
             Destroy(this.gameObject);
         }
         hideButton();
         setUsed(true);
+    }
+
+    public void setItem(Item item)
+    {
+        this.item = item;
+        setCount(item.count);
+        setImage(item.imagePath);
     }
 }
