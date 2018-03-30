@@ -800,7 +800,6 @@ public class Battle : MonoBehaviour {
             //2回行動する敵はもう一回積んでくる
             if (enemy.hasAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE))
             {
-                Debug.Log("二階行動");
                 addEnemyAction(enemy);
             }
         }

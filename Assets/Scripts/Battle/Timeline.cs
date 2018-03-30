@@ -193,7 +193,7 @@ public class Timeline : MonoBehaviour{
             }
             else
             {
-                Debug.Log(string.Format("{0} / {1}を削除したよ",a.actionName,a.GetHashCode()));
+                //Debug.Log(string.Format("{0} / {1}を削除したよ",a.actionName,a.GetHashCode()));
             }
         }
     }
@@ -266,12 +266,12 @@ public class Timeline : MonoBehaviour{
         //この追加でアクションが積めるかどうか変わったはずなので変更を反映
         if (isActionsAreaFull())
         {
-            Debug.Log("いっか");
+            //Debug.Log("いっか");
             playerThinkFinishButton.image.color = new Color(1, 1, 0, 1);
         }
         else
         {
-            Debug.Log("まだ");
+            //Debug.Log("まだ");
             playerThinkFinishButton.image.color = new Color(142f / 256, 178f / 256, 221f / 256, 1);
         }
     }

@@ -12,6 +12,7 @@ public class MapEventEnemy : MapEvent {
     {
         this.enemies = enemies;
         this.status = status;
+        this.eventType = EventType.ENEMY;
     }
 
     public override void startEvent()

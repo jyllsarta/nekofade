@@ -17,7 +17,7 @@ public class BattleSceneConstructor : MonoBehaviour {
         battleModel.player.speed = status.speed;
         battleModel.player.vitality = status.vitality;
         battleModel.player.defence = status.defence;
-        battleModel.player.hp = battleModel.player.getMaxHP();
+        battleModel.player.hp = status.hp;
         battleModel.player.maxHp = battleModel.player.getMaxHP();
         battleModel.player.mp = status.mp;
         battleModel.player.maxMp = battleModel.player.getMaxMP();

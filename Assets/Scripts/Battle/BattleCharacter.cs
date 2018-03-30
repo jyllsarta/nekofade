@@ -353,7 +353,7 @@ public class BattleCharacter : MonoBehaviour {
         int poison_count = getBuffCount(Buff.BuffID.POISON);
         if (poison_count > 0)
         {
-            Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 20 * poison_count));
+            //Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 20 * poison_count));
             setEmotion("damage",90);
             hp -= 10 * poison_count;
         }

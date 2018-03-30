@@ -53,7 +53,16 @@ public class MapPoint : MonoBehaviour {
         image.sprite = s;
     }
 
-
+    public void startEvent()
+    {
+        this.mapEvent.startEvent();
+        //お店以外のイベントは一度発生したら消える
+        if (mapEvent.eventType != MapEvent.EventType.STORE)
+        {
+            mapEvent = new MapEvent();
+            setImage("SimpleVectorIcons/UI_Icon_BtnPsCircle");
+        }
+    }
 
 
     // Use this for initialization

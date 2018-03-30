@@ -27,16 +27,12 @@ public class Map : MonoBehaviour {
     }
 
 
-    public void processEvent(MapEvent e)
-    {
-        e.startEvent();
-    }
-
     public void setCurrentPoint(MapPoint p)
     {
+        status.applyMoveHealing();
         currentPoint = p;
         sirokoillust.destination = p;
-        processEvent(p.mapEvent);
+        p.startEvent(); //TODO 到着時にイベント発火のがいいのでは
     }
 
     void updateAvailablePoints()
@@ -71,11 +67,41 @@ public class Map : MonoBehaviour {
     {
         //TODO 敵をきまりにしたがって置く
         MapPoint p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "野うさぎ" }, status);
+        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
 
-        p.mapEvent = new MapEventEnemy(new List<string>() { "カニ" }, status);
-        p.setImage("Enemy/kani");
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ヒグマ" }, status);
+        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "野うさぎ", "野うさぎ" }, status);
+        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "野うさぎ", "スケルトン" }, status);
+        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "魔王" }, status);
+        p.setImage("Enemy/kingNeko"); //TODO 雑魚/ボスの敵アイコン
 
     }
+
+    //お金のマス置く
+    public void putGolds()
+    {
+        MapPoint p = findEmptyMapPoint();
+        p.mapEvent = new MapEventGold(30, status);
+        p.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventGold(5, status);
+        p.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventGold(200, status);
+        p.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+    }
+
 
     public void loadStatusData()
     {
@@ -97,6 +123,7 @@ public class Map : MonoBehaviour {
         loadStatusData();
         loadGeometry();
         putEnemies();
+        putGolds();
         DontDestroyOnLoad(status);
 
     }

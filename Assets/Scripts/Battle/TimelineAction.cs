@@ -21,7 +21,6 @@ public class TimelineAction : MonoBehaviour {
 
     public void onClick()
     {
-        Debug.Log("クリックされたかー");
         timeline.removeAction(hashCode);
     }
 

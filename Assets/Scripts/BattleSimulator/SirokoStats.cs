@@ -12,9 +12,12 @@ public class SirokoStats : MonoBehaviour{
     public int speed;
     public int defence;
     public int vitality;
-    public int maxHp; //hpはバトル画面以外では全回復する
+    public int hp;
+    public int maxHp;
     public int mp;
     public int maxMp;
+    //所持金
+    public int gold;
 
     //装備
     public List<string> equipments;
@@ -31,6 +34,29 @@ public class SirokoStats : MonoBehaviour{
 
     void Start()
     {
-        DontDestroyOnLoad(this);    
+        DontDestroyOnLoad(this);
+        this.maxHp = vitality * 40 + 100;
+        this.maxMp = magicCapacity * 40 + 100;
+    }
+
+    //1マス移動ぶんの回復を適用
+    public void applyMoveHealing()
+    {
+        if (hp < maxHp)
+        {
+            hp += 50;
+            if (hp > maxHp)
+            {
+                hp = maxHp;
+            }
+        }
+        if (mp < maxMp)
+        {
+            mp += (magicCapacity*2+10);
+            if (mp > maxMp)
+            {
+                mp = maxMp;
+            }
+        }
     }
 }
