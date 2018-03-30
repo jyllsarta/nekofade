@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class BattleSimulator : MonoBehaviour {
 
     public SirokoStats siroko;
+    public SirokoStats sirokoPrefab;
     public SelectingList equips;
     public SelectingList enemies;
     public SelectingList actions;
@@ -47,6 +48,11 @@ public class BattleSimulator : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        siroko = FindObjectOfType<SirokoStats>();
+        if (!siroko)
+        {
+            siroko = Instantiate<SirokoStats>(sirokoPrefab);
+        }
         siroko.strength = (int)strength.value;
         siroko.intelligence = (int)intelligence.value;
         siroko.magicCapacity = (int)magicCapacity.value;
@@ -65,6 +71,10 @@ public class BattleSimulator : MonoBehaviour {
     public void startBattle()
     {
         setParameters();
-        SceneManager.LoadScene("battleAlpha");
+        siroko.hp = siroko.vitality * 40 + 100;
+        siroko.maxHp = siroko.vitality * 40 + 100;
+        siroko.mp = siroko.magicCapacity * 40 + 100;
+        siroko.maxMp = siroko.magicCapacity * 40 + 100;
+        SceneManager.LoadSceneAsync("battleAlpha");
     }
 }

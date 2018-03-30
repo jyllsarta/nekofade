@@ -87,6 +87,7 @@ public class Battle : MonoBehaviour {
         {
             Instantiate(cameraPrefab);
         }
+        player.setEmotion("doya", 180);
     }
 
     //リストの内容に従って敵を置く
@@ -172,6 +173,7 @@ public class Battle : MonoBehaviour {
         //TODO アイテムをMonobehaviour依存のないクラスにまとめる
         //status.items = items;
         status.mp = player.mp;
+        status.hp = player.hp;
     }
 
     void backToPreviousScene()
@@ -698,10 +700,6 @@ public class Battle : MonoBehaviour {
         if (player.hasBuff(Buff.BuffID.ADDITIONAL_ATTACK))
         {
             consumeAction(ActionStore.getActionByName("幻閃起動"), ActorType.PLAYER);
-        }
-        if (player.hasBuff(Buff.BuffID.ADDITIONAL_ENDATTACK))
-        {
-            consumeAction(ActionStore.getActionByName("追幻起動"), ActorType.PLAYER);
         }
         if (player.hasBuff(Buff.BuffID.ADDITIONAL_MAGIC))
         {

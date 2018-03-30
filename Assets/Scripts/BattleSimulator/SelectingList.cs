@@ -65,6 +65,19 @@ public class SelectingList : MonoBehaviour {
         createdChild.messageArea = messageArea;
     }
 
+    //子要素の追加
+    public void addChildRandom()
+    {
+        ListItem createdChild = Instantiate(listItemPrefab, childObject.transform);
+        string selected = masterData[Random.Range(0, masterData.Count)];
+        createdChild.setName(selected);
+        createdChild.description = "ランダムに選ばれたやつなので値が取れませーん";
+        createdChild.isChild = true;
+        createdChild.parent = this;
+        childDataInstances.Add(createdChild);
+        createdChild.messageArea = messageArea;
+    }
+
     //親要素側に追加
     public void addMaster(string data, string description)
     {

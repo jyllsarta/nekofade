@@ -19,6 +19,6 @@ public class MapEventEnemy : MapEvent {
     {
         Debug.Log("バトル開始！");
         status.enemies = this.enemies;
-        SceneManager.LoadScene("battleAlpha", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("battleAlpha", LoadSceneMode.Additive);
     }
 }

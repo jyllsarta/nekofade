@@ -53,7 +53,6 @@ public class CharacterEmotionController : MonoBehaviour {
 
     void Start()
     {
-        limit = -1;
     }
 
     void Update()

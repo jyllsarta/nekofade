@@ -313,7 +313,7 @@ public class ActionStore : MonoBehaviour{
                 description = "ターン終了時にMPを回復。残りMPが少ないほど効果的。";
                 waitTime = 19;
                 cost = 20;
-                effects.Add(new Effect(ME, power, Buff.BuffID.AUTO_SHIELD));
+                effects.Add(new Effect(ME, power, Buff.BuffID.REGENERATE_MP));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "集霊":
                 description = "MPを40回復する。";
