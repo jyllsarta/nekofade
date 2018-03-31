@@ -65,17 +65,17 @@ public class Timeline : MonoBehaviour{
     }
 
     //frame時刻になんかアクションある?
-    public EnemyAction getEnemyActionByFrame(int frame)
+    public List<EnemyAction> getEnemyActionByFrame(int frame)
     {
+        List<EnemyAction> ea = new List<EnemyAction>();
         foreach (EnemyAction a in currentEnemyActions)
         {
             if (a.frame == frame)
             {
-                return a;
+                ea.Add(a);
             }
         }
-        //なんにもないときにはnull返しちゃう
-        return null;
+        return ea;
     }
 
     //この戦闘で経過した総フレーム数

@@ -324,10 +324,8 @@ public class Battle : MonoBehaviour {
         return finalDamage;
     }
 
-    void resolveDamage(BattleCharacter actor, ref BattleCharacter target, int damage)
+    public void playDamageEffect(int damage, BattleCharacter target)
     {
-        target.hp -= damage;
-        //エフェクトの再生
         DamageEffect createdDamageEffect = Instantiate(damageEffect, target.transform);
         createdDamageEffect.damageText.text = damage.ToString();
         createdDamageEffect.transform.position = target.transform.position;
@@ -340,6 +338,14 @@ public class Battle : MonoBehaviour {
         {
             target.setEmotion("damage", 60);
         }
+
+    }
+
+    void resolveDamage(BattleCharacter actor, ref BattleCharacter target, int damage)
+    {
+        target.hp -= damage;
+        //エフェクトの再生
+        playDamageEffect(damage,target);
     }
 
     void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
@@ -746,8 +752,8 @@ public class Battle : MonoBehaviour {
             consumeAction(a, ActorType.PLAYER);
         }
         //敵行動
-        EnemyAction ea = timeline.getEnemyActionByFrame(timeline.currentFrame);
-        if (ea != null)
+        List<EnemyAction> enemyActionList = timeline.getEnemyActionByFrame(timeline.currentFrame);
+        foreach (EnemyAction ea in enemyActionList)
         {
             int enemyIndex = getEnemyIndexByHashCode(ea.actorHash);
             //死んでなかったらやる
@@ -757,7 +763,7 @@ public class Battle : MonoBehaviour {
             }
             else
             {
-                Debug.LogFormat("{0}番目の敵は死んでるのでアクションを実行しませんでした",enemyIndex);
+                Debug.LogFormat("{0}番目の敵は死んでるのでアクションを実行しませんでした", enemyIndex);
             }
         }
         if (timeline.currentFrame == timeline.framesPerTurn)
@@ -830,9 +836,23 @@ public class Battle : MonoBehaviour {
         {
             PlayableEffect pe = effectList.First.Value;
             effectList.RemoveFirst();
-            consumeEffect(pe);
-            remainingEffectAnimationframes = pe.blockingFrames;
+            //エフェクト再生しようとするけど死んでる敵のものは再生しない
+            //自分→敵の順に行動するから味方側は考慮する必要なし
+            if (pe.actortype == ActorType.ENEMY && enemies[pe.actorIndex].isDead())
+            {
+                Debug.Log("ちょうど死んだ敵なのでパスしました");
+            }
+            else
+            {
+                consumeEffect(pe);
+                remainingEffectAnimationframes = pe.blockingFrames;
+            }
         }
+    }
+
+    bool isTurnEndConditionSatisfied()
+    {
+        return timeline.currentFrame >= timeline.framesPerTurn && effectList.Count == 0;
     }
 
     // Update is called once per frame
@@ -846,7 +866,7 @@ public class Battle : MonoBehaviour {
         {
             case GameState.PLAYER_THINK:
                 break;
-            case GameState.TURN_PROCEEDING:
+            case GameState.TURN_PROCEEDING://プレイヤーのアクション消化中
                 timeline.proceed(); //これだと0フレーム目にアクションおかれたらすかされる 大丈夫か検討
                 //呪文詠唱中だったら表情替える
                 if (timeline.isPlayerSpellAriaing())
@@ -861,9 +881,10 @@ public class Battle : MonoBehaviour {
                 triggerEveryCharacterEveryFrameEffect();
                 proceedEveryCharactersBuffState();
                 //最後のフレームで再生中エフェクトが無くなったらターン終わり
-                if (timeline.currentFrame >= timeline.framesPerTurn && effectList.Count == 0)
+                if (isTurnEndConditionSatisfied())
                 {
                     triggerEveryCharacterTurnEndEffect();
+                    removeDeadEnemyFromScene();
                     onTurnStart();
                 }
                 break;

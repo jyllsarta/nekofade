@@ -356,6 +356,7 @@ public class BattleCharacter : MonoBehaviour {
             //Debug.Log(string.Format("{0}は毒で{1}ダメージ!", characterName, 20 * poison_count));
             setEmotion("damage",90);
             hp -= 10 * poison_count;
+            battle.playDamageEffect(10 * poison_count, this);
         }
         //闇侵食
         int erosion_count = getBuffCount(Buff.BuffID.DARK_EROSION);
@@ -364,6 +365,7 @@ public class BattleCharacter : MonoBehaviour {
             Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 25 * erosion_count));
             setEmotion("damage", 90);
             hp -= 20 * erosion_count;
+            battle.playDamageEffect(20 * erosion_count, this);
         }
         //残像
         int shield_count = getBuffCount(Buff.BuffID.AUTO_SHIELD);
