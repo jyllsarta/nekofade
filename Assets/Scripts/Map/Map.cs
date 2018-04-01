@@ -16,6 +16,13 @@ public class Map : MonoBehaviour {
     public SirokoStats status;
     public SirokoStats status_default;
 
+    public DamageEffect healEffect;
+
+    //オブジェクト発生位置指定用
+    public NumeratableText hpValue;
+    public NumeratableText mpValue;
+
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -28,9 +35,23 @@ public class Map : MonoBehaviour {
     }
 
 
+    //1マス移動ぶんの回復を適用
+    public void applyMoveHealing()
+    {
+        int hpHealValue = 50;
+        status.healHp(hpHealValue);
+        DamageEffect createdHpEffect = Instantiate<DamageEffect>(healEffect, hpValue.transform);
+        createdHpEffect.damageText.text = hpHealValue.ToString();
+
+        int mpHealValue = status.magicCapacity*5+10;
+        status.healMp(mpHealValue);
+        DamageEffect createdMpEffect = Instantiate<DamageEffect>(healEffect, mpValue.transform);
+        createdMpEffect.transform.Translate(new Vector3(0, 50, 0));
+        createdMpEffect.damageText.text = mpHealValue.ToString();
+    }
     public void setCurrentPoint(MapPoint p)
     {
-        status.applyMoveHealing();
+        applyMoveHealing();
         currentPoint = p;
         sirokoillust.destination = p;
         p.startEvent(); //TODO 到着時にイベント発火のがいいのでは

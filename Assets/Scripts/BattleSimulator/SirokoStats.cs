@@ -39,24 +39,27 @@ public class SirokoStats : MonoBehaviour{
         this.maxMp = magicCapacity * 40 + 100;
     }
 
-    //1マス移動ぶんの回復を適用
-    public void applyMoveHealing()
+    public void healHp(int value)
     {
         if (hp < maxHp)
         {
-            hp += 50;
+            hp += value;
             if (hp > maxHp)
             {
                 hp = maxHp;
             }
         }
+    }
+    public void healMp(int value)
+    {
         if (mp < maxMp)
         {
-            mp += (magicCapacity*2+10);
+            mp += value;
             if (mp > maxMp)
             {
                 mp = maxMp;
             }
         }
     }
+
 }
