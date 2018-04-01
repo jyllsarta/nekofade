@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Map : MonoBehaviour {
 
@@ -39,15 +40,21 @@ public class Map : MonoBehaviour {
     public void applyMoveHealing()
     {
         int hpHealValue = 50;
-        status.healHp(hpHealValue);
-        DamageEffect createdHpEffect = Instantiate<DamageEffect>(healEffect, hpValue.transform);
-        createdHpEffect.damageText.text = hpHealValue.ToString();
+        if (status.hp < status.maxHp)
+        {
+            status.healHp(hpHealValue);
+            DamageEffect createdHpEffect = Instantiate<DamageEffect>(healEffect, hpValue.transform);
+            createdHpEffect.damageText.text = hpHealValue.ToString();
+        }
 
         int mpHealValue = status.magicCapacity*5+10;
-        status.healMp(mpHealValue);
-        DamageEffect createdMpEffect = Instantiate<DamageEffect>(healEffect, mpValue.transform);
-        createdMpEffect.transform.Translate(new Vector3(0, 50, 0));
-        createdMpEffect.damageText.text = mpHealValue.ToString();
+        if (status.mp   < status.maxMp)
+        {
+            status.healMp(mpHealValue);
+            DamageEffect createdMpEffect = Instantiate<DamageEffect>(healEffect, mpValue.transform);
+            createdMpEffect.transform.Translate(new Vector3(0, 50, 0));
+            createdMpEffect.damageText.text = mpHealValue.ToString();
+        }
     }
     public void setCurrentPoint(MapPoint p)
     {
@@ -78,7 +85,6 @@ public class Map : MonoBehaviour {
         List<MapPoint> p = points.FindAll(x => x.mapEvent.eventType == MapEvent.EventType.EMPTY);
         //そこから自分がいるところを削除
         p.Remove(currentPoint);
-
         //残りの場所からランダムな点を返す
         return p[Random.Range(0, p.Count)];
 
@@ -154,5 +160,10 @@ public class Map : MonoBehaviour {
     void Update()
     {
         updateAvailablePoints();
+    }
+
+    public void loadDebugBattleScene()
+    {
+        SceneManager.LoadSceneAsync("debugBattleSimulator");
     }
 }
