@@ -24,6 +24,7 @@ public class Map : MonoBehaviour {
     public NumeratableText mpValue;
 
     public StatusMenu statusMenu;
+    public Animator statusMenuAnimator;
 
     //Sceneの座標情報を読み込む
     public void loadGeometry()
@@ -159,11 +160,11 @@ public class Map : MonoBehaviour {
 
     public void showStatusMenu()
     {
-        statusMenu.gameObject.SetActive(true);
+        statusMenuAnimator.Play("showStatusMenu");
     }
     public void hideStatusMenu()
     {
-        statusMenu.gameObject.SetActive(false);
+        statusMenuAnimator.Play("hideStatusMenu");
     }
 
     // Update is called once per frame
