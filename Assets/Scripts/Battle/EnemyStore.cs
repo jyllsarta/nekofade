@@ -169,9 +169,95 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("二重障壁");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING_RANDOMSTART;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
-                createdChild.initializeParameters(2400, 40, 5, 5, 5, 5, 5);
-                
+                createdChild.initializeParameters(2400, 40, 5, 5, 5, 5, 5);                
                 createdChild.setImage("Enemy/queenNeko");
+                return createdChild;
+            //ここからイラストあり
+            case "カニちゃん":
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("爪");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(50, 40, 0, 0, 0, 4, 0);
+                createdChild.setImage("Enemy/kani");
+                return createdChild;
+            case "魔導カニちゃん":
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("静電気");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(90, 40, 0, 2, 2, 4, 0);
+                createdChild.setImage("Enemy/kani_mage");
+                return createdChild;
+            case "メカカニちゃん":
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("爪パンチ");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(160, 40, 0, 0, 0, 5, 0);
+                createdChild.setImage("Enemy/kani_white");
+                return createdChild;
+            case "ダークカニちゃんΩ":
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("爪パンチ");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(330, 40, 3, 0, 4, 7, 0);
+                createdChild.setImage("Enemy/kani_gold");
+                return createdChild;
+            case "ゴブニキ":
+                createdChild.actions.Add("打撃");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(50, 0, 0, 0, 0, 0, 0);
+                createdChild.setImage("Enemy/gob");
+                return createdChild;
+            case "ヤリゴブニキ":
+                createdChild.actions.Add("刺突");
+                createdChild.actions.Add("瞬突");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.initializeParameters(109, 0, 0, 0, 0, 1, 0);
+                createdChild.setImage("Enemy/gob_rance");
+                return createdChild;
+            case "マージゴブニキ":
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("障壁展開");
+                createdChild.actions.Add("プチ火炎");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(222, 0, 0, 2, 4, 1, 0);
+                createdChild.setImage("Enemy/gob_mage");
+                return createdChild;
+            case "ゴブニキファイター":
+                createdChild.actions.Add("魔王剣");
+                createdChild.actions.Add("瞬突");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(620, 0, 2, 2, 1, 0, 0);
+                createdChild.setImage("Enemy/gob_fighter");
+                return createdChild;
+            case "ダスティ":
+                createdChild.actions.Add("もくもく");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(101, 0, 0, 0, 0, 3, 0);
+                createdChild.setImage("Enemy/dust");
+                return createdChild;
+            case "クラウドダスティ":
+                createdChild.actions.Add("もくもく");
+                createdChild.actions.Add("もくもく");
+                createdChild.actions.Add("静電気");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(202, 0, 0, 3, 0, 3, 0);
+                createdChild.setImage("Enemy/dust_cloud");
+                return createdChild;
+            case "エレキダスティ":
+                createdChild.actions.Add("もくもく");
+                createdChild.actions.Add("もくもく");
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("もくもく");
+                createdChild.actions.Add("雷光");
+                createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(407, 0, 0, 3, 0, 3, 0);
+                createdChild.setImage("Enemy/dust_eleki");
                 return createdChild;
 
 
