@@ -783,7 +783,7 @@ public class Battle : MonoBehaviour {
         a.frame = Random.Range(1, timeline.framesPerTurn);
         a.predictedDamage = getPredictedDamage(enemy, player, a);
         a.isUpperSide = timeline.shouldBePlacedToUpperSide(a.frame);
-        timeline.addEnemyAction(a);
+        timeline.addEnemyAction(a,enemy);
     }
 
     //生きてる敵が自分の行動を積む

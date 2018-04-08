@@ -16,7 +16,7 @@ public class TimelineEnemyAction : MonoBehaviour, IPointerEnterHandler{
     //予測ダメージ量
     public TextMeshProUGUI predictDamage;
 
-    public Image character;
+    public Image image;
 
     public RectTransform spellCast;
 
@@ -45,6 +45,11 @@ public class TimelineEnemyAction : MonoBehaviour, IPointerEnterHandler{
             return;
         }
         messageArea.updateText(description);
+    }
+
+    public void setImage(Image i)
+    {
+        this.image.sprite = i.sprite;
     }
 
     public void playDeleteAnimationAndRemoveFromScene()

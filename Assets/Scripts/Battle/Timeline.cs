@@ -305,14 +305,15 @@ public class Timeline : MonoBehaviour{
         return true;
     }
 
-    public void addEnemyAction(EnemyAction a)
+    public void addEnemyAction(EnemyAction a, BattleCharacter enemy)
     {
         //アクションをプレハブから生成
         TimelineEnemyAction createdChild = Instantiate(enemyCommandInstance, enemyCommandsView.transform);
         //該当アクション用のパラメータに書き換え
         createdChild.transform.localPosition = new Vector3(a.frame * frameWidth / framesPerTurn, a.isUpperSide?0:-60 ,0);
-        //すぐ近くに既にアクションが置いてあったら下にずれる
         createdChild.actionName.text = a.actionName;
+        //画像をそのキャラのものに変更
+        createdChild.setImage(enemy.image);
 
         //詠唱中時間を表すバーを表示
         if (a.effectList.Exists(x=>x.hasAttribute(Effect.Attribute.MAGIC)))
