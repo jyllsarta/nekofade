@@ -10,7 +10,7 @@ public class Timeline : MonoBehaviour{
     public List<EnemyAction> currentEnemyActions;
     public List<TimelineAction> actionInstances;
     public List<TimelineEnemyAction> enemyActionInstances;
-    public int framesPerTurn = 60;
+    public int framesPerTurn = 30;
     public int totalFrame = 0;
 
     public TimelineAction commandInstance;

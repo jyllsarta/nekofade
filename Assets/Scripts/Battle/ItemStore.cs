@@ -45,7 +45,7 @@ public class ItemStore : MonoBehaviour{
                 return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "DCS":
                 itemName = "魔ポテトのスープ";
-                description = "【魔ポテトのスープ】HPを40回復し、200Fの間スープ状態になる。筋力Lv+3,速度Lv+3。";
+                description = "【魔ポテトのスープ】HPを40回復し、100Fの間スープ状態になる。筋力Lv+3,速度Lv+3。";
                 imagePath = "UI_Icon_FaithIslam";
                 count = 1;
                 isPassiveItem = false;
@@ -63,7 +63,7 @@ public class ItemStore : MonoBehaviour{
                 return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "無敵バリア":
                 itemName = "無敵バリア";
-                description = "【無敵バリア】60Fの間、敵からのダメージをすべて無効化するバリアを展開。";
+                description = "【無敵バリア】30Fの間、敵からのダメージをすべて無効化するバリアを展開。";
                 imagePath = "UI_Icon_Star";
                 count = 2;
                 isPassiveItem = false;
@@ -81,7 +81,7 @@ public class ItemStore : MonoBehaviour{
                 return new Item(itemName,count,isPassiveItem,description,imagePath,action);
             case "響火の符":
                 itemName = "響火の符";
-                description = "【響火の符】響火を発動。90Fの間、物理攻撃後に炎ダメージを追加。";
+                description = "【響火の符】響火を発動。45Fの間、物理攻撃後に炎ダメージを追加。";
                 imagePath = "UI_Icon_Fire";
                 count = 4;
                 isPassiveItem = false;
