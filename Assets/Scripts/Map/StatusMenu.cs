@@ -13,13 +13,26 @@ public class StatusMenu : MonoBehaviour {
     public TextMeshProUGUI currentDefence;
     public TextMeshProUGUI currentVitality;
 
+    public TextMeshProUGUI currentGold;
+
+    public SirokoStats status;
+
+    public void updateGold()
+    {
+        currentGold.text = status.gold.ToString();
+    }
+
     // Use this for initialization
     void Start () {
-		
+        status = FindObjectOfType<SirokoStats>();
+        if (!status)
+        {
+            Debug.LogWarning("ステータス掴みそこねた");
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        updateGold();
 	}
 }
