@@ -19,6 +19,8 @@ public class StatusMenu : MonoBehaviour {
 
     public BattleActionsArea actionList;
 
+    public List<TextMeshProUGUI> equips;
+
     public void updateGold()
     {
         currentGold.text = status.gold.ToString();
@@ -29,10 +31,26 @@ public class StatusMenu : MonoBehaviour {
         actionList.loadUnintaractableActions(status.actions);
     }
 
+    public void updateEquips()
+    {
+        for (int i =0;i<3;++i)
+        {
+            if (i < status.equipments.Count)
+            {
+                equips[i].text = status.equipments[i];
+            }
+            else
+            {
+                equips[i].text = "-";
+            }
+        }
+    }
+
     public void refresh()
     {
         updateGold();
         updateActionsArea();
+        updateEquips();
     }
 
     // Use this for initialization
