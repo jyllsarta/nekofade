@@ -6,16 +6,18 @@ using TMPro;
 
 public class StatusMenu : MonoBehaviour {
 
-    public TextMeshProUGUI currentStrength;
-    public TextMeshProUGUI currentIntelligence;
-    public TextMeshProUGUI currentMagicCapacity;
-    public TextMeshProUGUI currentSpeed;
-    public TextMeshProUGUI currentDefence;
-    public TextMeshProUGUI currentVitality;
+    public StatusMenuParameterUnit strength;
+    public StatusMenuParameterUnit intelligence;
+    public StatusMenuParameterUnit magicCapacity;
+    public StatusMenuParameterUnit speed;
+    public StatusMenuParameterUnit defence;
+    public StatusMenuParameterUnit vitality;
 
     public TextMeshProUGUI currentGold;
 
     public SirokoStats status;
+
+    public TextMeshProUGUI totalLevel;
 
     public BattleActionsArea actionList;
 
@@ -29,6 +31,16 @@ public class StatusMenu : MonoBehaviour {
     public void updateActionsArea()
     {
         actionList.loadUnintaractableActions(status.actions);
+    }
+
+    public void updateParameters()
+    {
+        strength.setLevel(status.getStrengthLevel());
+        intelligence.setLevel(status.getIntelligenceLevel());
+        magicCapacity.setLevel(status.getMagicCapacityLevel());
+        speed.setLevel(status.getSpeedLevel());
+        defence.setLevel(status.getDefenceLevel());
+        vitality.setLevel(status.getVitalityLevel());
     }
 
     public void updateEquips()
@@ -46,11 +58,18 @@ public class StatusMenu : MonoBehaviour {
         }
     }
 
+    public void updateTotalLevel()
+    {
+        totalLevel.text = status.getTotalLevel().ToString();
+    }
+
     public void refresh()
     {
         updateGold();
         updateActionsArea();
         updateEquips();
+        updateParameters();
+        updateTotalLevel();
     }
 
     // Use this for initialization

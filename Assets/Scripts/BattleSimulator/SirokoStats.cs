@@ -39,15 +39,65 @@ public class SirokoStats : MonoBehaviour{
         this.maxMp = magicCapacity * 40 + 100;
     }
 
+    public int getStrengthLevel()
+    {
+        int total = strength;
+        foreach (string s in equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            total += e.strength;
+        }
+        return total;
+    }
+    public int getIntelligenceLevel()
+    {
+        int total = intelligence;
+        foreach (string s in equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            total += e.intelligence;
+        }
+        return total;
+    }
+    public int getMagicCapacityLevel()
+    {
+        int total = magicCapacity;
+        foreach (string s in equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            total += e.magicCapacity;
+        }
+        return total;
+    }
     public int getSpeedLevel()
     {
         int totalSpeed = speed;
-        foreach(string s in equipments)
+        foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
             totalSpeed += e.speed;
         }
         return totalSpeed;
+    }
+    public int getDefenceLevel()
+    {
+        int total = defence;
+        foreach (string s in equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            total += e.defence;
+        }
+        return total;
+    }
+    public int getVitalityLevel()
+    {
+        int total = vitality;
+        foreach (string s in equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            total += e.vitality;
+        }
+        return total;
     }
 
     public void healHp(int value)
@@ -71,6 +121,11 @@ public class SirokoStats : MonoBehaviour{
                 mp = maxMp;
             }
         }
+    }
+
+    public int getTotalLevel()
+    {
+        return strength + intelligence + magicCapacity + speed + defence + vitality;
     }
 
 }
