@@ -161,6 +161,7 @@ public class Map : MonoBehaviour {
     public void showStatusMenu()
     {
         statusMenuAnimator.Play("showStatusMenu");
+        statusMenu.refresh();
     }
     public void hideStatusMenu()
     {

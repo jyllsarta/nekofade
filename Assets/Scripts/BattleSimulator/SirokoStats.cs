@@ -39,6 +39,17 @@ public class SirokoStats : MonoBehaviour{
         this.maxMp = magicCapacity * 40 + 100;
     }
 
+    public int getSpeedLevel()
+    {
+        int totalSpeed = speed;
+        foreach(string s in equipments)
+        {
+            Equip e = EquipStore.getEquipByName(s);
+            totalSpeed += e.speed;
+        }
+        return totalSpeed;
+    }
+
     public void healHp(int value)
     {
         if (hp < maxHp)

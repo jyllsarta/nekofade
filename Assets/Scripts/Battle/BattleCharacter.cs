@@ -227,27 +227,10 @@ public class BattleCharacter : MonoBehaviour {
                 return 1f;
         }
     }
-    //ウェイトカット率
-    public float getWaitTimeCutRate()
+
+    public static float getDefaultWaitTimeCutRate(int speedLevel)
     {
-        int spd = speed;
-        if (hasBuff(Buff.BuffID.POWERUP))
-        {
-            spd++;
-        }
-        if (hasBuff(Buff.BuffID.DCS))
-        {
-            spd += 3;
-        }
-        if (hasBuff(Buff.BuffID.SPDUP))
-        {
-            spd += 3;
-        }
-        if (spd > 9)
-        {
-            spd = 9;
-        }
-        switch (spd)
+        switch (speedLevel)
         {
             case 0:
                 return 1f;
@@ -273,6 +256,29 @@ public class BattleCharacter : MonoBehaviour {
                 Debug.LogWarning("getWaitTimeCutRateのdefault呼ばれた");
                 return 1f;
         }
+    }
+
+    //ウェイトカット率
+    public float getWaitTimeCutRate()
+    {
+        int spd = speed;
+        if (hasBuff(Buff.BuffID.POWERUP))
+        {
+            spd++;
+        }
+        if (hasBuff(Buff.BuffID.DCS))
+        {
+            spd += 3;
+        }
+        if (hasBuff(Buff.BuffID.SPDUP))
+        {
+            spd += 3;
+        }
+        if (spd > 9)
+        {
+            spd = 9;
+        }
+        return getDefaultWaitTimeCutRate(spd);
     }
     //最大防御回数 Lv3, Lv6で追加+1回
     //0123456789

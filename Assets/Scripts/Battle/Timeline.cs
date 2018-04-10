@@ -105,6 +105,7 @@ public class Timeline : MonoBehaviour{
         }
         actionInstances.Clear();
         updatePlayerThinkFinishButton();
+        actionsArea.updateState();
     }
 
     public bool isPlayerSpellAriaing()
@@ -196,6 +197,7 @@ public class Timeline : MonoBehaviour{
                 //Debug.Log(string.Format("{0} / {1}を削除したよ",a.actionName,a.GetHashCode()));
             }
         }
+        actionsArea.updateState();
     }
 
     //新しいターンにする
@@ -205,6 +207,7 @@ public class Timeline : MonoBehaviour{
         flushActions(false);
         flushEnemyActions();
         updateFramePosition();
+        actionsArea.updateState();
     }
 
     public void updateFramePosition()
@@ -253,6 +256,8 @@ public class Timeline : MonoBehaviour{
         //キャラ側のMP消費(積む前にcanPayThisでMP不足かどうかはチェック済のはず)
         siroko.payCastCost(a);
         updatePlayerThinkFinishButton();
+
+        actionsArea.updateState();
 
     }
 

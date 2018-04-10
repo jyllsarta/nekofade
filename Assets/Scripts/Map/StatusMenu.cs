@@ -17,9 +17,22 @@ public class StatusMenu : MonoBehaviour {
 
     public SirokoStats status;
 
+    public BattleActionsArea actionList;
+
     public void updateGold()
     {
         currentGold.text = status.gold.ToString();
+    }
+
+    public void updateActionsArea()
+    {
+        actionList.loadUnintaractableActions(status.actions);
+    }
+
+    public void refresh()
+    {
+        updateGold();
+        updateActionsArea();
     }
 
     // Use this for initialization
@@ -29,10 +42,10 @@ public class StatusMenu : MonoBehaviour {
         {
             Debug.LogWarning("ステータス掴みそこねた");
         }
+        refresh();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        updateGold();
 	}
 }
