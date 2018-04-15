@@ -259,8 +259,41 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.initializeParameters(407, 0, 0, 3, 0, 3, 0);
                 createdChild.setImage("Enemy/dust_eleki");
                 return createdChild;
-
-
+            case "にゃーさん":
+                createdChild.actions.Add("爪");
+                createdChild.actions.Add("ねこパンチ");
+                createdChild.actions.Add("てしてし");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(30, 0, 0, 0, 0, 1, 0);
+                createdChild.setImage("Enemy/nya");
+                return createdChild;
+            case "ブルーにゃーさん":
+                createdChild.actions.Add("爪");
+                createdChild.actions.Add("ねこパンチ");
+                createdChild.actions.Add("てしてし");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(80, 0, 1, 0, 3, 1, 0);
+                createdChild.setImage("Enemy/nya_blue");
+                return createdChild;
+            case "チャコにゃーさん":
+                createdChild.actions.Add("爪");
+                createdChild.actions.Add("するどい爪");
+                createdChild.actions.Add("ねこパンチ");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(280, 0, 2, 0, 3, 1, 0);
+                createdChild.setImage("Enemy/nya_black");
+                return createdChild;
+            case "にゃー姫":
+                createdChild.actions.Add("するどい爪");
+                createdChild.actions.Add("ねこパンチ");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(780, 0, 4, 0, 3, 1, 0);
+                createdChild.setImage("Enemy/nya_king");
+                return createdChild;
             default:
                 Debug.LogWarning("EnemyName素通りしました");
                 return createdChild;

@@ -362,10 +362,17 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 return new Action(actionName, description, waitTime, cost, effects, actor);
-            case "爪パンチ":
-                description = "爪でパンチする。両手分で二回ダメージ。";
+            case "ねこパンチ":
+                description = "ねこの本気パンチ。いたい！";
                 waitTime = 99;
-                power = 47;
+                power = 38;
+                cost = 0;
+                effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
+                return new Action(actionName, description, waitTime, cost, effects, actor);
+            case "するどい爪":
+                description = "両手でひっかいてくる。二回ダメージ。";
+                waitTime = 99;
+                power = 17;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
