@@ -31,6 +31,15 @@ public class SirokoStats : MonoBehaviour{
     //ちょい違うけどシーンの都合でこっちにあると嬉しい
     public List<string> enemies;
 
+    public enum ParameterKind{
+        STRENGTH,
+        INTELLIGENCE,
+        MAGICCAPACITY,
+        SPEED,
+        DEFENCE,
+        VITALITY,
+
+    }
 
     void Start()
     {
@@ -98,6 +107,33 @@ public class SirokoStats : MonoBehaviour{
             total += e.vitality;
         }
         return total;
+    }
+
+    public int getLevelupCost(ParameterKind kind)
+    {
+        int level = 0;
+        switch (kind)
+        {
+            case ParameterKind.STRENGTH:
+                level = strength;
+                break;
+            case ParameterKind.INTELLIGENCE:
+                level = intelligence;
+                break;
+            case ParameterKind.MAGICCAPACITY:
+                level = magicCapacity;
+                break;
+            case ParameterKind.SPEED:
+                level = speed;
+                break;
+            case ParameterKind.DEFENCE:
+                level = defence;
+                break;
+            case ParameterKind.VITALITY:
+                level = vitality;
+                break;
+        }
+        return (level+2) * 50;
     }
 
     public void healHp(int value)
