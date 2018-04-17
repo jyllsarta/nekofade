@@ -161,7 +161,12 @@ public class BattleCharacter : MonoBehaviour {
         {
             def = 9;
         }
-        switch (def)
+        return getDefaultWaitTimeCutRate(def);
+    }
+
+    public static float getDefaultDefenceCutRate(int defenceLevel)
+    {
+        switch (defenceLevel)
         {
             case 0:
                 return 0.5f;
@@ -188,6 +193,7 @@ public class BattleCharacter : MonoBehaviour {
                 return 1f;
         }
     }
+
     //恒常防御カット率
     public float getNormalCutRate()
     {
@@ -200,7 +206,11 @@ public class BattleCharacter : MonoBehaviour {
         {
             def = 9;
         }
-        switch (def)
+        return getDefaultNormalCutRate(def);
+    }
+    public static float getDefaultNormalCutRate(int defenceLevel)
+    {
+        switch (defenceLevel)
         {
             case 0:
                 return 0.0f;

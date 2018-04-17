@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class levelUpMenuParameter : MonoBehaviour {
+public class levelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
 
     public TextMeshProUGUI currentLevelText;
     public TextMeshProUGUI toLevelText;
     public TextMeshProUGUI costText;
+    public MessageArea messageArea;
 
     public List<TextMeshProUGUI> blocks;
+
+    public SirokoStats status;
+
+    public SirokoStats.ParameterKind kind;
 
     public void setLevel(int level)
     {
@@ -35,11 +41,22 @@ public class levelUpMenuParameter : MonoBehaviour {
         costText.text = cost.ToString();
     }
 
+    public void findStatus()
+    {
+        if (!status)
+        {
+            status = FindObjectOfType<SirokoStats>();
+        }
+    }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        messageArea.updateText(status.getLevelupText(kind));
+    }
 
     // Use this for initialization
     void Start () {
-		
+        findStatus();
 	}
 	
 	// Update is called once per frame

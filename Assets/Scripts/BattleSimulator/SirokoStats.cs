@@ -164,4 +164,31 @@ public class SirokoStats : MonoBehaviour{
         return strength + intelligence + magicCapacity + speed + defence + vitality;
     }
 
+    public string getLevelupText(ParameterKind kind)
+    {
+        switch (kind)
+        {
+            case ParameterKind.STRENGTH:
+                return string.Format("物理攻撃のダメージ倍率{0}%→{1}%",100+strength*40, 100 + (strength+1) * 40);
+            case ParameterKind.INTELLIGENCE:
+                return string.Format("魔法攻撃のダメージ倍率{0}%→{1}%", 100 + intelligence * 40, 100 + (intelligence + 1) * 40);
+            case ParameterKind.MAGICCAPACITY:
+                return string.Format("最大MP{0}→{1}, Lv3以上でターン終了時のMP回復量UP", 100 + magicCapacity * 40, 100 + (magicCapacity + 1) * 40);
+            case ParameterKind.SPEED:
+                return string.Format("すべての行動のWTを{0}%→{1}%カット", 100-100*BattleCharacter.getDefaultWaitTimeCutRate(speed),100- 100 * BattleCharacter.getDefaultWaitTimeCutRate(speed+1));
+            case ParameterKind.DEFENCE:
+                return string.Format("物理ダメージカット{0}%→{1}%,防御時さらに{2}%→{3}%のダメージを軽減",
+                    100 * BattleCharacter.getDefaultNormalCutRate(defence),
+                    100 * BattleCharacter.getDefaultNormalCutRate(defence+1),
+                    100 * BattleCharacter.getDefaultDefenceCutRate(defence),
+                    100 * BattleCharacter.getDefaultDefenceCutRate(defence+1)
+                    );
+            case ParameterKind.VITALITY:
+                return string.Format("最大HP{0}→{1}", 100 + vitality * 40, 100 + (vitality + 1) * 40);
+            default:
+                return "";
+        }
+
+    }
+
 }
