@@ -63,7 +63,8 @@ public class Map : MonoBehaviour {
         applyMoveHealing();
         currentPoint = p;
         sirokoillust.destination = p;
-        p.startEvent(); //TODO 到着時にイベント発火のがいいのでは
+        sirokoillust.anim.Play("MapSirokoJump");
+        p.startEvent();
     }
 
     void updateAvailablePoints()
