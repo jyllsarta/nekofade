@@ -31,6 +31,7 @@ public class SirokoStats : MonoBehaviour{
     //ちょい違うけどシーンの都合でこっちにあると嬉しい
     public List<string> enemies;
 
+    [System.Serializable]
     public enum ParameterKind{
         STRENGTH,
         INTELLIGENCE,
@@ -133,7 +134,69 @@ public class SirokoStats : MonoBehaviour{
                 level = vitality;
                 break;
         }
-        return (level+2) * 50;
+        return (level + 2) * 50;
+    }
+
+    public int getLevel(ParameterKind kind)
+    {
+        switch (kind)
+        {
+            case ParameterKind.STRENGTH:
+                return strength;
+            case ParameterKind.INTELLIGENCE:
+                return intelligence;
+            case ParameterKind.MAGICCAPACITY:
+                return magicCapacity;
+            case ParameterKind.SPEED:
+                return speed;
+            case ParameterKind.DEFENCE:
+                return defence;
+            case ParameterKind.VITALITY:
+                return vitality;
+        }
+        return 0;
+    }
+
+    public bool canLevelUp(ParameterKind kind)
+    {
+        return getLevel(kind) < 5 && getLevelupCost(kind) <= gold;
+    }
+
+    public void levelUp(ParameterKind kind)
+    {
+        int cost = getLevelupCost(kind);
+        if (cost > gold)
+        {
+            Debug.Log("払えないよ");
+            return;
+        }
+        if (getLevel(kind) >= 5)
+        {
+            Debug.Log("もうマックスだよ");
+            return;
+        }
+        gold -= cost;
+        switch (kind)
+        {
+            case ParameterKind.STRENGTH:
+                strength++;
+                break;
+            case ParameterKind.INTELLIGENCE:
+                intelligence++;
+                break;
+            case ParameterKind.MAGICCAPACITY:
+                magicCapacity++;
+                break;
+            case ParameterKind.SPEED:
+                speed++;
+                break;
+            case ParameterKind.DEFENCE:
+                defence++;
+                break;
+            case ParameterKind.VITALITY:
+                vitality++;
+                break;
+        }
     }
 
     public void healHp(int value)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class levelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
 
@@ -16,6 +17,8 @@ public class levelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
     public SirokoStats status;
 
     public SirokoStats.ParameterKind kind;
+
+    public Button button;
 
     public void setLevel(int level)
     {
@@ -36,6 +39,12 @@ public class levelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
         toLevelText.text = level == 5 ? "-" : (level+1).ToString();
     }
 
+    public void levelUp()
+    {
+        status.levelUp(kind);
+    }
+
+
     public void setCost(int cost)
     {
         costText.text = cost.ToString();
@@ -47,6 +56,11 @@ public class levelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
         {
             status = FindObjectOfType<SirokoStats>();
         }
+    }
+
+    public void setButtonState(bool state)
+    {
+        button.interactable = state;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

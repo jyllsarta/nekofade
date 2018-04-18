@@ -11,8 +11,10 @@ public class levelUpMenu : MonoBehaviour {
     public levelUpMenuParameter speed;
     public levelUpMenuParameter defence;
     public levelUpMenuParameter vitality;
+    public NumeratableText golds;
 
     public SirokoStats status;
+    public StatusMenu statusMenu;
 
     public void showLevelUpMenu()
     {
@@ -37,6 +39,10 @@ public class levelUpMenu : MonoBehaviour {
     public void refresh()
     {
         findStatus();
+
+        golds.numerate(status.gold);
+        statusMenu.refresh();
+
         strength.setLevel(status.strength);
         intelligence.setLevel(status.intelligence);
         magicCapacity.setLevel(status.magicCapacity);
@@ -49,7 +55,14 @@ public class levelUpMenu : MonoBehaviour {
         speed.setCost(status.getLevelupCost(SirokoStats.ParameterKind.SPEED));
         defence.setCost(status.getLevelupCost(SirokoStats.ParameterKind.DEFENCE));
         vitality.setCost(status.getLevelupCost(SirokoStats.ParameterKind.VITALITY));
+        strength.setButtonState(status.canLevelUp(SirokoStats.ParameterKind.STRENGTH));
+        intelligence.setButtonState(status.canLevelUp(SirokoStats.ParameterKind.INTELLIGENCE));
+        magicCapacity.setButtonState(status.canLevelUp(SirokoStats.ParameterKind.MAGICCAPACITY));
+        speed.setButtonState(status.canLevelUp(SirokoStats.ParameterKind.SPEED));
+        defence.setButtonState(status.canLevelUp(SirokoStats.ParameterKind.DEFENCE));
+        vitality.setButtonState(status.canLevelUp(SirokoStats.ParameterKind.VITALITY));
     }
+
 
     // Use this for initialization
     void Start () {
