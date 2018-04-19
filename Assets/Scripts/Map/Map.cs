@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Map : MonoBehaviour {
 
@@ -22,6 +23,8 @@ public class Map : MonoBehaviour {
     //オブジェクト発生位置指定用
     public NumeratableText hpValue;
     public NumeratableText mpValue;
+
+    public TextMeshProUGUI clock;
 
     //Sceneの座標情報を読み込む
     public void loadGeometry()
@@ -57,6 +60,8 @@ public class Map : MonoBehaviour {
     }
     public void setCurrentPoint(MapPoint p)
     {
+        status.tick();
+        clock.text = status.clock.ToString();
         applyMoveHealing();
         currentPoint = p;
         sirokoillust.destination = p;

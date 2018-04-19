@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class levelUpMenu : UIMenu {
 
@@ -11,6 +12,8 @@ public class levelUpMenu : UIMenu {
     public levelUpMenuParameter defence;
     public levelUpMenuParameter vitality;
     public NumeratableText golds;
+
+    public TextMeshProUGUI totalLevel;
 
     public SirokoStats status;
     public StatusMenu statusMenu;
@@ -29,6 +32,7 @@ public class levelUpMenu : UIMenu {
 
         golds.numerate(status.gold);
         statusMenu.refresh();
+        totalLevel.text = status.getTotalLevel().ToString();
 
         strength.setLevel(status.strength);
         intelligence.setLevel(status.intelligence);

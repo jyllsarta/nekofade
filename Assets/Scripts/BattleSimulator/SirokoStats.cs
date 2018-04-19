@@ -19,6 +19,9 @@ public class SirokoStats : MonoBehaviour{
     //所持金
     public int gold;
 
+    //かけた時間
+    public int clock;
+
     //装備
     public List<string> equipments;
     //技リスト
@@ -47,6 +50,7 @@ public class SirokoStats : MonoBehaviour{
         DontDestroyOnLoad(this);
         this.maxHp = vitality * 40 + 100;
         this.maxMp = magicCapacity * 40 + 100;
+        clock = 0;
     }
 
     public int getStrengthLevel()
@@ -251,7 +255,11 @@ public class SirokoStats : MonoBehaviour{
             default:
                 return "";
         }
+    }
 
+    public void tick()
+    {
+        clock++;
     }
 
 }
