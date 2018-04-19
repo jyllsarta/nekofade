@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class levelUpMenu : MonoBehaviour {
+public class levelUpMenu : UIMenu {
 
-    public Animator animator;
     public levelUpMenuParameter strength;
     public levelUpMenuParameter intelligence;
     public levelUpMenuParameter magicCapacity;
@@ -15,18 +14,6 @@ public class levelUpMenu : MonoBehaviour {
 
     public SirokoStats status;
     public StatusMenu statusMenu;
-
-    public void showLevelUpMenu()
-    {
-        refresh();
-        gameObject.SetActive(true);
-    }
-
-    public void hideLevelUpMenu()
-    {
-        gameObject.SetActive(false);
-    }
-
 
     public void findStatus()
     {

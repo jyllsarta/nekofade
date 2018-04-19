@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class StatusMenu : MonoBehaviour {
+public class StatusMenu : UIMenu {
 
     public StatusMenuParameterUnit strength;
     public StatusMenuParameterUnit intelligence;
