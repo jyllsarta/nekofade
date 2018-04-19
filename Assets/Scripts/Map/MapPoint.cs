@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MapPoint : MonoBehaviour {
 
     public Image image;
+    public Image floor;
     public RectTransform pos;
     public bool isMoveAbailable;
     public Map map;
@@ -23,12 +24,14 @@ public class MapPoint : MonoBehaviour {
         if (isAvailable)
         {
             this.isMoveAbailable = true;
-            image.color = new Color(0.8f, 0.8f, 1f, 1f);
+            image.color = new Color(1f, 1f, 1f, 1f);
+            floor.color = new Color(1f, 1f, 1f, 1f);
         }
         else
         {
             this.isMoveAbailable = false;
             image.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+            floor.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         }
     }
 
@@ -51,6 +54,7 @@ public class MapPoint : MonoBehaviour {
         string path = resourcePath;
         Sprite s = Resources.Load<Sprite>(path);
         image.sprite = s;
+        image.enabled = true;
     }
 
     public void startEvent()
@@ -60,7 +64,7 @@ public class MapPoint : MonoBehaviour {
         if (mapEvent.eventType != MapEvent.EventType.STORE)
         {
             mapEvent = new MapEvent();
-            setImage("SimpleVectorIcons/UI_Icon_BtnPsCircle");
+            image.enabled = false;
         }
     }
 

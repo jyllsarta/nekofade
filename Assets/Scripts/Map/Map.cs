@@ -121,13 +121,13 @@ public class Map : MonoBehaviour {
     {
         MapPoint p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(30, status);
-        p.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        p.setImage("etc/mapgold");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(5, status);
-        p.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        p.setImage("etc/mapgold");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(200, status);
-        p.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        p.setImage("etc/mapgold");
     }
 
 
