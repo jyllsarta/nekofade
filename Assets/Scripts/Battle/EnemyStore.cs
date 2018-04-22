@@ -141,7 +141,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.initializeParameters(700, 0, 3, 0, 2, 3, 0);
                 createdChild.setImage("Enemy/queenNeko");
                 return createdChild;
-            case "妖精":
+            case "old__妖精":
                 createdChild.actions.Add("静電気");
                 createdChild.actions.Add("プチ火炎");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
@@ -293,6 +293,41 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(780, 0, 4, 0, 3, 1, 0);
                 createdChild.setImage("Enemy/nya_king");
+                return createdChild;
+            case "妖精":
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("プチ火炎");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(50, 40, 0, 1, 1, 0, 0);
+                createdChild.setImage("Enemy/faily");
+                return createdChild;
+            case "本妖精":
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("プチ火炎");
+                createdChild.actions.Add("てしてし");
+                createdChild.actions.Add("大凍結");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(240, 40, 0, 0, 1, 1, 0);
+                createdChild.setImage("Enemy/faily_book");
+                return createdChild;
+            case "鍵妖精":
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("静電気");
+                createdChild.actions.Add("プチ火炎");
+                createdChild.actions.Add("てしてし");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
+                createdChild.initializeParameters(120, 40, 0, 4, 5, 1, 0);
+                createdChild.setImage("Enemy/faily_eleki");
+                return createdChild;
+            case "妖精姫":
+                createdChild.actions.Add("プチ火炎");
+                createdChild.actions.Add("大凍結");
+                createdChild.routine = BattleCharacter.RoutineType.RANDOM;
+                createdChild.initializeParameters(380, 40, 0, 2, 2, 1, 0);
+                createdChild.setImage("Enemy/faily_queen");
                 return createdChild;
             default:
                 Debug.LogWarning("EnemyName素通りしました");

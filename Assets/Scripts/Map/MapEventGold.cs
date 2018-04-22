@@ -19,4 +19,6 @@ public class MapEventGold : MapEvent {
         status.gold += amount;
     }
 
+
+    
 }
