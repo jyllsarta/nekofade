@@ -19,6 +19,8 @@ public class Battle : MonoBehaviour {
     public BattleActionsArea actionButtonArea;
     public MessageArea messageArea;
     public BattleItem itemPrefab;
+    public UIMenu battleResult;
+    public UIMenu gameOver;
     //他シーンからの呼び出しがあった場合
     //EventSystemが二つ以上発生してしまうので
     //自分のは持たずシーンロード時になかったら置く
@@ -59,6 +61,7 @@ public class Battle : MonoBehaviour {
         TURN_PROCEEDING,
         EFFECT_WAITING,
         ITEM_EFFECT_WAITING,
+        BATTLE_FINISHED,
     }
 
     public enum ActorType
@@ -174,9 +177,10 @@ public class Battle : MonoBehaviour {
         //status.items = items;
         status.mp = player.mp;
         status.hp = player.hp;
+        status.addTurnCount(turnCount);
     }
 
-    void backToPreviousScene()
+    public void backToPreviousScene()
     {
         //マップ画面経由で呼び出されたバトルの場合には自身を削除してマップ画面に戻る
         if (SceneManager.GetSceneByName("map").isLoaded)
@@ -190,6 +194,11 @@ public class Battle : MonoBehaviour {
         {
             SceneManager.LoadScene("debugBattleSimulator");
         }
+    }
+
+    public void onGameOver()
+    {
+        SceneManager.LoadSceneAsync("title");
     }
 
     //復活の御魂を使用
@@ -217,12 +226,14 @@ public class Battle : MonoBehaviour {
                 return;
             }
             //負けの状態で戻る
-            backToPreviousScene();
+            gameOver.show();
+            currentGameState = GameState.BATTLE_FINISHED;
         }
         //敵を全滅させたら勝ち
         if (enemies.TrueForAll((e)=>e.isDead()))
         {
-            backToPreviousScene();
+            battleResult.show();
+            currentGameState = GameState.BATTLE_FINISHED;
         }
 
     }
@@ -921,6 +932,8 @@ public class Battle : MonoBehaviour {
                     actionButtonArea.updateActionWaitTime();
                     currentGameState = GameState.PLAYER_THINK;
                 }
+                break;
+            case GameState.BATTLE_FINISHED:
                 break;
         }
     }

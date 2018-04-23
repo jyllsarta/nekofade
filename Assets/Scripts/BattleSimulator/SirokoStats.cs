@@ -261,5 +261,9 @@ public class SirokoStats : MonoBehaviour{
     {
         clock++;
     }
+    public void addTurnCount(int count)
+    {
+        clock += count;
+    }
 
 }
