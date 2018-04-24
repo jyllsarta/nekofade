@@ -55,6 +55,9 @@ public class Battle : MonoBehaviour {
     //今なんターン目？(timelineとどっちが持つべきだろう)
     public int turnCount;
 
+    //報酬一覧
+    public BattleRewardsArea rewards;
+
     public enum GameState
     {
         PLAYER_THINK,
@@ -91,6 +94,7 @@ public class Battle : MonoBehaviour {
             Instantiate(cameraPrefab);
         }
         player.setEmotion("doya", 180);
+        rewards.refresh();
     }
 
     //リストの内容に従って敵を置く
@@ -178,6 +182,22 @@ public class Battle : MonoBehaviour {
         status.mp = player.mp;
         status.hp = player.hp;
         status.addTurnCount(turnCount);
+        //reward回収
+        foreach (BattleReward reward in rewards.rewards)
+        {
+            switch (reward.rewardType)
+            {
+                case BattleReward.RewardType.GOLD:
+                    status.gold += reward.amount;
+                    break;
+                case BattleReward.RewardType.EQUIP:
+                    Debug.Log("装備落とすのは未実装");
+                    break;
+                case BattleReward.RewardType.ITEM:
+                    Debug.Log("アイテム落とすのは未実装");
+                    break;
+            }
+        }
     }
 
     public void backToPreviousScene()
@@ -828,6 +848,7 @@ public class Battle : MonoBehaviour {
             {
                 timeline.removeEnemyActionByHash(enemy.GetHashCode());
                 enemy.playDeathAnimationThenRemoveFromScene();
+                rewards.addReward(BattleReward.RewardType.GOLD, enemy.rewardGold);
             }
         }
         enemies.RemoveAll(x => x.isDead());
@@ -934,6 +955,7 @@ public class Battle : MonoBehaviour {
                 }
                 break;
             case GameState.BATTLE_FINISHED:
+                removeDeadEnemyFromScene();
                 break;
         }
     }

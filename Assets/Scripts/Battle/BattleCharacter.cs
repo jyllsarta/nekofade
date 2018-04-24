@@ -29,6 +29,9 @@ public class BattleCharacter : MonoBehaviour {
     public int currentActionPosition;
     public RoutineType routine;
 
+    //倒した時落とす金額
+    public int rewardGold;
+
     //今かかってる効果一覧
     public List<Buff> buffs;
 
