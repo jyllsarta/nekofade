@@ -100,20 +100,36 @@ public class Map : MonoBehaviour {
     {
         //TODO 敵をきまりにしたがって置く
         MapPoint p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "野うさぎ" }, status);
-        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ゴブニキ" }, status);
+        p.setImage("Enemy/gob");
 
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "ヒグマ" }, status);
-        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ゴブニキ", "ゴブニキ" }, status);
+        p.setImage("Enemy/gob");
 
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "野うさぎ", "野うさぎ" }, status);
-        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ヤリゴブニキ", "ゴブニキ" }, status);
+        p.setImage("Enemy/gob_rance");
 
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "野うさぎ", "スケルトン" }, status);
-        p.setImage("Enemy/kani"); //TODO 雑魚/ボスの敵アイコン
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ダスティ" }, status);
+        p.setImage("Enemy/dust");
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "にゃーさん" }, status);
+        p.setImage("Enemy/nya");
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ブルーにゃーさん" }, status);
+        p.setImage("Enemy/nya_blue");
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "妖精", "ゴブニキ" }, status);
+        p.setImage("Enemy/faily");
+
+        p = findEmptyMapPoint();
+        p.mapEvent = new MapEventEnemy(new List<string>() { "妖精", "妖精", "妖精"}, status);
+        p.setImage("Enemy/faily");
 
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventEnemy(new List<string>() { "魔王" }, status);
