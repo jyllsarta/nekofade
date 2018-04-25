@@ -65,6 +65,10 @@ public class StatusMenu : UIMenu {
 
     public void refresh()
     {
+        if (!status)
+        {
+            status = FindObjectOfType<SirokoStats>();
+        }
         updateGold();
         updateActionsArea();
         updateEquips();
