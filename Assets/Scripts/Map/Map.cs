@@ -26,6 +26,9 @@ public class Map : MonoBehaviour {
 
     public TextMeshProUGUI clock;
 
+    public GetGoldEffect getGoldEffect;
+    public GameObject canvas;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -41,7 +44,7 @@ public class Map : MonoBehaviour {
     //1マス移動ぶんの回復を適用
     public void applyMoveHealing()
     {
-        int hpHealValue = 50;
+        int hpHealValue = 30;
         if (status.hp < status.maxHp)
         {
             status.healHp(hpHealValue);
@@ -49,7 +52,7 @@ public class Map : MonoBehaviour {
             createdHpEffect.damageText.text = hpHealValue.ToString();
         }
 
-        int mpHealValue = status.magicCapacity*5+10;
+        int mpHealValue = status.magicCapacity*2+5;
         if (status.mp   < status.maxMp)
         {
             status.healMp(mpHealValue);
@@ -82,6 +85,13 @@ public class Map : MonoBehaviour {
                 p.setMoveAvailableState(false);
             }
         }
+    }
+
+    public void playGetGoldEffect(int amount)
+    {
+        GetGoldEffect created = Instantiate(getGoldEffect, canvas.transform);
+        created.set(amount);
+        created.transform.position = sirokoillust.transform.position;
     }
 
     public MapPoint findEmptyMapPoint()
@@ -141,13 +151,13 @@ public class Map : MonoBehaviour {
     public void putGolds()
     {
         MapPoint p = findEmptyMapPoint();
-        p.mapEvent = new MapEventGold(30, status);
+        p.mapEvent = new MapEventGold(30, status, this);
         p.setImage("etc/mapgold");
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventGold(5, status);
+        p.mapEvent = new MapEventGold(5, status, this);
         p.setImage("etc/mapgold");
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventGold(200, status);
+        p.mapEvent = new MapEventGold(200, status, this);
         p.setImage("etc/mapgold");
     }
 
