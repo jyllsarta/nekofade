@@ -13,6 +13,9 @@ public class Map : MonoBehaviour {
     public float distance;
     public MapSirokoIllust sirokoillust;
 
+    public MapPoint goalPoint;
+    public MapPoint bossPoint;
+
     public MapEventEnemy enemyEventPrefab;
 
     public SirokoStats status;
@@ -28,6 +31,7 @@ public class Map : MonoBehaviour {
 
     public GetGoldEffect getGoldEffect;
     public GameObject canvas;
+    public DialogMenu dialog;
 
     //Sceneの座標情報を読み込む
     public void loadGeometry()
@@ -108,7 +112,12 @@ public class Map : MonoBehaviour {
     //しろこのいないとこに適当に敵を撒く
     public void putEnemies()
     {
-        //TODO 敵をきまりにしたがって置く
+        bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王" }, status);
+        bossPoint.setImage("Enemy/kingNeko"); 
+
+        goalPoint.mapEvent = new MapEventGoal(this, dialog);
+        goalPoint.setImage("SimpleVectorIcons/UI_Icon_InputJoystick");
+
         MapPoint p = findEmptyMapPoint();
         p.mapEvent = new MapEventEnemy(new List<string>() { "ゴブニキ" }, status);
         p.setImage("Enemy/gob");
@@ -141,9 +150,6 @@ public class Map : MonoBehaviour {
         p.mapEvent = new MapEventEnemy(new List<string>() { "妖精", "妖精", "妖精"}, status);
         p.setImage("Enemy/faily");
 
-        p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "魔王" }, status);
-        p.setImage("Enemy/kingNeko"); //TODO 雑魚/ボスの敵アイコン
 
     }
 
@@ -184,7 +190,6 @@ public class Map : MonoBehaviour {
         putEnemies();
         putGolds();
         DontDestroyOnLoad(status);
-
     }
 
     // Update is called once per frame

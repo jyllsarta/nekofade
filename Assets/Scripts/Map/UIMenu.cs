@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIMenu : MonoBehaviour {
 
     public Animator animator;
+    public IUIMenuAction closeHandler;
 
     public void show()
     {
@@ -15,6 +16,10 @@ public class UIMenu : MonoBehaviour {
     public void hide()
     {
         gameObject.SetActive(false);
+        if (closeHandler != null)
+        {
+            closeHandler.OnClose();
+        }
         //animator.Play("hide");
     }
 }
