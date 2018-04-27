@@ -48,9 +48,14 @@ public class SirokoStats : MonoBehaviour{
     void Start()
     {
         DontDestroyOnLoad(this);
+        refreshParameters();
+        clock = 0;
+    }
+
+    public void refreshParameters()
+    {
         this.maxHp = vitality * 40 + 100;
         this.maxMp = magicCapacity * 40 + 100;
-        clock = 0;
     }
 
     public int getStrengthLevel()
@@ -180,6 +185,7 @@ public class SirokoStats : MonoBehaviour{
             return;
         }
         gold -= cost;
+
         switch (kind)
         {
             case ParameterKind.STRENGTH:
@@ -201,6 +207,18 @@ public class SirokoStats : MonoBehaviour{
                 vitality++;
                 break;
         }
+        //パラメータ直接上昇系のやつは増えた分を即時反映
+        if (kind == ParameterKind.MAGICCAPACITY)
+        {
+            refreshParameters();
+            healMp(40);
+        }
+        if (kind == ParameterKind.VITALITY)
+        {
+            refreshParameters();
+            healHp(40);
+        }
+
     }
 
     public void healHp(int value)
