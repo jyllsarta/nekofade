@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
 public class MapEventEnemy : MapEvent {
 
     List<string> enemies;
@@ -13,6 +14,7 @@ public class MapEventEnemy : MapEvent {
         this.enemies = enemies;
         this.status = status;
         this.eventType = EventType.ENEMY;
+        Debug.Log(this.eventType);
     }
 
     public override void startEvent()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class MapPoint : MonoBehaviour {
 
     public Image image;
@@ -73,7 +74,6 @@ public class MapPoint : MonoBehaviour {
     void Start () {
         setMoveAvailableState(false);
         map = FindObjectOfType<Map>();
-        this.mapEvent = new MapEvent();
 	}
 	
 	// Update is called once per frame

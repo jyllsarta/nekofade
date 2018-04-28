@@ -113,7 +113,7 @@ public class Map : MonoBehaviour {
     public void putEnemies()
     {
         bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王" }, status);
-        bossPoint.setImage("Enemy/kingNeko"); 
+        bossPoint.setImage("Enemy/kingNeko");
 
         goalPoint.mapEvent = new MapEventGoal(this, dialog);
         goalPoint.setImage("SimpleVectorIcons/UI_Icon_InputJoystick");
@@ -190,12 +190,14 @@ public class Map : MonoBehaviour {
         putEnemies();
         putGolds();
         DontDestroyOnLoad(status);
+        Debug.Log(bossPoint.mapEvent.eventType);
     }
 
     // Update is called once per frame
     void Update()
     {
         updateAvailablePoints();
+        Debug.Log(bossPoint.mapEvent.eventType);
     }
 
     public void loadDebugBattleScene()

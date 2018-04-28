@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
 public class MapEventGoal : MapEvent, IUIMenuAction
 {
 
@@ -18,6 +19,7 @@ public class MapEventGoal : MapEvent, IUIMenuAction
 
     public override void startEvent()
     {
+        Debug.Log("ゴールのイベント発生");
         dialog.show();
         dialog.setTitle("win!");
         dialog.setText("魔王に勝利した！やったー！");

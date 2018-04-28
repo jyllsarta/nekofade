@@ -22,9 +22,5 @@ public class MapEvent{
     {
     } 
 
-    public MapEvent()
-    {
-        this.eventType = EventType.EMPTY;
-    }
 
 }

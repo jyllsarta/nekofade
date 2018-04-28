@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class MapEventGold : MapEvent {
     int amount;
     SirokoStats status;
