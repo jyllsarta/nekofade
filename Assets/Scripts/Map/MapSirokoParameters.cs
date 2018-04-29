@@ -11,8 +11,36 @@ public class MapSirokoParameters : MonoBehaviour {
 
     public SirokoStats status;
 
+    public BattleItem itemPrefab;
+    public GameObject itemsContainer;
+    public MessageArea messageArea;
+
     void Start()
     {
+    }
+
+    //リストに従ってアイテムを置く
+    public void setItems()
+    {
+
+        foreach (Transform n in this.itemsContainer.transform)
+        {
+            Destroy(n.gameObject);
+        }
+
+        foreach (string s in status.items)
+        {
+            Item item = ItemStore.getItemByName(s);
+            BattleItem created = Instantiate<BattleItem>(itemPrefab, itemsContainer.transform);
+            created.setItem(item);
+            created.messageArea = messageArea;
+        }
+
+    }
+
+    public void refresh()
+    {
+        setItems();
     }
     
     void updateView()

@@ -12,9 +12,12 @@ public class Map : MonoBehaviour {
     public MapPoint currentPoint;
     public float distance;
     public MapSirokoIllust sirokoillust;
+    public MapSirokoParameters parameters;
 
     public MapPoint goalPoint;
     public MapPoint bossPoint;
+    public MapPoint treasurePoint_1;
+    public MapPoint treasurePoint_2;
 
     public MapEventEnemy enemyEventPrefab;
 
@@ -118,6 +121,12 @@ public class Map : MonoBehaviour {
         goalPoint.mapEvent = new MapEventGoal(this, dialog);
         goalPoint.setImage("SimpleVectorIcons/UI_Icon_InputJoystick");
 
+        treasurePoint_1.mapEvent = new MapEventTreasure(status, this, MapEventTreasure.TreasureType.ITEM, "復活の御魂");
+        treasurePoint_1.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+
+        treasurePoint_2.mapEvent = new MapEventTreasure(status, this, MapEventTreasure.TreasureType.ACTION, "癒陣");
+        treasurePoint_2.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+
         MapPoint p = findEmptyMapPoint();
         p.mapEvent = new MapEventEnemy(new List<string>() { "ゴブニキ" }, status);
         p.setImage("Enemy/gob");
@@ -182,6 +191,11 @@ public class Map : MonoBehaviour {
         }
     }
 
+    public void refreshStatusArea()
+    {
+        parameters.refresh();
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -190,14 +204,12 @@ public class Map : MonoBehaviour {
         putEnemies();
         putGolds();
         DontDestroyOnLoad(status);
-        Debug.Log(bossPoint.mapEvent.eventType);
     }
 
     // Update is called once per frame
     void Update()
     {
         updateAvailablePoints();
-        Debug.Log(bossPoint.mapEvent.eventType);
     }
 
     public void loadDebugBattleScene()

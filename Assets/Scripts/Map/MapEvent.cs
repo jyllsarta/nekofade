@@ -13,6 +13,7 @@ public class MapEvent{
         ENEMY,
         GOLD,
         STORE,
+        TREASURE,
         GOAL,
     }
 

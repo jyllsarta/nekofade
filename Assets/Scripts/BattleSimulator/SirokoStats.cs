@@ -58,6 +58,19 @@ public class SirokoStats : MonoBehaviour{
         this.maxMp = magicCapacity * 40 + 100;
     }
 
+    public void addAction(string name)
+    {
+        actions.Add(name);
+    }
+    public void addEquip(string name)
+    {
+        equipments.Add(name);
+    }
+    public void addItem(string name)
+    {
+        items.Add(name);
+    }
+
     public int getStrengthLevel()
     {
         int total = strength;

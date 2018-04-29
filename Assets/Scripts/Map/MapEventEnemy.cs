@@ -14,7 +14,6 @@ public class MapEventEnemy : MapEvent {
         this.enemies = enemies;
         this.status = status;
         this.eventType = EventType.ENEMY;
-        Debug.Log(this.eventType);
     }
 
     public override void startEvent()
