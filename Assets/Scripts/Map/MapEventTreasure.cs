@@ -6,6 +6,7 @@ public class MapEventTreasure : MapEvent, IUIMenuAction
 {
     SirokoStats status;
     Map map;
+    DialogMenu dialog;
     public enum TreasureType
     {
         ITEM,
@@ -16,18 +17,38 @@ public class MapEventTreasure : MapEvent, IUIMenuAction
     public TreasureType treasureType;
     public string treasureName;
 
-    public MapEventTreasure(SirokoStats status, Map map, TreasureType treasureType, string treasureName)
+    public MapEventTreasure(SirokoStats status, Map map, TreasureType treasureType, string treasureName, DialogMenu dialog)
     {
         this.status = status;
         this.map = map;
         this.eventType = EventType.TREASURE;
         this.treasureType = treasureType;
         this.treasureName = treasureName;
+        this.dialog = dialog;
     }
 
     public override void startEvent()
     {
         Debug.Log("宝箱！");
+        dialog.setTitle("Treasure!");
+        switch (treasureType)
+        {
+            case TreasureType.ACTION:
+                dialog.setText(string.Format("{0}の書を拾った！\nアクション{0}を習得した！",treasureName));
+                break;
+            case TreasureType.EQUIP:
+                dialog.setText(string.Format("装備 {0} を拾った！", treasureName));
+                break;
+            case TreasureType.ITEM:
+                dialog.setText(string.Format("アイテム {0} を拾った！", treasureName));
+                break;
+        }
+        dialog.closeHandler = this;
+        dialog.show();
+    }
+
+    public void OnClose()
+    {
         switch (treasureType)
         {
             case TreasureType.ACTION:
@@ -41,10 +62,5 @@ public class MapEventTreasure : MapEvent, IUIMenuAction
                 map.refreshStatusArea();
                 break;
         }
-    }
-
-    public void OnClose()
-    {
-
     }
 }

@@ -121,10 +121,10 @@ public class Map : MonoBehaviour {
         goalPoint.mapEvent = new MapEventGoal(this, dialog);
         goalPoint.setImage("SimpleVectorIcons/UI_Icon_InputJoystick");
 
-        treasurePoint_1.mapEvent = new MapEventTreasure(status, this, MapEventTreasure.TreasureType.ITEM, "復活の御魂");
+        treasurePoint_1.mapEvent = new MapEventTreasure(status, this, MapEventTreasure.TreasureType.ITEM, "復活の御魂", dialog);
         treasurePoint_1.setImage("SimpleVectorIcons/UI_Icon_Bag1");
 
-        treasurePoint_2.mapEvent = new MapEventTreasure(status, this, MapEventTreasure.TreasureType.ACTION, "癒陣");
+        treasurePoint_2.mapEvent = new MapEventTreasure(status, this, MapEventTreasure.TreasureType.ACTION, "癒陣", dialog);
         treasurePoint_2.setImage("SimpleVectorIcons/UI_Icon_Bag1");
 
         MapPoint p = findEmptyMapPoint();
