@@ -31,8 +31,8 @@ public class MapPoint : MonoBehaviour {
         else
         {
             this.isMoveAbailable = false;
-            image.color = new Color(0.5f, 0.5f, 0.5f, 1f);
-            floor.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            image.color = new Color(0.7f, 0.7f, 0.7f, 1f);
+            floor.color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
         }
     }
 
