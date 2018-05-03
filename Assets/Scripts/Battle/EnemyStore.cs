@@ -58,7 +58,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("魔王剣");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
-                createdChild.initializeParameters(1310, 10, 2, 2, 6, 3, 1);
+                createdChild.initializeParameters(666, 10, 2, 2, 6, 3, 1);
                 createdChild.rewardGold = 100;
                 createdChild.setImage("Enemy/kingNeko");
                 return createdChild;
@@ -195,7 +195,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("爪");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(50, 40, 0, 0, 0, 4, 0);
-                createdChild.rewardGold = 1;
+                createdChild.rewardGold = 25;
                 createdChild.setImage("Enemy/kani");
                 return createdChild;
             case "魔導カニちゃん":
@@ -203,31 +203,31 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("静電気");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(90, 40, 0, 2, 2, 4, 0);
-                createdChild.rewardGold = 1;
+                createdChild.rewardGold = 40;
                 createdChild.setImage("Enemy/kani_mage");
                 return createdChild;
             case "メカカニちゃん":
                 createdChild.actions.Add("障壁展開");
-                createdChild.actions.Add("爪パンチ");
+                createdChild.actions.Add("するどい爪");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(160, 40, 0, 0, 0, 5, 0);
-                createdChild.rewardGold = 1;
+                createdChild.rewardGold = 100;
                 createdChild.setImage("Enemy/kani_white");
                 return createdChild;
             case "ダークカニちゃんΩ":
                 createdChild.actions.Add("障壁展開");
-                createdChild.actions.Add("爪パンチ");
+                createdChild.actions.Add("するどい爪");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(330, 40, 3, 0, 4, 7, 0);
-                createdChild.rewardGold = 1;
+                createdChild.rewardGold = 10;
                 createdChild.setImage("Enemy/kani_gold");
                 return createdChild;
             case "ゴブニキ":
                 createdChild.actions.Add("打撃");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(50, 0, 0, 0, 0, 0, 0);
-                createdChild.rewardGold = 6;
+                createdChild.rewardGold = 32;
                 createdChild.setImage("Enemy/gob");
                 return createdChild;
             case "ヤリゴブニキ":
@@ -235,7 +235,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("瞬突");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.initializeParameters(109, 0, 0, 0, 0, 1, 0);
-                createdChild.rewardGold = 13;
+                createdChild.rewardGold = 93;
                 createdChild.setImage("Enemy/gob_rance");
                 return createdChild;
             case "マージゴブニキ":
@@ -245,7 +245,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(222, 0, 0, 2, 4, 1, 0);
-                createdChild.rewardGold = 22;
+                createdChild.rewardGold = 120;
                 createdChild.setImage("Enemy/gob_mage");
                 return createdChild;
             case "ゴブニキファイター":
@@ -262,7 +262,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(101, 0, 0, 0, 0, 3, 0);
-                createdChild.rewardGold = 10;
+                createdChild.rewardGold = 40;
                 createdChild.setImage("Enemy/dust");
                 return createdChild;
             case "クラウドダスティ":
@@ -272,7 +272,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(202, 0, 0, 3, 0, 3, 0);
-                createdChild.rewardGold = 14;
+                createdChild.rewardGold = 70;
                 createdChild.setImage("Enemy/dust_cloud");
                 return createdChild;
             case "エレキダスティ":
@@ -284,7 +284,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(407, 0, 0, 3, 0, 3, 0);
-                createdChild.rewardGold = 18;
+                createdChild.rewardGold = 99;
                 createdChild.setImage("Enemy/dust_eleki");
                 return createdChild;
             case "にゃーさん":
@@ -294,7 +294,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(30, 0, 0, 0, 0, 1, 0);
-                createdChild.rewardGold = 2;
+                createdChild.rewardGold = 29;
                 createdChild.setImage("Enemy/nya");
                 return createdChild;
             case "ブルーにゃーさん":
@@ -304,7 +304,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(80, 0, 1, 0, 3, 1, 0);
-                createdChild.rewardGold = 11;
+                createdChild.rewardGold = 110;
                 createdChild.setImage("Enemy/nya_blue");
                 return createdChild;
             case "チャコにゃーさん":
@@ -314,7 +314,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(280, 0, 2, 0, 3, 1, 0);
-                createdChild.rewardGold = 17;
+                createdChild.rewardGold = 170;
                 createdChild.setImage("Enemy/nya_black");
                 return createdChild;
             case "にゃー姫":
@@ -323,7 +323,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(780, 0, 4, 0, 3, 1, 0);
-                createdChild.rewardGold = 23;
+                createdChild.rewardGold = 230;
                 createdChild.setImage("Enemy/nya_king");
                 return createdChild;
             case "妖精":
@@ -331,7 +331,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("プチ火炎");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(50, 40, 0, 1, 1, 0, 0);
-                createdChild.rewardGold = 6;
+                createdChild.rewardGold = 60;
                 createdChild.setImage("Enemy/faily");
                 return createdChild;
             case "本妖精":
@@ -343,7 +343,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("大凍結");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(240, 40, 0, 0, 1, 1, 0);
-                createdChild.rewardGold = 12;
+                createdChild.rewardGold = 120;
                 createdChild.setImage("Enemy/faily_book");
                 return createdChild;
             case "鍵妖精":
@@ -354,7 +354,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(120, 40, 0, 4, 5, 1, 0);
-                createdChild.rewardGold = 21;
+                createdChild.rewardGold = 210;
                 createdChild.setImage("Enemy/faily_eleki");
                 return createdChild;
             case "妖精姫":
@@ -362,7 +362,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("大凍結");
                 createdChild.routine = BattleCharacter.RoutineType.RANDOM;
                 createdChild.initializeParameters(380, 40, 0, 2, 2, 1, 0);
-                createdChild.rewardGold = 33;
+                createdChild.rewardGold = 330;
                 createdChild.setImage("Enemy/faily_queen");
                 return createdChild;
             default:
