@@ -114,13 +114,27 @@ public class BattleActionsArea : MonoBehaviour{
         scroll.horizontalNormalizedPosition = 0f;
     }
 
+    public bool canPutAction(string actionName)
+    {
+        Action a = ActionStore.getActionByName(actionName, siroko);
+        if (a.waitTime > timeline.getRemainingFrames())
+        {
+            return false;
+        }
+        if (siroko.mp < a.cost)
+        {
+            return false;
+        }
+        return true;
+    }
+
     //選べないアクションはdisabledつける
     public void updateState()
     {
         foreach (ActionButton a in actionbuttons)
         {
             //getActionByNameが重いとかgetRemainingFramesが重いとかあるならtimeline側で更新を厳密に制御
-            if (ActionStore.getActionByName(a.actionName.text, siroko).waitTime <= timeline.getRemainingFrames())
+            if (canPutAction(a.actionName.text))
             {
                 a.button.interactable = true;
             }
