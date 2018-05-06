@@ -18,9 +18,9 @@ public class EquipStore{
                 description = "しろこ特製のパフェ。あなたそんな趣味ありましたっけ...? 魔+1,体+1";
                 return new Equip(0, 1, 0, 0, 0, 1, enchants, description);
             case "ウィンドブーツ":
-                description = "身軽になるブーツ。速+2,【先攻奪取】付与";
+                description = "身軽になるブーツ。速+1,【先攻奪取】付与";
                 enchants.Add(Buff.BuffID.CANSEL_ENEMYFIRSTTURN);
-                return new Equip(0, 0, 0, 2, 0, 0, enchants, description);
+                return new Equip(0, 0, 0, 1, 0, 0, enchants, description);
             case "幸運の金貨":
                 description = "持ち主に幸運を呼び込むといわれる金貨。 魔+1,収+1,防+1";
                 return new Equip(0, 1, 1, 0, 1, 0, enchants, description);

@@ -41,7 +41,7 @@ public class ActionStore : MonoBehaviour{
                 return new Action(actionName, description, waitTime, cost, effects, actor);
             case "刺突":
                 description = "すばやく敵を一突き。威力は大きくないが、隙が少ない。";
-                waitTime = 11;
+                waitTime = 10;
                 power = 23;
                 cost = 0;
                 effects.Add(new Effect(TARGET_SINGLE, power, DAMAGE));
