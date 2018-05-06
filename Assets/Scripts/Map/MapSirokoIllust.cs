@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MapSirokoIllust : MonoBehaviour {
 
     public MapPoint destination;
-    public RectTransform position;
+    public Transform position;
     public float lerpRatio;
     public Sprite normal;
     public Sprite jumping;
@@ -14,7 +14,7 @@ public class MapSirokoIllust : MonoBehaviour {
 
     void approachToDestination()
     {
-        position.anchoredPosition = Vector2.Lerp(position.anchoredPosition, destination.pos.anchoredPosition,lerpRatio);
+        position.position = Vector2.Lerp(position.position, destination.pos.position,lerpRatio);
     }
 
     public void updateFlipState()

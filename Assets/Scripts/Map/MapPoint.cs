@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
 [System.Serializable]
-public class MapPoint : MonoBehaviour {
+public class MapPoint : MonoBehaviour , IPointerClickHandler{
 
-    public Image image;
-    public Image floor;
-    public RectTransform pos;
+    public SpriteRenderer image;
+    public SpriteRenderer floor;
+    public Transform pos;
     public bool isMoveAbailable;
     public Map map;
-    public Image siroko;
+    public SpriteRenderer siroko;
     public MapEvent mapEvent;
 
-    public bool isDistanceLessThan(RectTransform target, float distance)
+    public bool isDistanceLessThan(Transform target, float distance)
     {
-        float d = Vector2.Distance(pos.anchoredPosition, target.anchoredPosition);
+        float d = Vector2.Distance(pos.position, target.position);
         return d < distance;
     }
 
@@ -43,6 +45,7 @@ public class MapPoint : MonoBehaviour {
 
     public void onClick()
     {
+        Debug.Log("む");
         if (isMoveAbailable)
         {
             setCurrentPositionToThis();
@@ -80,4 +83,9 @@ public class MapPoint : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        this.onClick();
+    }
 }
