@@ -86,6 +86,11 @@ public class MapPoint : MonoBehaviour , IPointerClickHandler{
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (Vector2.Distance(eventData.pressPosition, eventData.position) > 10f)
+        {
+            Debug.Log("動いとるやんけ");
+            return;
+        }
         this.onClick();
     }
 }
