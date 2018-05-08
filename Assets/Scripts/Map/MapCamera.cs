@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapCamera : MonoBehaviour {
 
@@ -71,8 +72,21 @@ public class MapCamera : MonoBehaviour {
         prevPos = getInputPosition();
     }
 
+    bool isBattleLoaded()
+    {
+        if (SceneManager.GetSceneByName("battleAlpha").isLoaded)
+        {
+            return true;
+        }
+        return false;
+    }
+
     // Update is called once per frame
     void Update () {
+        if (isBattleLoaded())
+        {
+            return;
+        }
         moveCamera();
         constrainPosition();
 	}
