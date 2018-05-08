@@ -11,10 +11,23 @@ public class MapSirokoIllust : MonoBehaviour {
     public Sprite normal;
     public Sprite jumping;
     public Animator anim;
+    public GameObject jumpEffectPrefab;
 
     void approachToDestination()
     {
         position.position = Vector2.Lerp(position.position, destination.pos.position,lerpRatio);
+    }
+
+    void playJumpPuffEffect()
+    {
+        GameObject created = Instantiate(jumpEffectPrefab);
+        created.transform.position = this.transform.position;
+    }
+
+    public void startJump(MapPoint destination)
+    {
+        this.destination = destination;
+        anim.Play("MapSirokoJump");
     }
 
     public void updateFlipState()

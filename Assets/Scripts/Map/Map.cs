@@ -70,8 +70,7 @@ public class Map : MonoBehaviour {
         clock.text = status.clock.ToString();
         applyMoveHealing();
         currentPoint = p;
-        sirokoillust.destination = p;
-        sirokoillust.anim.Play("MapSirokoJump");
+        sirokoillust.startJump(p);
         p.startEvent();
     }
 
