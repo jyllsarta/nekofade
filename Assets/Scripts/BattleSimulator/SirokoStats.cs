@@ -297,4 +297,26 @@ public class SirokoStats : MonoBehaviour{
         clock += count;
     }
 
+    public void buy(StoreAreaComponent.ItemKind kind, string itemName, int cost)
+    {
+        if (cost > gold)
+        {
+            Debug.LogWarning("お金が足りないよ(今後これが出ないように制御しよう)");
+            return;
+        }
+        gold -= cost;
+        switch (kind)
+        {
+            case StoreAreaComponent.ItemKind.ACTION:
+                actions.Add(itemName);
+                break;
+            case StoreAreaComponent.ItemKind.EQUIP:
+                equipments.Add(itemName);
+                break;
+            case StoreAreaComponent.ItemKind.ITEM:
+                items.Add(itemName);
+                break;
+        }
+    }
+
 }

@@ -16,6 +16,10 @@ public class ActionButton : MonoBehaviour, IPointerEnterHandler{
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!messageArea)
+        {
+            messageArea = FindObjectOfType<MessageArea>();
+        }
         messageArea.updateText(ActionStore.getActionByName(actionName.text).descriptionText);
     }
 
