@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapPointSetter : MonoBehaviour {
 
     public Map map;
+    public StoreMenu storeMenu;
     public SirokoStats status;
 
     public MapPoint goalPoint;
@@ -20,7 +21,7 @@ public class MapPointSetter : MonoBehaviour {
     public MapPoint treasurePoint_7; //プレートアーマー
     public MapPoint goldPoint_1; //300G
     public MapPoint goldPoint_2; //500G
-
+    public MapPoint storePoint; //店
 
     public MapPoint findEmptyMapPoint()
     {
@@ -133,6 +134,8 @@ public class MapPointSetter : MonoBehaviour {
 
     public void putPresetMapData()
     {
+        storePoint.mapEvent = new MapEventStore(map,storeMenu, map.dialog);
+        storePoint.setImage("SimpleVectorIcons/UI_Icon_ShoppingCart");
         loadStatusData();
         putStaticObjects();
         putEnemies();
