@@ -45,7 +45,6 @@ public class MapPoint : MonoBehaviour , IPointerClickHandler{
 
     public void onClick()
     {
-        Debug.Log("む");
         if (isMoveAbailable)
         {
             setCurrentPositionToThis();

@@ -32,6 +32,8 @@ public class Map : MonoBehaviour {
     public GameObject canvas;
     public DialogMenu dialog;
 
+    public Button storeButton;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -72,6 +74,19 @@ public class Map : MonoBehaviour {
         currentPoint = p;
         sirokoillust.startJump(p);
         p.startEvent();
+        updateStoreButtonShowState();
+    }
+
+    public void updateStoreButtonShowState()
+    {
+        if (currentPoint.mapEvent.eventType == MapEvent.EventType.STORE)
+        {
+            storeButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            storeButton.gameObject.SetActive(false);
+        }
     }
 
     void updateAvailablePoints()
