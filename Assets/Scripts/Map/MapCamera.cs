@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MapCamera : MonoBehaviour {
 
-    public Camera camera;
+    public Camera c;
     public Vector2 prevPos;
     public float sensitivity;
 
@@ -28,27 +28,27 @@ public class MapCamera : MonoBehaviour {
 
     void tryTranslateCamera(Vector2 delta)
     {
-        camera.transform.Translate(new Vector3(delta.x, delta.y, 0));
+        c.transform.Translate(new Vector3(delta.x, delta.y, 0));
     }
 
     void constrainPosition()
     {
-        Vector3 pos = camera.transform.position;
+        Vector3 pos = c.transform.position;
         if (pos.x > 10)
         {
-            camera.transform.position = new Vector3(10, pos.y, pos.z);
+            c.transform.position = new Vector3(10, pos.y, pos.z);
         }
         if (pos.x < -10)
         {
-            camera.transform.position = new Vector3(-10, pos.y, pos.z);
+            c.transform.position = new Vector3(-10, pos.y, pos.z);
         }
         if (pos.y > 6)
         {
-            camera.transform.position = new Vector3(pos.x, 6, pos.z);
+            c.transform.position = new Vector3(pos.x, 6, pos.z);
         }
         if (pos.y < -5)
         {
-            camera.transform.position = new Vector3(pos.x, -5, pos.z);
+            c.transform.position = new Vector3(pos.x, -5, pos.z);
         }
     }
 

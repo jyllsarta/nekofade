@@ -18,8 +18,17 @@ public class StoreAreaComponent : MonoBehaviour {
 
     public List<StoreItem> lineups;
 
+    public void refresh()
+    {
+        foreach (StoreItem i in lineups)
+        {
+            i.refresh();
+        }
+    }
+
     public void setShopLineup(List<string> itemNames, ItemKind kind)
     {
+        Debug.Log("ラインアップ更新");
         for (int i = 0; i < lineups.Count; ++i)
         {
             if (i < itemNames.Count)
@@ -31,6 +40,11 @@ public class StoreAreaComponent : MonoBehaviour {
                 lineups[i].setParameters("-", 999, kind);
             }
         }
+    }
+
+    public void Start()
+    {
+        refresh();
     }
 
 }

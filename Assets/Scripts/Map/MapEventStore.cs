@@ -5,14 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class MapEventStore : MapEvent, IUIMenuAction
 {
-    Map map;
     StoreMenu store;
     DialogMenu dialog;
 
     public MapEventStore(Map map, StoreMenu storeMenu, DialogMenu dialog)
     {
         this.eventType = EventType.STORE;
-        this.map = map;
         this.store = storeMenu;
         this.dialog = dialog;
     }

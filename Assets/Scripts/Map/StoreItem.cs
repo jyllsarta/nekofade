@@ -4,54 +4,63 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-//お店に売ってるやつ
+//お店に売ってるやつ(overrideされてます)
 public class StoreItem : MonoBehaviour {
 
-    public TextMeshProUGUI itemNameText;
     public Button button;
     public TextMeshProUGUI costText;
     public string itemName;
     public int cost;
     public StoreAreaComponent.ItemKind kind;
+    public bool isBought;
+    public StoreMenu storeMenu;
 
     void setText(string s)
     {
         itemName = s;
-        itemNameText.text = s;
     }
-    void setCost(int c)
+    protected void setCost(int c)
     {
         cost = c;
         costText.text = c.ToString();
     }
-    void setKind(StoreAreaComponent.ItemKind kind)
+    protected void setKind(StoreAreaComponent.ItemKind kind)
     {
         this.kind = kind;
     }
-    public void setParameters(string itemName, int cost, StoreAreaComponent.ItemKind kind)
+    public virtual void setParameters(string itemName, int cost, StoreAreaComponent.ItemKind kind)
     {
-        if (kind == StoreAreaComponent.ItemKind.ACTION)
+        setText(itemName);
+        setCost(cost);
+        setKind(kind);
+    }
+
+
+    public virtual void syncSellAvailavleState(bool state)
+    {
+        button.interactable = state;
+    }
+
+    public bool canBuyThis()
+    {
+        //もう買ってると買えない
+        if (isBought)
         {
-            Action a = ActionStore.getActionByName(itemName);
-            ActionButton button = GetComponent<ActionButton>();
-            if (!button)
-            {
-                Debug.LogError("ActionButtonついてないやんけな");
-            }
-            button.actionName.text = itemName;
-            button.mp.text = a.cost.ToString();
-            button.wt.text = a.waitTime.ToString();
-            this.itemName = itemName;
-            this.cost = cost;
-            this.kind = kind;
-            //TODO アイコン対応 どころかActionnButtonがじぶんでパラメータ設定したほうが良さそうだ
+            return false;
         }
-        else
+
+        //お金が足りないと買えない
+        SirokoStats status = GameObject.FindObjectOfType<SirokoStats>();
+        if (!status)
         {
-            setText(itemName);
-            setCost(cost);
-            setKind(kind);
+            Debug.LogError("status掴みそこねた(ストアアイテム)");
         }
+        if (status.gold < cost)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public void buy()
@@ -62,6 +71,35 @@ public class StoreItem : MonoBehaviour {
             Debug.LogError("買おうとしたけどステータスない");
             return;
         }
-        status.buy(kind, itemName, cost);
+        if (canBuyThis())
+        {
+            status.buy(kind, itemName, cost);
+            isBought = true;
+            refresh();
+            storeMenu.refresh();
+        }
+        else
+        {
+            Debug.Log("ｶｴﾅｲﾖ");
+        }
+    }
+
+    public void refresh()
+    {
+        if (canBuyThis())
+        {
+            syncSellAvailavleState(true);
+        }
+        else
+        {
+            syncSellAvailavleState(false);
+        }
+
+    }
+
+    public void Start()
+    {
+        isBought = false;
+        refresh();
     }
 }
