@@ -13,6 +13,34 @@ public class Action{
     //(敵一体に攻撃 + 状態異常付与とか...)
     public List<Effect> effectList;
 
+    public Rarity rarity;
+
+    public enum Rarity
+    {
+        COMMON,
+        RARE,
+        EPIC,
+        LEGENDARY,
+    }
+
+    public static int getCostByRarity(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case Rarity.COMMON:
+                return 100;
+            case Rarity.RARE:
+                return 200;
+            case Rarity.EPIC:
+                return 300;
+            case Rarity.LEGENDARY:
+                return 500;
+            default:
+                Debug.LogWarning("getCostByRarityのdefaultが呼ばれてる");
+                return 999;
+        }
+    }
+
     public Action()
     {
         //EnemyActionは派生型コンストラクタ経由でこれを呼ぶのでWarningなかったことに
@@ -21,17 +49,19 @@ public class Action{
         descriptionText = "駄目な感じのアタック。これが呼ばれてはいけない";
         waitTime = 35;
         cost = 0;
+        rarity = Rarity.COMMON;
         effectList = new List<Effect>();
         effectList.Add(new Effect());
     }
     //2つ以上の効果を持つアクション
-    public Action(string actionName, string descriptionText, int waitTime, int cost, List<Effect> effectList, BattleCharacter actor=null)
+    public Action(string actionName, string descriptionText, int waitTime, int cost, List<Effect> effectList, Rarity rarity=Rarity.COMMON, BattleCharacter actor=null)
     {
         this.actionName = actionName;
         this.descriptionText = descriptionText;
         this.waitTime = waitTime;
         this.cost = cost;
         this.effectList = effectList;
+        this.rarity = rarity;
 
         //行動キャラが明示されている場合にはウェイトにそのキャラの速度Lvを反映
         if (actor != null)

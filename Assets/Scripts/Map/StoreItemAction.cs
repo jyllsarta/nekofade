@@ -13,7 +13,7 @@ public class StoreItemAction : StoreItem {
         actionButton.mp.text = a.cost.ToString();
         actionButton.wt.text = a.waitTime.ToString();
         this.itemName = itemName;
-        setCost(cost);
+        setCost(Action.getCostByRarity(a.rarity));
         this.kind = kind;
         //TODO アイコン対応 どころかActionnButtonがじぶんでパラメータ設定したほうが良さそうだ
     }

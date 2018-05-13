@@ -20,6 +20,18 @@ public class StoreItemDefault : StoreItem,  IPointerEnterHandler, IPointerExitHa
         setText(itemName);
         setCost(cost);
         setKind(kind);
+
+        switch (kind)
+        {
+            case StoreAreaComponent.ItemKind.EQUIP:
+                Equip e = EquipStore.getEquipByName(itemName);
+                setCost(Equip.getCostByRarity(e.rarity));
+                break;
+            case StoreAreaComponent.ItemKind.ITEM:
+                Item i = ItemStore.getItemByName(itemName);
+                setCost(Item.getCostByRarity(i.rarity));
+                break;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

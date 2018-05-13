@@ -12,7 +12,35 @@ public class Equip{
     public int vitality;
     public List<Buff.BuffID> enchants;
     public string description;
-    public Equip(int strength, int intelligence, int magicCapacity, int speed, int defence, int vitality, List<Buff.BuffID> enchants, string description)
+    public Rarity rarity;
+
+    public enum Rarity
+    {
+        COMMON,
+        RARE,
+        EPIC,
+        LEGENDARY,
+    }
+
+    public static int getCostByRarity(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case Rarity.COMMON:
+                return 100;
+            case Rarity.RARE:
+                return 200;
+            case Rarity.EPIC:
+                return 300;
+            case Rarity.LEGENDARY:
+                return 500;
+            default:
+                Debug.LogWarning("getCostByRarityのdefaultが呼ばれてる");
+                return 999;
+        }
+    }
+
+    public Equip(int strength, int intelligence, int magicCapacity, int speed, int defence, int vitality, Rarity rarity, List<Buff.BuffID> enchants, string description)
     {
         this.strength = strength;
         this.intelligence = intelligence;
@@ -20,6 +48,7 @@ public class Equip{
         this.speed = speed;
         this.defence = defence;
         this.vitality = vitality;
+        this.rarity = rarity;
         this.enchants = enchants;
         this.description = description;
     }

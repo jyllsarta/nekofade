@@ -9,7 +9,35 @@ public class Item{
     public string description;
     public string imagePath;
     public Action action;
-    public Item(string itemName, int count, bool isPassiveItem, string description, string imagePath,Action action)
+    public Rarity rarity;
+
+    public enum Rarity
+    {
+        COMMON,
+        RARE,
+        EPIC,
+        LEGENDARY,
+    }
+
+    public static int getCostByRarity(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case Rarity.COMMON:
+                return 100;
+            case Rarity.RARE:
+                return 200;
+            case Rarity.EPIC:
+                return 300;
+            case Rarity.LEGENDARY:
+                return 500;
+            default:
+                Debug.LogWarning("getCostByRarityのdefaultが呼ばれてる");
+                return 999;
+        }
+    }
+
+    public Item(string itemName, int count, bool isPassiveItem, string description, string imagePath,Action action, Rarity rarity)
     {
         this.itemName = itemName;
         this.count = count;
@@ -17,6 +45,7 @@ public class Item{
         this.description = description;
         this.imagePath = imagePath;
         this.action = action;
+        this.rarity = rarity;
     }
     public Item()
     {
@@ -27,5 +56,6 @@ public class Item{
         this.description = "謎の仮アイテム";
         this.imagePath = "UI_Icon_Warning";
         this.action = new Action();
+        this.rarity = Rarity.COMMON;
     }
 }
