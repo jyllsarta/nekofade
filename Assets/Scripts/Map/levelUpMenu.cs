@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class levelUpMenu : UIMenu {
+public class LevelUpMenu : UIMenu {
 
-    public levelUpMenuParameter strength;
-    public levelUpMenuParameter intelligence;
-    public levelUpMenuParameter magicCapacity;
-    public levelUpMenuParameter speed;
-    public levelUpMenuParameter defence;
-    public levelUpMenuParameter vitality;
+    public LevelUpMenuParameter strength;
+    public LevelUpMenuParameter intelligence;
+    public LevelUpMenuParameter magicCapacity;
+    public LevelUpMenuParameter speed;
+    public LevelUpMenuParameter defence;
+    public LevelUpMenuParameter vitality;
     public NumeratableText golds;
 
     public TextMeshProUGUI totalLevel;

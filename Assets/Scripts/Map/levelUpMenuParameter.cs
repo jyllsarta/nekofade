@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class levelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
+public class LevelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
 
     public TextMeshProUGUI currentLevelText;
     public TextMeshProUGUI toLevelText;
