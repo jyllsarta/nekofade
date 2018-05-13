@@ -17,7 +17,6 @@ public class StoreItemDefault : StoreItem,  IPointerEnterHandler, IPointerExitHa
 
     public override void setParameters(string itemName, int cost, StoreAreaComponent.ItemKind kind)
     {
-        Debug.Log("こっちが呼ばれたい");
         setText(itemName);
         setCost(cost);
         setKind(kind);
@@ -30,10 +29,10 @@ public class StoreItemDefault : StoreItem,  IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        syncSellAvailavleState(canBuyThis());
+        syncSellAvailableState(canBuyThis());
     }
 
-    public override void syncSellAvailavleState(bool state)
+    public override void syncSellAvailableState(bool state)
     {
         button.interactable = state;
         if (state)

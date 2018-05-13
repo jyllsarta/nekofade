@@ -28,7 +28,6 @@ public class StoreAreaComponent : MonoBehaviour {
 
     public void setShopLineup(List<string> itemNames, ItemKind kind)
     {
-        Debug.Log("ラインアップ更新");
         for (int i = 0; i < lineups.Count; ++i)
         {
             if (i < itemNames.Count)

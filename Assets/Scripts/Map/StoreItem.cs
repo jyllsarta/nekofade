@@ -36,7 +36,7 @@ public class StoreItem : MonoBehaviour {
     }
 
 
-    public virtual void syncSellAvailavleState(bool state)
+    public virtual void syncSellAvailableState(bool state)
     {
         button.interactable = state;
     }
@@ -88,11 +88,11 @@ public class StoreItem : MonoBehaviour {
     {
         if (canBuyThis())
         {
-            syncSellAvailavleState(true);
+            syncSellAvailableState(true);
         }
         else
         {
-            syncSellAvailavleState(false);
+            syncSellAvailableState(false);
         }
 
     }

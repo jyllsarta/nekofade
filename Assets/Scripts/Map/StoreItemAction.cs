@@ -18,7 +18,7 @@ public class StoreItemAction : StoreItem {
         //TODO アイコン対応 どころかActionnButtonがじぶんでパラメータ設定したほうが良さそうだ
     }
 
-    public override void syncSellAvailavleState(bool state)
+    public override void syncSellAvailableState(bool state)
     {
         button.interactable = state;
         actionButton.button.interactable = state;
