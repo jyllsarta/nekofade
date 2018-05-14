@@ -106,9 +106,8 @@ public class Map : MonoBehaviour {
 
     public void playGetGoldEffect(int amount)
     {
-        GetGoldEffect created = Instantiate(getGoldEffect, canvas.transform);
+        GetGoldEffect created = Instantiate(getGoldEffect, parameters.transform);
         created.set(amount);
-        created.transform.position = sirokoillust.transform.position;
     }
 
 
