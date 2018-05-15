@@ -24,7 +24,7 @@ public class Battle : MonoBehaviour {
     //他シーンからの呼び出しがあった場合
     //EventSystemが二つ以上発生してしまうので
     //自分のは持たずシーンロード時になかったら置く
-    public EventSystem eventSystem;
+    public EventSystem eventSystemPrefab;
     //カメラも同様に原則自力では持たない
     public Camera cameraPrefab;
 
@@ -39,6 +39,9 @@ public class Battle : MonoBehaviour {
     public TextMeshProUGUI turnCountText;
 
     public bool isLoading;
+
+    //グローバル入力ロックに使う
+    public EventSystem eventSystem;
 
     //のこりエフェクトリスト
     public LinkedList<PlayableEffect> effectList;
@@ -93,8 +96,18 @@ public class Battle : MonoBehaviour {
         {
             Instantiate(cameraPrefab);
         }
+        eventSystem = FindObjectOfType<EventSystem>();
         player.setEmotion("doya", 180);
         rewards.refresh();
+    }
+
+    public void setGlovalInteractiveState(bool state)
+    {
+        if (!eventSystem)
+        {
+            eventSystem = FindObjectOfType<EventSystem>();
+        }
+        eventSystem.gameObject.SetActive(state);
     }
 
     //リストの内容に従って敵を置く
@@ -728,6 +741,7 @@ public class Battle : MonoBehaviour {
         }
         actionButtonArea.updateActionWaitTime();
         turnCountText.text = turnCount.ToString();
+        setGlovalInteractiveState(true);
     }
 
     public void turnEnd()
@@ -742,6 +756,7 @@ public class Battle : MonoBehaviour {
         {
             consumeAction(ActionStore.getActionByName("鏡射起動"), ActorType.PLAYER);
         }
+        setGlovalInteractiveState(false);
     }
 
     //全キャラの毎フレームごとの処理を呼ぶ
@@ -955,6 +970,7 @@ public class Battle : MonoBehaviour {
                 }
                 break;
             case GameState.BATTLE_FINISHED:
+                setGlovalInteractiveState(true);
                 removeDeadEnemyFromScene();
                 break;
         }
