@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class EffectSystem : MonoBehaviour {
 
-    public GameObject hitEffect;
+    public GameObject blueExplosion;
+    public GameObject defaultEffect;
 
     //名前
-    public void playEffectByName(string name, Transform parent)
+    public GameObject getEffectByActionName(string name)
     {
         switch (name)
         {
-            case "hit":
-                Instantiate(hitEffect,parent);
-                break;
+            case "瞬突":
+                return blueExplosion;
             default:
-                Instantiate(hitEffect, parent);
-                break;
+                return defaultEffect;
         }
 
     }

@@ -33,7 +33,7 @@ public class ItemStore : MonoBehaviour{
                 count = 5;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
-                effects.Add(new Effect(Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDHEAL));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDHEAL));
                 action = new Action("HPポーション", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "MPポーション":
@@ -43,7 +43,7 @@ public class ItemStore : MonoBehaviour{
                 count = 5;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
-                effects.Add(new Effect(Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDMPHEAL));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDMPHEAL));
                 action = new Action("MPポーション", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "DCS":
@@ -53,8 +53,8 @@ public class ItemStore : MonoBehaviour{
                 count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.EPIC;
-                effects.Add(new Effect(Effect.TargetType.ME, 40, Effect.EffectType.CONSTANTHEAL));
-                effects.Add(new Effect(Effect.TargetType.ME, 99, Buff.BuffID.DCS));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 40, Effect.EffectType.CONSTANTHEAL));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 99, Buff.BuffID.DCS));
                 action = new Action("魔ポテ", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "雷光の符":
@@ -73,7 +73,7 @@ public class ItemStore : MonoBehaviour{
                 count = 2;
                 isPassiveItem = false;
                 rarity = Item.Rarity.LEGENDARY;
-                effects.Add(new Effect(Effect.TargetType.ME, 99, Buff.BuffID.INVINCIBLE));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 99, Buff.BuffID.INVINCIBLE));
                 action = new Action("バーリア", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "衝撃の符":
@@ -83,7 +83,7 @@ public class ItemStore : MonoBehaviour{
                 count = 9;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
-                effects.Add(new Effect(Effect.TargetType.TARGET_SINGLE, 30, Effect.EffectType.DAMAGE));
+                effects.Add(new Effect(itemName, Effect.TargetType.TARGET_SINGLE, 30, Effect.EffectType.DAMAGE));
                 action = new Action("衝撃の符", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "響火の符":

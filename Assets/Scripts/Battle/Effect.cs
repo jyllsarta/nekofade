@@ -44,6 +44,9 @@ public class Effect{
         REMOVE_SHIELD, //盾を全部壊す
     }
 
+    //もともとどのアクションの行動だったのか
+    public string actionName;
+
     //この効果は敵一体を狙うのか、味方全体なのか
     public TargetType targetType;
 
@@ -75,12 +78,13 @@ public class Effect{
         attributes = new List<Attribute>();
     }
     //ダメージ・回復の場合
-    public Effect(TargetType targetType, int effectAmount, EffectType effectType, int blockingFrames=60, List<Attribute> attributes=null)
+    public Effect(string actionName, TargetType targetType, int effectAmount, EffectType effectType, int blockingFrames=60, List<Attribute> attributes=null)
     {
         this.targetType = targetType;
         this.effectAmount = effectAmount;
         this.effectType = effectType;
         this.blockingFrames = blockingFrames;
+        this.actionName = actionName;
         
         if (attributes != null)
         {
@@ -92,13 +96,14 @@ public class Effect{
         }
     }
     //バフかける場合
-    public Effect(TargetType targetType, int effectAmount, Buff.BuffID buffID,int blockingFrames=30, List<Attribute> attributes=null)
+    public Effect(string actionName, TargetType targetType, int effectAmount, Buff.BuffID buffID, int blockingFrames =30, List<Attribute> attributes=null)
     {
         this.targetType = targetType;
         this.effectAmount = effectAmount;
         this.effectType = EffectType.BUFF;
         this.blockingFrames = blockingFrames;
         this.buffID = buffID;
+        this.actionName = actionName;
         if (attributes != null)
         {
             this.attributes = attributes;

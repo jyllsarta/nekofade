@@ -480,7 +480,7 @@ public class Battle : MonoBehaviour {
         if (actor.hasBuff(Buff.BuffID.ENCHANT_FIRE) && !effect.hasAttribute(Effect.Attribute.MAGIC))
         {
             List<Effect.Attribute> attributes = new List<Effect.Attribute>() { Effect.Attribute.MAGIC, Effect.Attribute.FIRE};
-            Effect fire = new Effect(Effect.TargetType.TARGET_SINGLE_RANDOM, 30, Effect.EffectType.DAMAGE, 30, attributes);
+            Effect fire = new Effect("響火起動", Effect.TargetType.TARGET_SINGLE_RANDOM, 30, Effect.EffectType.DAMAGE, 30, attributes);
             PlayableEffect pe = new PlayableEffect(fire, ActorType.PLAYER, 0);
             effectList.AddFirst(pe);
         }
@@ -505,7 +505,7 @@ public class Battle : MonoBehaviour {
                 tryInterrptEffect(target, effect);
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
-                effectSystem.playEffectByName("hit", target.transform);
+                Instantiate( effectSystem.getEffectByActionName(effect.actionName), target.transform);
                 checkEnchantedAttack(actor, effect);
                 break;
             case Effect.EffectType.HEAL:
