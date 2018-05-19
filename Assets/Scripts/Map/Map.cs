@@ -38,6 +38,8 @@ public class Map : MonoBehaviour {
     public Camera camera;
     public EventSystem eventSystem;
 
+    public UISFXController uiSFXController;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {

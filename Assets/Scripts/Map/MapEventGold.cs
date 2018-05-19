@@ -21,6 +21,7 @@ public class MapEventGold : MapEvent {
         Debug.Log("おかね！");
         status.gold += amount;
         map.playGetGoldEffect(amount);
+        map.uiSFXController.playUICoinGet();
     }
 
 
