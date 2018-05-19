@@ -156,7 +156,7 @@ public class SirokoStats : MonoBehaviour{
                 level = vitality;
                 break;
         }
-        return (level + 2) * 50;
+        return (level*level*2 + 2) * 50;
     }
 
     public int getLevel(ParameterKind kind)
