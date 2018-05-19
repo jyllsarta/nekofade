@@ -10,6 +10,8 @@ public class EffectSystem : MonoBehaviour {
     public GameObject thunder;
     public GameObject swordSlash;
     public GameObject defaultEffect;
+    public GameObject shieldEffect;
+    public GameObject buffEffect;
 
     //名前
     public GameObject getEffectByActionName(string name)
@@ -28,6 +30,12 @@ public class EffectSystem : MonoBehaviour {
                 return thunder;
             case "獄炎":
                 return fireNova;
+            case "防御":
+                return shieldEffect;
+            case "癒陣":
+                return buffEffect;
+            case "響火":
+                return buffEffect;
             default:
                 return defaultEffect;
         }

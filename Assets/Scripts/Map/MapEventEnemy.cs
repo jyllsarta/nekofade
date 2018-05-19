@@ -8,12 +8,14 @@ public class MapEventEnemy : MapEvent {
 
     List<string> enemies;
     SirokoStats status;
+    Map map;
 
-    public MapEventEnemy(List<string> enemies, SirokoStats status)
+    public MapEventEnemy(List<string> enemies, Map map, SirokoStats status)
     {
         this.enemies = enemies;
         this.status = status;
         this.eventType = EventType.ENEMY;
+        this.map = map;
     }
 
     public override void startEvent()

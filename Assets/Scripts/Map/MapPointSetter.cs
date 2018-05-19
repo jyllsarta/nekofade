@@ -81,15 +81,15 @@ public class MapPointSetter : MonoBehaviour {
     {
 
         MapPoint p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "ヤリゴブニキ", "ゴブニキ" }, status);
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ヤリゴブニキ", "ゴブニキ" }, map, status);
         p.setImage("Enemy/gob_rance");
 
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "ブルーにゃーさん" }, status);
+        p.mapEvent = new MapEventEnemy(new List<string>() { "ブルーにゃーさん" }, map, status);
         p.setImage("Enemy/nya_blue");
 
         p = findEmptyMapPoint();
-        p.mapEvent = new MapEventEnemy(new List<string>() { "妖精", "ゴブニキ" }, status);
+        p.mapEvent = new MapEventEnemy(new List<string>() { "妖精", "ゴブニキ" }, map, status);
         p.setImage("Enemy/faily");
 
 
@@ -97,13 +97,13 @@ public class MapPointSetter : MonoBehaviour {
 
     public void putStaticObjects()
     {
-        bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王", "本妖精", "メカカニちゃん" }, status);
+        bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王", "本妖精", "メカカニちゃん" }, map, status);
         bossPoint.setImage("Enemy/kingNeko");
 
-        midBossPoint_1.mapEvent = new MapEventEnemy(new List<string>() { "鍵妖精", "本妖精", "妖精" }, status);
+        midBossPoint_1.mapEvent = new MapEventEnemy(new List<string>() { "鍵妖精", "本妖精", "妖精" }, map, status);
         midBossPoint_1.setImage("Enemy/faily_eleki");
 
-        midBossPoint_2.mapEvent = new MapEventEnemy(new List<string>() { "メカカニちゃん","メカカニちゃん" }, status);
+        midBossPoint_2.mapEvent = new MapEventEnemy(new List<string>() { "メカカニちゃん","メカカニちゃん" }, map, status);
         midBossPoint_2.setImage("Enemy/kani_white");
 
         goalPoint.mapEvent = new MapEventGoal(map, map.dialog);

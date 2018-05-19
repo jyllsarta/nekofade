@@ -21,12 +21,6 @@ public class Battle : MonoBehaviour {
     public BattleItem itemPrefab;
     public UIMenu battleResult;
     public UIMenu gameOver;
-    //他シーンからの呼び出しがあった場合
-    //EventSystemが二つ以上発生してしまうので
-    //自分のは持たずシーンロード時になかったら置く
-    public EventSystem eventSystemPrefab;
-    //カメラも同様に原則自力では持たない
-    public Camera cameraPrefab;
 
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
@@ -88,14 +82,6 @@ public class Battle : MonoBehaviour {
         isLoading = true;
         effectList = new LinkedList<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
-        if (FindObjectOfType<EventSystem>() == null)
-        {
-            Instantiate(eventSystem);
-        }
-        if (FindObjectOfType<Camera>() == null)
-        {
-            Instantiate(cameraPrefab);
-        }
         eventSystem = FindObjectOfType<EventSystem>();
         player.setEmotion("doya", 180);
         rewards.refresh();
@@ -119,7 +105,7 @@ public class Battle : MonoBehaviour {
         {
             BattleCharacter enemy;
             enemy = enemyStore.instanciateEnemyByName(enemyList[i], enemiesUI.transform);
-            enemy.transform.Translate(new Vector3((i-1)*350, (1 - i) * 10, 0));
+            enemy.transform.Translate(new Vector3((i-1)*3.5f, (1 - i) * 0.2f, 0));
             enemy.battle = this;
             enemies.Add(enemy);
         }
@@ -498,6 +484,7 @@ public class Battle : MonoBehaviour {
     //実際のEffect一つの処理
     void resolveEffect(BattleCharacter actor, ref BattleCharacter target, Effect effect)
     {
+        Instantiate(effectSystem.getEffectByActionName(effect.actionName), target.transform);
         switch (effect.effectType)
         {
             case Effect.EffectType.DAMAGE:
@@ -505,7 +492,6 @@ public class Battle : MonoBehaviour {
                 tryInterrptEffect(target, effect);
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
-                Instantiate( effectSystem.getEffectByActionName(effect.actionName), target.transform);
                 checkEnchantedAttack(actor, effect);
                 break;
             case Effect.EffectType.HEAL:

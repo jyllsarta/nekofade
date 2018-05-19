@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class Map : MonoBehaviour {
 
@@ -33,6 +34,9 @@ public class Map : MonoBehaviour {
     public DialogMenu dialog;
 
     public Button storeButton;
+
+    public Camera camera;
+    public EventSystem eventSystem;
 
     //Sceneの座標情報を読み込む
     public void loadGeometry()
@@ -139,10 +143,34 @@ public class Map : MonoBehaviour {
         DontDestroyOnLoad(status);
     }
 
+    public void setEventSystemAndCameraState(bool state)
+    {
+        camera.gameObject.SetActive(state);
+        eventSystem.gameObject.SetActive(state);
+    }
+
+
+    bool isBattleLoaded()
+    {
+        if (SceneManager.GetSceneByName("battleAlpha").isLoaded)
+        {
+            return true;
+        }
+        return false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         updateAvailablePoints();
+        if (!isBattleLoaded())
+        {
+            setEventSystemAndCameraState(true);
+        }
+        else
+        {
+            setEventSystemAndCameraState(false);
+        }
     }
 
     public void loadDebugBattleScene()
