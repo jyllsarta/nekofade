@@ -11,6 +11,7 @@ public class UISFXController : MonoBehaviour
     public AudioSource uiCoin;
     public AudioSource uiCoinGet;
     public AudioSource uiCoinGetAlot;
+    public AudioSource uiGoodEvent;
 
 
     public void playUIMenuOpen()
@@ -41,6 +42,11 @@ public class UISFXController : MonoBehaviour
     public void playUICoinGetAlot()
     {
         uiCoinGetAlot.Play();
+    }
+
+    public void playUIGoodEvent()
+    {
+        uiGoodEvent.Play();
     }
 
 }

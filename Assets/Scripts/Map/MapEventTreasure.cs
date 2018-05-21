@@ -31,6 +31,7 @@ public class MapEventTreasure : MapEvent, IUIMenuAction
     {
         Debug.Log("宝箱！");
         dialog.setTitle("Treasure!");
+        map.uiSFXController.playUIGoodEvent();
         switch (treasureType)
         {
             case TreasureType.ACTION:
