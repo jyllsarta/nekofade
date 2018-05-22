@@ -20,6 +20,8 @@ public class LevelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
 
     public Button button;
 
+    public GameObject levelupEffect;
+
     public void setLevel(int level)
     {
         int count = 0;
@@ -42,6 +44,7 @@ public class LevelUpMenuParameter : MonoBehaviour ,IPointerEnterHandler{
     public void levelUp()
     {
         status.levelUp(kind);
+        Instantiate(levelupEffect, button.transform);
     }
 
 
