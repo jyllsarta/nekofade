@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ActionButton : MonoBehaviour, IPointerEnterHandler{
+public class ActionButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler{
 
     public TextMeshProUGUI actionName;
     public TextMeshProUGUI mp;
@@ -21,6 +21,18 @@ public class ActionButton : MonoBehaviour, IPointerEnterHandler{
             messageArea = FindObjectOfType<MessageArea>();
         }
         messageArea.updateText(ActionStore.getActionByName(actionName.text).descriptionText);
+
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        BattleSFXController bsfx = FindObjectOfType<BattleSFXController>();
+        if (!bsfx)
+        {
+            return;
+        }
+        bsfx.playSelectAction();
+    }
+
 
 }
