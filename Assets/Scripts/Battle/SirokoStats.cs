@@ -71,9 +71,9 @@ public class SirokoStats : MonoBehaviour{
         items.Add(name);
     }
 
-    public int getStrengthLevel()
+    public int getStrengthLevelByEquip()
     {
-        int total = strength;
+        int total = 0;
         foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
@@ -81,9 +81,10 @@ public class SirokoStats : MonoBehaviour{
         }
         return total;
     }
-    public int getIntelligenceLevel()
+
+    public int getIntelligenceLevelByEquip()
     {
-        int total = intelligence;
+        int total = 0;
         foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
@@ -91,9 +92,10 @@ public class SirokoStats : MonoBehaviour{
         }
         return total;
     }
-    public int getMagicCapacityLevel()
+
+    public int getMagicCapacityLevelByEquip()
     {
-        int total = magicCapacity;
+        int total = 0;
         foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
@@ -101,19 +103,21 @@ public class SirokoStats : MonoBehaviour{
         }
         return total;
     }
-    public int getSpeedLevel()
+
+    public int getSpeedLevelByEquip()
     {
-        int totalSpeed = speed;
+        int total = 0;
         foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
-            totalSpeed += e.speed;
+            total += e.speed;
         }
-        return totalSpeed;
+        return total;
     }
-    public int getDefenceLevel()
+
+    public int getDefenceLevelByEquip()
     {
-        int total = defence;
+        int total = 0;
         foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
@@ -121,14 +125,52 @@ public class SirokoStats : MonoBehaviour{
         }
         return total;
     }
-    public int getVitalityLevel()
+
+    public int getVitalityLevelByEquip()
     {
-        int total = vitality;
+        int total = 0;
         foreach (string s in equipments)
         {
             Equip e = EquipStore.getEquipByName(s);
             total += e.vitality;
         }
+        return total;
+    }
+
+    public int getStrengthLevel()
+    {
+        int total = strength;
+        total += getStrengthLevelByEquip();
+        return total;
+    }
+    public int getIntelligenceLevel()
+    {
+        int total = intelligence;
+        total += getIntelligenceLevelByEquip();
+        return total;
+    }
+    public int getMagicCapacityLevel()
+    {
+        int total = magicCapacity;
+        total += getMagicCapacityLevelByEquip();
+        return total;
+    }
+    public int getSpeedLevel()
+    {
+        int total = speed;
+        total += getSpeedLevelByEquip();
+        return total;
+    }
+    public int getDefenceLevel()
+    {
+        int total = defence;
+        total += getDefenceLevelByEquip();
+        return total;
+    }
+    public int getVitalityLevel()
+    {
+        int total = vitality;
+        total += getVitalityLevelByEquip();
         return total;
     }
 

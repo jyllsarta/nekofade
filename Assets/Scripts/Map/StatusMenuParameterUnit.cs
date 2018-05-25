@@ -9,22 +9,30 @@ public class StatusMenuParameterUnit : MonoBehaviour {
 
     public List<TextMeshProUGUI> blocks;
 
-    public void setLevel(int level)
+    public void setLevel(int level, int levelByEquip=0)
     {
         int count = 0;
+        int equipBoost = levelByEquip;
         foreach(TextMeshProUGUI block in blocks)
         {
             if (count < level)
             {
                 block.text = "■";
+                block.color = new Color(1, 1, 1f);
             }
-            else
+            else if(equipBoost > 0)
             {
+                block.text = "■";
+                block.color = new Color(1, 1, 0.6f);
+                equipBoost--;
+            }
+            else {
                 block.text = "□";
+                block.color = new Color(1, 1, 1f);
             }
             count++;
         }
-        levelText.text = level.ToString();
+        levelText.text = (level+ levelByEquip).ToString();
     }
 
 	// Use this for initialization

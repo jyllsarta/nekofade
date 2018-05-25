@@ -82,17 +82,12 @@ public class Battle : MonoBehaviour {
         isLoading = true;
         effectList = new LinkedList<PlayableEffect>();
         currentGameState = GameState.PLAYER_THINK;
-        eventSystem = FindObjectOfType<EventSystem>();
         player.setEmotion("doya", 180);
         rewards.refresh();
     }
 
     public void setGlovalInteractiveState(bool state)
     {
-        if (!eventSystem)
-        {
-            eventSystem = FindObjectOfType<EventSystem>();
-        }
         eventSystem.gameObject.SetActive(state);
     }
 

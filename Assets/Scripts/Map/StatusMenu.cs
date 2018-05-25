@@ -35,12 +35,12 @@ public class StatusMenu : UIMenu {
 
     public void updateParameters()
     {
-        strength.setLevel(status.getStrengthLevel());
-        intelligence.setLevel(status.getIntelligenceLevel());
-        magicCapacity.setLevel(status.getMagicCapacityLevel());
-        speed.setLevel(status.getSpeedLevel());
-        defence.setLevel(status.getDefenceLevel());
-        vitality.setLevel(status.getVitalityLevel());
+        strength.setLevel(status.strength, status.getStrengthLevelByEquip());
+        intelligence.setLevel(status.intelligence,status.getIntelligenceLevelByEquip());
+        magicCapacity.setLevel(status.magicCapacity, status.getMagicCapacityLevelByEquip());
+        speed.setLevel(status.speed, status.getSpeedLevelByEquip());
+        defence.setLevel(status.defence, status.getDefenceLevelByEquip());
+        vitality.setLevel(status.vitality,status.getVitalityLevelByEquip());
     }
 
     public void updateEquips()
