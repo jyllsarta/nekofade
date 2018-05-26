@@ -13,6 +13,7 @@ public class ActionButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHa
     public Button button;
     public MessageArea messageArea;
     public Image actionTypeImage;
+    public Image backgroundImage;
 
     public void OnPointerEnter(PointerEventData eventData)
     {

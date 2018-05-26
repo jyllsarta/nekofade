@@ -21,6 +21,25 @@ public class BattleActionsArea : MonoBehaviour{
     public Sprite spear;
     public Sprite rod;
 
+    //二箇所にあるの注意 -> StoreItemAction
+    Color getRarityColor(Action.Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case Action.Rarity.COMMON:
+                return new Color(33 / 256f, 37 / 256f, 51 / 256f);
+            case Action.Rarity.RARE:
+                return new Color(25 / 256f, 35 / 256f, 103 / 256f);
+            case Action.Rarity.EPIC:
+                return new Color(77 / 256f, 15 / 256f, 81 / 256f);
+            case Action.Rarity.LEGENDARY:
+                return new Color(92 / 256f, 67 / 256f, 22 / 256f);
+            default:
+                Debug.Log("getRarityColorのデフォルトが呼ばれてる");
+                return new Color(0, 0, 0);
+        }
+    }
+
     public void addAction(string actionName)
     {
         ActionButton created = Instantiate(actionButtonPrefab, contents.transform);
@@ -28,6 +47,7 @@ public class BattleActionsArea : MonoBehaviour{
         created.actionName.text = actionName;
         created.mp.text = a.cost.ToString();
         created.wt.text = a.waitTime.ToString();
+        created.backgroundImage.color =  getRarityColor(a.rarity);
         if (a.effectList.Exists(x => x.hasAttribute(Effect.Attribute.MAGIC)))
         {
             created.actionTypeImage.sprite = rod;
@@ -58,6 +78,7 @@ public class BattleActionsArea : MonoBehaviour{
         ActionButton created = Instantiate(actionButtonPrefab, contents.transform);
         Action a = ActionStore.getActionByName(actionName);
         created.actionName.text = actionName;
+        created.backgroundImage.color = getRarityColor(a.rarity);
         created.mp.text = a.cost.ToString();
         created.wt.text = ((int)(a.waitTime * BattleCharacter.getDefaultWaitTimeCutRate(status.getSpeedLevel()))).ToString();
         if (a.effectList.Exists(x => x.hasAttribute(Effect.Attribute.MAGIC)))
