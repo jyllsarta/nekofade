@@ -6,6 +6,31 @@ public class StoreItemAction : StoreItem {
 
     public ActionButton  actionButton;
 
+    public StoreAreaComponentAction parentComponent; //アウトレット接続する
+
+    public new void buy()
+    {
+        SirokoStats status = FindObjectOfType<SirokoStats>();
+        if (!status)
+        {
+            Debug.LogError("買おうとしたけどステータスない");
+            return;
+        }
+        if (canBuyThis())
+        {
+            status.buy(kind, itemName, cost);
+            //アクションは一つしか買えないので、アクションボタン全体のisBoughtにチェックを入れていく
+            parentComponent.notifyActionIsBoughtToChildren();
+            refresh();
+            storeMenu.refresh();
+        }
+        else
+        {
+            Debug.Log("ｶｴﾅｲﾖ");
+        }
+    }
+
+
     //二箇所にあるの注意 => BattleActionsArea
     Color getRarityColor(Action.Rarity rarity)
     {

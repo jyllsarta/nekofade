@@ -63,6 +63,13 @@ public class StoreItem : MonoBehaviour {
         return true;
     }
 
+    //もう買ったことにする
+    public void setBought()
+    {
+        isBought = true;
+        refresh();
+    }
+
     public void buy()
     {
         SirokoStats status = FindObjectOfType<SirokoStats>();
