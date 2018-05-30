@@ -53,25 +53,25 @@ public class MapPointSetter : MonoBehaviour {
     {
         MapPoint p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(30, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(5, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(30, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(5, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(30, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(5, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
         p = findEmptyMapPoint();
         p.mapEvent = new MapEventGold(30, status, map);
-        p.setImage("etc/mapgold");
+        p.setImage("AssetStoreTools/Bakenekokan/coin");
 
     }
 
@@ -107,35 +107,35 @@ public class MapPointSetter : MonoBehaviour {
         midBossPoint_2.setImage("Enemy/kani_white");
 
         goalPoint.mapEvent = new MapEventGoal(map, map.dialog);
-        goalPoint.setImage("SimpleVectorIcons/UI_Icon_InputJoystick");
+        goalPoint.setImage("AssetStoreTools/Bakenekokan/next");
 
         treasurePoint_1.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ITEM, "復活の御魂", map.dialog);
-        treasurePoint_1.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_1.setImage("AssetStoreTools/Bakenekokan/mitama");
 
         treasurePoint_2.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "癒陣", map.dialog);
-        treasurePoint_2.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_2.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_3.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "響火", map.dialog);
-        treasurePoint_3.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_3.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_4.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ITEM, "HPポーション", map.dialog);
-        treasurePoint_4.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_4.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_5.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.EQUIP, "ウィンドブーツ", map.dialog);
-        treasurePoint_5.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_5.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_6.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "双撃", map.dialog);
-        treasurePoint_6.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_6.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_7.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.EQUIP, "プレートアーマー", map.dialog);
-        treasurePoint_7.setImage("SimpleVectorIcons/UI_Icon_Bag1");
+        treasurePoint_7.setImage("AssetStoreTools/Bakenekokan/actionReading");
 
         goldPoint_1.mapEvent = new MapEventGold(300, status, map);
-        goldPoint_1.setImage("etc/mapgoldbig");
+        goldPoint_1.setImage("AssetStoreTools/Bakenekokan/coinBag");
         goldPoint_2.mapEvent = new MapEventGold(500, status, map);
-        goldPoint_2.setImage("etc/mapgoldbig");
+        goldPoint_2.setImage("AssetStoreTools/Bakenekokan/coinbag");
 
     }
 
     public void putPresetMapData()
     {
         storePoint.mapEvent = new MapEventStore(map,storeMenu, map.dialog);
-        storePoint.setImage("SimpleVectorIcons/UI_Icon_ShoppingCart");
+        storePoint.setImage("AssetStoreTools/Bakenekokan/store");
         loadStatusData();
         putStaticObjects();
         putEnemies();
