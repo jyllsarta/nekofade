@@ -114,16 +114,14 @@ public class MapPointSetter : MonoBehaviour {
 
         treasurePoint_2.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "癒陣", map.dialog);
         treasurePoint_2.setImage("AssetStoreTools/Bakenekokan/actionReading");
-        treasurePoint_3.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "響火", map.dialog);
-        treasurePoint_3.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_4.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ITEM, "HPポーション", map.dialog);
-        treasurePoint_4.setImage("AssetStoreTools/Bakenekokan/actionReading");
+        treasurePoint_4.setImage("AssetStoreTools/Bakenekokan/treasure");
         treasurePoint_5.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.EQUIP, "ウィンドブーツ", map.dialog);
-        treasurePoint_5.setImage("AssetStoreTools/Bakenekokan/actionReading");
+        treasurePoint_5.setImage("AssetStoreTools/Bakenekokan/treasure");
         treasurePoint_6.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "双撃", map.dialog);
         treasurePoint_6.setImage("AssetStoreTools/Bakenekokan/actionReading");
         treasurePoint_7.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.EQUIP, "プレートアーマー", map.dialog);
-        treasurePoint_7.setImage("AssetStoreTools/Bakenekokan/actionReading");
+        treasurePoint_7.setImage("AssetStoreTools/Bakenekokan/treasure");
 
         goldPoint_1.mapEvent = new MapEventGold(300, status, map);
         goldPoint_1.setImage("AssetStoreTools/Bakenekokan/coinBag");
