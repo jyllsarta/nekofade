@@ -36,7 +36,7 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
 
     public void setImage(string resourcePath)
     {
-        string pathHeader = "SimpleVectorIcons/";
+        string pathHeader = "AssetStoreTools/Bakenekokan/Items/";
         string path = pathHeader + resourcePath;
         Sprite s = Resources.Load<Sprite>(path);
         image.sprite = s;

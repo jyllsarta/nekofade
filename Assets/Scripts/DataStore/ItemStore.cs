@@ -20,7 +20,7 @@ public class ItemStore : MonoBehaviour{
             case "復活の御魂": //こいつはだけパッシブ発動で特別処理書くのでいいかもな
                 itemName = "復活の御魂";
                 description = "【復活の御魂】HPが0になるダメージを受けたときに自動発動。HP全快で復活する。";
-                imagePath = "UI_Icon_Infinite";
+                imagePath = "mitama";
                 count = 2;
                 isPassiveItem = true;
                 rarity = Item.Rarity.LEGENDARY;
@@ -29,7 +29,7 @@ public class ItemStore : MonoBehaviour{
             case "HPポーション":
                 itemName = "HPポーション";
                 description = "【HPポーション】HPを50回復する。HP上限を超えて回復できる。";
-                imagePath = "UI_Icon_Trophy";
+                imagePath = "HPpotion";
                 count = 5;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
@@ -39,7 +39,7 @@ public class ItemStore : MonoBehaviour{
             case "MPポーション":
                 itemName = "MPポーション";
                 description = "【MPポーション】MPを50回復する。MP上限を超えて回復できる。";
-                imagePath = "UI_Icon_FaithIslam";
+                imagePath = "MPpotion";
                 count = 5;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
@@ -49,7 +49,7 @@ public class ItemStore : MonoBehaviour{
             case "DCS":
                 itemName = "魔ポテトのスープ";
                 description = "【魔ポテトのスープ】HPを40回復し、100Fの間スープ状態になる。筋力Lv+3,速度Lv+3。";
-                imagePath = "UI_Icon_FaithIslam";
+                imagePath = "DCS";
                 count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.EPIC;
@@ -60,7 +60,7 @@ public class ItemStore : MonoBehaviour{
             case "雷光の符":
                 itemName = "雷光の符";
                 description = "【雷光の符】雷光を発動。ランダムな敵に合計4回魔法ダメージ。";
-                imagePath = "UI_Icon_Energy";
+                imagePath = "cardThunder";
                 count = 4;
                 isPassiveItem = false;
                 rarity = Item.Rarity.EPIC;
@@ -69,7 +69,7 @@ public class ItemStore : MonoBehaviour{
             case "無敵バリア":
                 itemName = "無敵バリア";
                 description = "【無敵バリア】30Fの間、敵からのダメージをすべて無効化するバリアを展開。";
-                imagePath = "UI_Icon_Star";
+                imagePath = "invincible";
                 count = 2;
                 isPassiveItem = false;
                 rarity = Item.Rarity.LEGENDARY;
@@ -79,7 +79,7 @@ public class ItemStore : MonoBehaviour{
             case "衝撃の符":
                 itemName = "衝撃の符";
                 description = "【衝撃の符】現在ターゲットしている敵に物理ダメージ。";
-                imagePath = "UI_Icon_Bomb";
+                imagePath = "cardShock";
                 count = 9;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
@@ -89,7 +89,7 @@ public class ItemStore : MonoBehaviour{
             case "響火の符":
                 itemName = "響火の符";
                 description = "【響火の符】響火を発動。45Fの間、物理攻撃後に炎ダメージを追加。";
-                imagePath = "UI_Icon_Fire";
+                imagePath = "cardEnchantFire";
                 count = 4;
                 isPassiveItem = false;
                 rarity = Item.Rarity.RARE;
@@ -98,7 +98,7 @@ public class ItemStore : MonoBehaviour{
             case "消魔印":
                 itemName = "消魔印";
                 description = "【消魔印】ターンに1度、魔法ダメージを受けるときに自動発動。ダメージを1に軽減。";
-                imagePath = "UI_Icon_CardDiamonds";
+                imagePath = "nullifyMagic";
                 count = 3;
                 isPassiveItem = true;
                 rarity = Item.Rarity.EPIC;
