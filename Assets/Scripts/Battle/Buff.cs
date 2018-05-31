@@ -38,7 +38,7 @@ public class Buff : MonoBehaviour, IPointerEnterHandler{
     public MessageArea messageArea;
     public void setImage(string resourcePath)
     {
-        string pathHeader = "SimpleVectorIcons/";
+        string pathHeader = "AssetStoreTools/Bakenekokan/Skills/";
         string path = pathHeader + resourcePath;
         Sprite s = Resources.Load<Sprite>(path);
         icon.sprite = s;
