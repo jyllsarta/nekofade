@@ -42,6 +42,8 @@ public class Map : MonoBehaviour {
 
     public GameObject downerUI;
 
+    public bool isPreviousFrameBattle;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -53,6 +55,10 @@ public class Map : MonoBehaviour {
         }
     }
 
+    public void refresh()
+    {
+        parameters.refresh();
+    }
 
     //1マス移動ぶんの回復を適用
     public void applyMoveHealing()
@@ -171,11 +177,18 @@ public class Map : MonoBehaviour {
         {
             setEventSystemAndCameraState(true);
             downerUI.SetActive(true);
+            if (isPreviousFrameBattle)
+            {
+                parameters.setItems();
+            }
+            isPreviousFrameBattle = false;
         }
         else
         {
             setEventSystemAndCameraState(false);
             downerUI.SetActive(false);
+
+            isPreviousFrameBattle = true;
         }
     }
 

@@ -54,8 +54,8 @@ public class SirokoStats : MonoBehaviour{
 
     public void refreshParameters()
     {
-        this.maxHp = vitality * 40 + 100;
-        this.maxMp = magicCapacity * 40 + 100;
+        this.maxHp = getVitalityLevel() * 40 + 100;
+        this.maxMp = getMagicCapacityLevel() * 40 + 100;
     }
 
     public void addAction(string name)

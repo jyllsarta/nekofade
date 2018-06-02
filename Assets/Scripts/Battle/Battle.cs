@@ -172,7 +172,11 @@ public class Battle : MonoBehaviour {
     {
         SirokoStats status = FindObjectOfType<SirokoStats>();
         //TODO アイテムをMonobehaviour依存のないクラスにまとめる
-        //status.items = items;
+        status.items = new List<string>();
+        foreach(BattleItem item in items)
+        {
+            status.items.Add(item.item.itemName);
+        }
         status.mp = player.mp;
         status.hp = player.hp;
         status.addTurnCount(turnCount);

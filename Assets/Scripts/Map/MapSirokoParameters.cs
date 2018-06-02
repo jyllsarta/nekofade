@@ -40,6 +40,7 @@ public class MapSirokoParameters : MonoBehaviour {
 
     public void refresh()
     {
+        status.refreshParameters();
         setItems();
     }
     
