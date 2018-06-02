@@ -25,8 +25,8 @@ public class StoreMenu : UIMenu {
 
     // Use this for initialization
     void Start () {
-        leftHand.setShopLineup(new List<string>() { "響火", "瞬突", "凍結" }, StoreAreaComponent.ItemKind.ACTION);
-        rightHand.setShopLineup(new List<string>() { "ウィンドブーツ", "闇" }, StoreAreaComponent.ItemKind.EQUIP);
+        leftHand.setShopLineup(new List<string>() { "高揚", "大鎌", "凍結" }, StoreAreaComponent.ItemKind.ACTION);
+        rightHand.setShopLineup(new List<string>() { "さんかく帽子", "霊気の鎧", "闇" }, StoreAreaComponent.ItemKind.EQUIP);
         status = FindObjectOfType<SirokoStats>();
         goldText.numerate(status.gold);
         if (!status)

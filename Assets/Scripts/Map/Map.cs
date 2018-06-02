@@ -40,6 +40,8 @@ public class Map : MonoBehaviour {
 
     public UISFXController uiSFXController;
 
+    public GameObject downerUI;
+
     //Sceneの座標情報を読み込む
     public void loadGeometry()
     {
@@ -168,10 +170,12 @@ public class Map : MonoBehaviour {
         if (!isBattleLoaded())
         {
             setEventSystemAndCameraState(true);
+            downerUI.SetActive(true);
         }
         else
         {
             setEventSystemAndCameraState(false);
+            downerUI.SetActive(false);
         }
     }
 

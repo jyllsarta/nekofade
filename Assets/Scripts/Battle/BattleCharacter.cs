@@ -542,7 +542,11 @@ public class BattleCharacter : MonoBehaviour {
     {
         if (hasBuff(Buff.BuffID.REGENERATE) && hp < maxHp)
         {
-            hp += 1;
+            hp += 3;
+            if (hp > maxHp)
+            {
+                hp = maxHp;
+            }
         }
         //防御枚数の更新　重ければ厳密に加減のタイミングで取るようにする
         shieldContainer.updateShieldCount(shieldCount);

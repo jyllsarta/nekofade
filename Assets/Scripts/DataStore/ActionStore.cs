@@ -119,10 +119,10 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(actionName, TARGET_SINGLE_RANDOM, power, DAMAGE, 30));
                 effects.Add(new Effect(actionName, TARGET_SINGLE_RANDOM, power, DAMAGE, 30));
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
-            case "一閃":
-                description = "大振りの攻撃で敵全体にダメージ。やや隙が大きいが威力も高い。";
-                waitTime = 15;
-                power = 71;
+            case "大鎌":
+                description = "大振りの攻撃で敵全体にダメージ。隙が大きいが威力も高い。";
+                waitTime = 14;
+                power = 61;
                 cost = 0;
                 rarity = Action.Rarity.COMMON;
                 effects.Add(new Effect(actionName, TARGET_ALL, power, DAMAGE));
@@ -147,17 +147,17 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(actionName, ME, power, HEAL, 60, attributes));
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
             case "癒陣":
-                description = "発動時わずかに味方全体を回復しつつ、3ターンの間継続的に回復を続ける陣を生成。";
-                waitTime = 12;
-                power = 10;
-                cost = 20;
+                description = "HPを50回復し、3ターンの間回復を続ける陣を生成。";
+                waitTime = 14;
+                power = 50;
+                cost = 25;
                 rarity = Action.Rarity.COMMON;
                 attributes.Add(Effect.Attribute.MAGIC);
-                effects.Add(new Effect(actionName, ALLY_ALL, power, HEAL));
-                effects.Add(new Effect(actionName, ALLY_ALL, power, Buff.BuffID.REGENERATE));
+                effects.Add(new Effect(actionName, ME, power, Effect.EffectType.CONSTANTHEAL));
+                effects.Add(new Effect(actionName, ME, power, Buff.BuffID.REGENERATE));
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
             case "防御":
-                description = "物理障壁を周囲に展開し、次に受ける物理ダメージを(防御Lv依存で)50%以上軽減する。";
+                description = "物理障壁を周囲に展開し、次に受ける物理ダメージを50%以上軽減する。";
                 waitTime = 9;
                 cost = 0;
                 rarity = Action.Rarity.COMMON;
@@ -313,12 +313,12 @@ public class ActionStore : MonoBehaviour{
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
             case "凍結":
                 description = "敵全体に強力な魔法ダメージを与える。";
-                waitTime = 14;
-                power = 75;
-                cost = 30;
+                waitTime = 16;
+                power = 65;
+                cost = 35;
                 rarity = Action.Rarity.RARE;
                 attributes.Add(Effect.Attribute.MAGIC);
-                effects.Add(new Effect(actionName, TARGET_ALL, power, DAMAGE, 60, attributes));
+                effects.Add(new Effect(actionName, TARGET_ALL, power, DAMAGE, 90, attributes));
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
             case "烈風":
                 description = "敵単体に強力な魔法ダメージを与える。";
@@ -331,8 +331,8 @@ public class ActionStore : MonoBehaviour{
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
             case "瞬突":
                 description = "すばやく正確な一撃を加える。";
-                waitTime = 8;
-                power = 61;
+                waitTime = 9;
+                power = 51;
                 cost = 0;
                 rarity = Action.Rarity.RARE;
                 effects.Add(new Effect(actionName, TARGET_SINGLE, power, DAMAGE, 60, attributes));
@@ -362,7 +362,7 @@ public class ActionStore : MonoBehaviour{
                 effects.Add(new Effect(actionName, ME, power,Effect.EffectType.CONSTANTMPHEAL));
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
             case "高揚":
-                description = "与えるダメージが2倍になる。";
+                description = "50Fの間、与えるダメージが2倍になる。";
                 waitTime = 15;
                 cost = 25;
                 rarity = Action.Rarity.RARE;

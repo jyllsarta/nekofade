@@ -14,11 +14,12 @@ public class MapPointSetter : MonoBehaviour {
     public MapPoint midBossPoint_2; //妖精ゴブカニ
     public MapPoint treasurePoint_1; //みたま
     public MapPoint treasurePoint_2; //癒陣
-    public MapPoint treasurePoint_3; //響火
+    public MapPoint treasurePoint_3; //響火の符
     public MapPoint treasurePoint_4; //HPポーション
-    public MapPoint treasurePoint_5; //ウィンドブーツ
+    public MapPoint treasurePoint_5; //MPポーション
     public MapPoint treasurePoint_6; //双撃
     public MapPoint treasurePoint_7; //プレートアーマー
+    public MapPoint treasurePoint_8; //雷光の符
     public MapPoint goldPoint_1; //300G
     public MapPoint goldPoint_2; //500G
     public MapPoint storePoint; //店
@@ -97,13 +98,13 @@ public class MapPointSetter : MonoBehaviour {
 
     public void putStaticObjects()
     {
-        bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王", "本妖精", "メカカニちゃん" }, map, status);
+        bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王", "ヤリゴブニキ", "カニちゃん" }, map, status);
         bossPoint.setImage("Enemy/kingNeko");
 
-        midBossPoint_1.mapEvent = new MapEventEnemy(new List<string>() { "鍵妖精", "本妖精", "妖精" }, map, status);
+        midBossPoint_1.mapEvent = new MapEventEnemy(new List<string>() { "鍵妖精", "妖精" }, map, status);
         midBossPoint_1.setImage("Enemy/faily_eleki");
 
-        midBossPoint_2.mapEvent = new MapEventEnemy(new List<string>() { "メカカニちゃん","メカカニちゃん" }, map, status);
+        midBossPoint_2.mapEvent = new MapEventEnemy(new List<string>() { "カニちゃん","メカカニちゃん" }, map, status);
         midBossPoint_2.setImage("Enemy/kani_white");
 
         goalPoint.mapEvent = new MapEventGoal(map, map.dialog);
@@ -114,9 +115,11 @@ public class MapPointSetter : MonoBehaviour {
 
         treasurePoint_2.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "癒陣", map.dialog);
         treasurePoint_2.setImage("AssetStoreTools/Bakenekokan/Items/actionReading");
+        treasurePoint_3.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ITEM, "響火の符", map.dialog);
+        treasurePoint_3.setImage("AssetStoreTools/Bakenekokan/Items/treasure");
         treasurePoint_4.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ITEM, "HPポーション", map.dialog);
         treasurePoint_4.setImage("AssetStoreTools/Bakenekokan/Items/treasure");
-        treasurePoint_5.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.EQUIP, "ウィンドブーツ", map.dialog);
+        treasurePoint_5.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ITEM, "雷光の符", map.dialog);
         treasurePoint_5.setImage("AssetStoreTools/Bakenekokan/Items/treasure");
         treasurePoint_6.mapEvent = new MapEventTreasure(status, map, MapEventTreasure.TreasureType.ACTION, "双撃", map.dialog);
         treasurePoint_6.setImage("AssetStoreTools/Bakenekokan/Items/actionReading");

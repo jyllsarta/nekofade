@@ -50,6 +50,7 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
 
     public void showButton()
     {
+        Debug.Log("ぶーん");
         if (item.isPassiveItem)
         {
             return;
