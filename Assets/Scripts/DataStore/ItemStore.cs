@@ -21,29 +21,29 @@ public class ItemStore : MonoBehaviour{
                 itemName = "復活の御魂";
                 description = "【復活の御魂】HPが0になるダメージを受けたときに自動発動。HP全快で復活する。";
                 imagePath = "mitama";
-                count = 2;
+                count = 1;
                 isPassiveItem = true;
                 rarity = Item.Rarity.LEGENDARY;
                 action = new Action();
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity); ;
             case "HPポーション":
                 itemName = "HPポーション";
-                description = "【HPポーション】HPを50回復する。HP上限を超えて回復できる。";
+                description = "【HPポーション】HPを300回復する。HP上限を超えて回復できる。";
                 imagePath = "HPpotion";
-                count = 5;
+                count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
-                effects.Add(new Effect(itemName, Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDHEAL));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 300, Effect.EffectType.CONSTANTEXCEEDHEAL));
                 action = new Action("HPポーション", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "MPポーション":
                 itemName = "MPポーション";
-                description = "【MPポーション】MPを50回復する。MP上限を超えて回復できる。";
+                description = "【MPポーション】MPを150回復する。MP上限を超えて回復できる。";
                 imagePath = "MPpotion";
-                count = 5;
+                count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
-                effects.Add(new Effect(itemName, Effect.TargetType.ME, 50, Effect.EffectType.CONSTANTEXCEEDMPHEAL));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 150, Effect.EffectType.CONSTANTEXCEEDMPHEAL));
                 action = new Action("MPポーション", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "DCS":
@@ -61,7 +61,7 @@ public class ItemStore : MonoBehaviour{
                 itemName = "雷光の符";
                 description = "【雷光の符】雷光を発動。ランダムな敵に合計4回魔法ダメージ。";
                 imagePath = "cardThunder";
-                count = 4;
+                count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.EPIC;
                 action = ActionStore.getActionByName("雷光");
@@ -70,7 +70,7 @@ public class ItemStore : MonoBehaviour{
                 itemName = "無敵バリア";
                 description = "【無敵バリア】30Fの間、敵からのダメージをすべて無効化するバリアを展開。";
                 imagePath = "invincible";
-                count = 2;
+                count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.LEGENDARY;
                 effects.Add(new Effect(itemName, Effect.TargetType.ME, 99, Buff.BuffID.INVINCIBLE));
@@ -80,7 +80,7 @@ public class ItemStore : MonoBehaviour{
                 itemName = "衝撃の符";
                 description = "【衝撃の符】現在ターゲットしている敵に物理ダメージ。";
                 imagePath = "cardShock";
-                count = 9;
+                count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
                 effects.Add(new Effect(itemName, Effect.TargetType.TARGET_SINGLE, 30, Effect.EffectType.DAMAGE));
@@ -90,18 +90,18 @@ public class ItemStore : MonoBehaviour{
                 itemName = "響火の符";
                 description = "【響火の符】響火を発動。45Fの間、物理攻撃後に炎ダメージを追加。";
                 imagePath = "cardEnchantFire";
-                count = 4;
+                count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.RARE;
                 action = ActionStore.getActionByName("響火");
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "消魔印":
                 itemName = "消魔印";
-                description = "【消魔印】ターンに1度、魔法ダメージを受けるときに自動発動。ダメージを1に軽減。";
+                description = "【消魔印】魔法ダメージを受けるときに自動発動。ダメージを1に軽減。";
                 imagePath = "nullifyMagic";
-                count = 3;
+                count = 1;
                 isPassiveItem = true;
-                rarity = Item.Rarity.EPIC;
+                rarity = Item.Rarity.COMMON;
                 action = new Action();
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             default:
