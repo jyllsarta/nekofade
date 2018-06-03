@@ -19,6 +19,9 @@ public class SirokoStats : MonoBehaviour{
     //所持金
     public int gold;
 
+    //消費金額
+    public int totalGoldConsumed;
+
     //かけた時間
     public int clock;
 
@@ -240,6 +243,7 @@ public class SirokoStats : MonoBehaviour{
             return;
         }
         gold -= cost;
+        totalGoldConsumed += cost;
 
         switch (kind)
         {
@@ -347,6 +351,7 @@ public class SirokoStats : MonoBehaviour{
             return;
         }
         gold -= cost;
+        totalGoldConsumed += cost;
         switch (kind)
         {
             case StoreAreaComponent.ItemKind.ACTION:

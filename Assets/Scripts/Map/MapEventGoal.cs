@@ -28,7 +28,7 @@ public class MapEventGoal : MapEvent, IUIMenuAction
 
     public void OnClose()
     {
-        SceneManager.LoadSceneAsync("title");
+        SceneManager.LoadSceneAsync("clear", LoadSceneMode.Additive);
     }
 
 }
