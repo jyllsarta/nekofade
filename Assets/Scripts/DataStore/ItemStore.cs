@@ -28,12 +28,12 @@ public class ItemStore : MonoBehaviour{
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity); ;
             case "HPポーション":
                 itemName = "HPポーション";
-                description = "【HPポーション】HPを300回復する。HP上限を超えて回復できる。";
+                description = "【HPポーション】HPを150回復する。HP上限を超えて回復できる。";
                 imagePath = "HPpotion";
                 count = 1;
                 isPassiveItem = false;
                 rarity = Item.Rarity.COMMON;
-                effects.Add(new Effect(itemName, Effect.TargetType.ME, 300, Effect.EffectType.CONSTANTEXCEEDHEAL));
+                effects.Add(new Effect(itemName, Effect.TargetType.ME, 150, Effect.EffectType.CONSTANTEXCEEDHEAL));
                 action = new Action("HPポーション", "stub", 0, 0, effects);
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "MPポーション":
@@ -88,7 +88,7 @@ public class ItemStore : MonoBehaviour{
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "響火の符":
                 itemName = "響火の符";
-                description = "【響火の符】響火を発動。45Fの間、物理攻撃後に炎ダメージを追加。";
+                description = "【響火の符】響火を発動。90Fの間、物理攻撃後に炎ダメージを追加。";
                 imagePath = "cardEnchantFire";
                 count = 1;
                 isPassiveItem = false;

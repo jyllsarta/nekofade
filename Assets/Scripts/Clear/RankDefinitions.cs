@@ -58,23 +58,23 @@ public class RankDefinitions {
 
     public static string getRankStringFromGoldAmount(int goldAmount)
     {
-        if (goldAmount >= 1000)
+        if (goldAmount >= 1500)
         {
             return "S";
         }
-        if (goldAmount >= 800)
+        if (goldAmount >= 1300)
         {
             return "A";
         }
-        if (goldAmount >= 600)
+        if (goldAmount >= 1100)
         {
             return "B";
         }
-        if (goldAmount >= 400)
+        if (goldAmount >= 900)
         {
             return "C";
         }
-        if (goldAmount >= 300)
+        if (goldAmount >= 700)
         {
             return "D";
         }
@@ -83,28 +83,28 @@ public class RankDefinitions {
 
     public static int getAmountToNextRankFromGoldAmount(int goldAmount)
     {
-        if (goldAmount >= 1000)
+        if (goldAmount >= 1500)
         {
             Debug.Log("いやもう最強やんけ");
             return 0;
         }
-        if (goldAmount >= 800)
+        if (goldAmount >= 1300)
         {
-            return 1000 - goldAmount;
+            return 1500 - goldAmount;
         }
-        if (goldAmount >= 600)
+        if (goldAmount >= 1100)
         {
-            return 800 - goldAmount;
+            return 1300 - goldAmount;
         }
-        if (goldAmount >= 400)
+        if (goldAmount >= 900)
         {
-            return 600 - goldAmount;
+            return 1100 - goldAmount;
         }
-        if (goldAmount >= 300)
+        if (goldAmount >= 700)
         {
-            return 400 - goldAmount;
+            return 900 - goldAmount;
         }
-        return 300 - goldAmount;
+        return 700 - goldAmount;
     }
 
 }

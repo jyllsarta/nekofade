@@ -58,8 +58,8 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.actions.Add("魔王剣");
                 createdChild.routine = BattleCharacter.RoutineType.ASCENDING;
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
-                createdChild.initializeParameters(850, 10, 2, 2, 6, 3, 1);
-                createdChild.rewardGold = 100;
+                createdChild.initializeParameters(999, 10, 4, 2, 6, 3, 1);
+                createdChild.rewardGold = 666;
                 createdChild.setImage("Enemy/kingNeko");
                 return createdChild;
             case "ねこベス":

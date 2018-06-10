@@ -365,7 +365,7 @@ public class ActionStore : MonoBehaviour{
                 description = "50Fの間、与えるダメージが2倍になる。";
                 waitTime = 15;
                 cost = 25;
-                rarity = Action.Rarity.RARE;
+                rarity = Action.Rarity.COMMON;
                 effects.Add(new Effect(actionName, ME, power, Buff.BuffID.EXALTED));
                 return new Action(actionName, description, waitTime, cost, effects,rarity, actor);
 

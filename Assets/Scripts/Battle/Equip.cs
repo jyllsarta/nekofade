@@ -29,11 +29,11 @@ public class Equip{
             case Rarity.COMMON:
                 return 200;
             case Rarity.RARE:
-                return 400;
+                return 300;
             case Rarity.EPIC:
-                return 700;
+                return 500;
             case Rarity.LEGENDARY:
-                return 1500;
+                return 800;
             default:
                 Debug.LogWarning("getCostByRarityのdefaultが呼ばれてる");
                 return 999;
