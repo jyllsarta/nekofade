@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ClearSceneConstructor : MonoBehaviour {
 
@@ -12,13 +13,39 @@ public class ClearSceneConstructor : MonoBehaviour {
 
     public NumeratableText goldReturn;
     public NumeratableText turnCount;
+    public TextMeshProUGUI goldNextRank;
+    public TextMeshProUGUI turnNextRank;
+    public TextMeshProUGUI goldRank;
+    public TextMeshProUGUI turnRank;
 
     public SpriteRenderer darken;
 
     public SirokoStats status;
 
-	// Use this for initialization
-	void Start () {
+    public void updateRanks()
+    {
+        goldRank.text = RankDefinitions.getRankStringFromGoldAmount(status.gold);
+        turnRank.text = RankDefinitions.getRankStringFromClearTurn(status.clock);
+        if (goldRank.text == "S")
+        {
+            goldNextRank.text = "最高評価です！やったね！";
+        }
+        else
+        {
+            goldNextRank.text = string.Format("あと {0} でランクアップ", RankDefinitions.getAmountToNextRankFromGoldAmount(status.gold));
+        }
+        if (turnRank.text == "S")
+        {
+            turnNextRank.text = "最高評価です！やったね！";
+        }
+        else
+        {
+            turnNextRank.text = string.Format("あと {0} でランクアップ", RankDefinitions.getAmountToNextRankFromClearTurn(status.clock));
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         congratsTimer = 0;
 
         status = FindObjectOfType<SirokoStats>();
@@ -31,7 +58,7 @@ public class ClearSceneConstructor : MonoBehaviour {
 
         goldReturn.numerate(status.gold);
         turnCount.numerate(status.clock);
-
+        updateRanks();
 	}
 	
 	// Update is called once per frame
@@ -49,7 +76,10 @@ public class ClearSceneConstructor : MonoBehaviour {
 
     public void returnToTitle()
     {
-        Destroy(status);
+        foreach (SirokoStats status in FindObjectsOfType<SirokoStats>())
+        {
+            Destroy(status.gameObject);
+        }
         SceneManager.LoadSceneAsync("title");
     }
 }
