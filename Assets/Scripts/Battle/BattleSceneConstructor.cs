@@ -11,12 +11,12 @@ public class BattleSceneConstructor : MonoBehaviour {
 
     void setSirokoParameter()
     {
-        battleModel.player.strength = status.strength;
-        battleModel.player.intelligence = status.intelligence;
-        battleModel.player.magicCapacity = status.magicCapacity;
-        battleModel.player.speed = status.speed;
-        battleModel.player.vitality = status.vitality;
-        battleModel.player.defence = status.defence;
+        battleModel.player.strength = status.getStrengthLevel();
+        battleModel.player.intelligence = status.getIntelligenceLevel();
+        battleModel.player.magicCapacity = status.getMagicCapacityLevel();
+        battleModel.player.speed = status.getSpeedLevel();
+        battleModel.player.vitality = status.getVitalityLevel();
+        battleModel.player.defence = status.getDefenceLevel();
         battleModel.player.hp = status.hp;
         battleModel.player.maxHp = battleModel.player.getMaxHP();
         battleModel.player.mp = status.mp;
