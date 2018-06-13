@@ -6,7 +6,6 @@ public class randomizeStateOfNextAnimation : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        Debug.Log("も");
         animator.Play("EnemyYurayura", 0, Random.Range(0, 1f));
     }
 
