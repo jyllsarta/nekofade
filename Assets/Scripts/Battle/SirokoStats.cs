@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 //ゲーム中強化していくしろこのステータス
 [System.Serializable]
@@ -227,6 +228,19 @@ public class SirokoStats : MonoBehaviour{
     public bool canLevelUp(ParameterKind kind)
     {
         return getLevel(kind) < 5 && getLevelupCost(kind) <= gold;
+    }
+
+    //どれかいっこでもレベルアップ可能かどうか
+    public bool canLevelUpAny()
+    {
+        foreach (ParameterKind paramKind in Enum.GetValues(typeof(ParameterKind)))
+        {
+            if (canLevelUp(paramKind))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void levelUp(ParameterKind kind)
