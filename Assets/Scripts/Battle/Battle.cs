@@ -24,6 +24,7 @@ public class Battle : MonoBehaviour {
 
     public DamageEffect damageEffect;
     public DamageEffect healEffect;
+    public DamageEffect healEffectMP;
 
     public ActionCutIn actionCutIn;
     public GameObject interruptEffect;
@@ -404,7 +405,7 @@ public class Battle : MonoBehaviour {
             }
         }
         //エフェクトの再生
-        DamageEffect createdEffect = Instantiate(healEffect, target.transform);
+        DamageEffect createdEffect = Instantiate(healEffectMP, target.transform);
         createdEffect.damageText.text = value.ToString();
         createdEffect.transform.position = target.transform.position;
         target.setEmotion("happy", 60);

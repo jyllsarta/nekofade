@@ -22,6 +22,7 @@ public class Map : MonoBehaviour {
     public SirokoStats status_default;
 
     public DamageEffect healEffect;
+    public DamageEffect healEffectMP;
 
     //オブジェクト発生位置指定用
     public NumeratableText hpValue;
@@ -75,7 +76,7 @@ public class Map : MonoBehaviour {
         if (status.mp   < status.maxMp)
         {
             status.healMp(mpHealValue);
-            DamageEffect createdMpEffect = Instantiate<DamageEffect>(healEffect, mpValue.transform);
+            DamageEffect createdMpEffect = Instantiate<DamageEffect>(healEffectMP, mpValue.transform);
             createdMpEffect.transform.Translate(new Vector3(0, 50, 0));
             createdMpEffect.damageText.text = mpHealValue.ToString();
         }
