@@ -12,20 +12,28 @@ public class BGMOfThisScene : MonoBehaviour {
     [SerializeField]
     private AudioSource field;
 
+    [SerializeField]
+    private float changeSpeed;
+
+    private AudioSource currentMusic;
+    private AudioSource prevMusic;
+
     // Use this for initialization
     void Start () {
+        changeMusic(battle, field);
         field.Play();
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
     }
+
+
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         switch (scene.name)
         {
             case "battleAlpha":
-                field.Pause();
-                battle.Play();
+                changeMusic(field, battle);
                 break;
         }
     }
@@ -35,10 +43,43 @@ public class BGMOfThisScene : MonoBehaviour {
         switch (scene.name)
         {
             case "battleAlpha":
-                field.UnPause();
+                changeMusic(battle, field);
                 break;
 
         }
+    }
+
+    void changeMusic(AudioSource prev, AudioSource next)
+    {
+        prevMusic = prev;
+        currentMusic = next;
+        currentMusic.volume = 0f;
+        if (currentMusic.time <= 1f)
+        {
+            currentMusic.Play();
+        }
+        else
+        {
+            currentMusic.UnPause();
+        }
+    }
+
+    private void Update()
+    {
+        if (currentMusic.volume < 0.95f)
+        {
+            currentMusic.volume += changeSpeed;
+        }
+        if (prevMusic.volume > 0f)
+        {
+            prevMusic.volume -= changeSpeed;
+        }
+
+        if (prevMusic.volume <= changeSpeed)
+        {
+            prevMusic.Pause();
+        }
+
     }
 
 }
