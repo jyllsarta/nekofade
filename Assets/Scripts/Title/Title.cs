@@ -9,4 +9,8 @@ public class Title : MonoBehaviour {
     {
         SceneManager.LoadSceneAsync("map");
     }
+    public void loadLicenseScene()
+    {
+        SceneManager.LoadSceneAsync("license", LoadSceneMode.Additive);
+    }
 }

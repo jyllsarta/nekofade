@@ -20,8 +20,8 @@ public class BGMOfThisScene : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        changeMusic(battle, field);
         field.Play();
+        changeMusic(battle, field);
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnLoaded;
     }
