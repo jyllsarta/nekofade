@@ -34,21 +34,22 @@ public class MapCamera : MonoBehaviour {
     void constrainPosition()
     {
         Vector3 pos = c.transform.position;
-        if (pos.x > 10)
+        if (pos.x > 6.7f)
         {
-            c.transform.position = new Vector3(10, pos.y, pos.z);
+            c.transform.position = new Vector3(6.7f, pos.y, pos.z);
         }
-        if (pos.x < -10)
+        if (pos.x < -6.6f)
         {
-            c.transform.position = new Vector3(-10, pos.y, pos.z);
+            c.transform.position = new Vector3(-6.6f, pos.y, pos.z);
         }
-        if (pos.y > 6)
+        pos = c.transform.position;
+        if (pos.y > 4.5f)
         {
-            c.transform.position = new Vector3(pos.x, 6, pos.z);
+            c.transform.position = new Vector3(pos.x, 4.5f, pos.z);
         }
-        if (pos.y < -5)
+        if (pos.y < -3.7f)
         {
-            c.transform.position = new Vector3(pos.x, -5, pos.z);
+            c.transform.position = new Vector3(pos.x, -3.7f, pos.z);
         }
     }
 
@@ -81,8 +82,7 @@ public class MapCamera : MonoBehaviour {
         return false;
     }
 
-    // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
         if (isBattleLoaded())
         {
             return;
