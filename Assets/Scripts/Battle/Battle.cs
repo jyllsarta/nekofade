@@ -44,8 +44,8 @@ public class Battle : MonoBehaviour {
     //あと何フレームエフェクト再生で止まるか
     public int remainingEffectAnimationframes;
 
-    //今ターゲットしてる敵の番号
-    public int currentTargettingEnemyIndex;
+    //今ターゲットしてる敵のハッシュ
+    public int currentTargettingEnemyHash;
 
     //バトルシーンの状態　プレイヤーのコマンド受付なのかバトル中なのか
     public GameState currentGameState;
@@ -78,7 +78,7 @@ public class Battle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        currentTargettingEnemyIndex = 0;
+        currentTargettingEnemyHash = getIndexOfActiveEnemy();
         turnCount = 0;
         isLoading = true;
         effectList = new LinkedList<PlayableEffect>();
@@ -147,8 +147,11 @@ public class Battle : MonoBehaviour {
     //生きてる中で一番近いやつをターゲットする
     int getIndexOfActiveEnemy()
     {
-        //enemiesは死んだ敵を保持しなくなったので最初の要素が常に「生きてる中で一番近いやつ」になる
-        return 0;
+        if (enemies.Count == 0)
+        {
+            return 0;
+        }
+        return enemies[0].GetHashCode();
     }
 
     public void targetEnemyByHash(int hashCode)
@@ -159,7 +162,7 @@ public class Battle : MonoBehaviour {
         {
             if (enemies[i].GetHashCode() == hashCode)
             {
-                currentTargettingEnemyIndex = i;
+                currentTargettingEnemyHash = enemies[i].GetHashCode();
                 targetCircle.SetActive(true);
                 targetCircle.transform.position = enemies[i].transform.position;
                 return;
@@ -625,9 +628,8 @@ public class Battle : MonoBehaviour {
                 {
                     case ActorType.PLAYER:
                         //自分が敵一体狙う → 今のターゲットを狙う
-                        BattleCharacter target = enemies[currentTargettingEnemyIndex];
+                        BattleCharacter target = enemies.Find(x=>x.GetHashCode() == currentTargettingEnemyHash);
                         resolveEffect(player, ref target, pe.effect);
-                        enemies[currentTargettingEnemyIndex] = target;
                         break;
                     case ActorType.ENEMY:
                         //敵が敵一体狙う → 自分狙い
@@ -852,6 +854,13 @@ public class Battle : MonoBehaviour {
                 rewards.addReward(BattleReward.RewardType.GOLD, enemy.rewardGold);
             }
         }
+        //このアクションで敵が死んだ場合にはリターゲット
+        BattleCharacter activeEnemy = enemies.Find(x => x.GetHashCode() == currentTargettingEnemyHash);
+        if (activeEnemy != null && activeEnemy.isDead())
+        {
+            currentTargettingEnemyHash = getIndexOfActiveEnemy();
+            targetCircle.SetActive(false);
+        }
         enemies.RemoveAll(x => x.isDead());
     }
 
@@ -926,12 +935,6 @@ public class Battle : MonoBehaviour {
                 //再生が終わったら後始末をしてターンに戻る
                 if (remainingEffectAnimationframes <= 0 && effectList.Count == 0)
                 {
-                    //このアクションで敵が死んだ場合にはリターゲット
-                    if (enemies[currentTargettingEnemyIndex].isDead())
-                    {
-                        currentTargettingEnemyIndex = getIndexOfActiveEnemy();
-                        targetCircle.SetActive(false);
-                    }
                     //キャラが死んだり速度に変化があるかもしれないので反映
                     removeDeadEnemyFromScene();
                     actionButtonArea.updateActionWaitTime();
@@ -943,12 +946,6 @@ public class Battle : MonoBehaviour {
                 //再生が終わったら行動選択に戻る
                 if (remainingEffectAnimationframes <= 0 && effectList.Count == 0)
                 {
-                    //このアクションで敵が死んだ場合にはリターゲット
-                    if (enemies[currentTargettingEnemyIndex].isDead())
-                    {
-                        currentTargettingEnemyIndex = getIndexOfActiveEnemy();
-                        targetCircle.SetActive(false);
-                    }
                     //キャラが死んだり速度に変化があるかもしれないので反映
                     removeDeadEnemyFromScene();
                     actionButtonArea.updateActionWaitTime();
