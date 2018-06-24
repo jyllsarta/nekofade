@@ -145,7 +145,7 @@ public class Battle : MonoBehaviour {
     }
 
     //生きてる中で一番近いやつをターゲットする
-    int getIndexOfActiveEnemy()
+    public int getIndexOfActiveEnemy()
     {
         if (enemies.Count == 0)
         {
@@ -854,14 +854,15 @@ public class Battle : MonoBehaviour {
                 rewards.addReward(BattleReward.RewardType.GOLD, enemy.rewardGold);
             }
         }
+        enemies.RemoveAll(x => x.isDead());
+
         //このアクションで敵が死んだ場合にはリターゲット
         BattleCharacter activeEnemy = enemies.Find(x => x.GetHashCode() == currentTargettingEnemyHash);
-        if (activeEnemy != null && activeEnemy.isDead())
+        if (activeEnemy == null)
         {
             currentTargettingEnemyHash = getIndexOfActiveEnemy();
             targetCircle.SetActive(false);
         }
-        enemies.RemoveAll(x => x.isDead());
     }
 
     //エフェクト再生を1フレームぶん進める

@@ -77,10 +77,12 @@ public class BattleSceneConstructor : MonoBehaviour {
         setEquips();
         setItems();
         battleModel.player.shieldContainer.initialize(battleModel.player.getMaxDefenceCount(),0);
+        battleModel.currentTargettingEnemyHash =battleModel.getIndexOfActiveEnemy();
+
     }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         status = FindObjectOfType<SirokoStats>();
         initialize();
         battleModel.setLoadFinished();
