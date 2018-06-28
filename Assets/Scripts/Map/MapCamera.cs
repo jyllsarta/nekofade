@@ -9,6 +9,9 @@ public class MapCamera : MonoBehaviour {
     public Vector2 prevPos;
     public float sensitivity;
 
+    [SerializeField]
+    bool surpressMove;
+
     Vector2 getInputPosition()
     {
         if (Input.touchCount > 0)
@@ -71,6 +74,7 @@ public class MapCamera : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         prevPos = getInputPosition();
+        surpressMove = false;
     }
 
     bool isBattleLoaded()
