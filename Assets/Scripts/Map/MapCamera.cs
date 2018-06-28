@@ -58,6 +58,10 @@ public class MapCamera : MonoBehaviour {
 
     void moveCamera()
     {
+        if (surpressMove)
+        {
+            return;
+        }
         if (isInputStartFrame())
         {
             prevPos = getInputPosition();
@@ -69,6 +73,11 @@ public class MapCamera : MonoBehaviour {
             tryTranslateCamera(new Vector2(dx, dy));
             prevPos = getInputPosition();
         }
+    }
+
+    public void setSurpressMode(bool state)
+    {
+        surpressMove = state;
     }
 
 	// Use this for initialization
