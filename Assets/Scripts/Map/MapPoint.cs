@@ -15,6 +15,7 @@ public class MapPoint : MonoBehaviour , IPointerClickHandler{
     public Map map;
     public SpriteRenderer siroko;
     public MapEvent mapEvent;
+    public ParticleSystem canMoveParticle;
 
     public bool isDistanceLessThan(Transform target, float distance)
     {
@@ -29,12 +30,14 @@ public class MapPoint : MonoBehaviour , IPointerClickHandler{
             this.isMoveAbailable = true;
             image.color = new Color(1f, 1f, 1f, 1f);
             floor.color = new Color(1f, 1f, 1f, 1f);
+            canMoveParticle.gameObject.SetActive(true);
         }
         else
         {
             this.isMoveAbailable = false;
             image.color = new Color(0.5f, 0.5f, 0.5f, 1f);
             floor.color = new Color(0.3f, 0.3f, 0.3f, 0.8f);
+            canMoveParticle.gameObject.SetActive(false);
         }
     }
 
