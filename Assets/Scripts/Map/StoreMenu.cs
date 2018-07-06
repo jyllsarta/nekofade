@@ -13,6 +13,10 @@ public class StoreMenu : UIMenu {
 
     public void refresh()
     {
+        if (!status)
+        {
+            status = FindObjectOfType<SirokoStats>();
+        }
         leftHand.refresh();
         rightHand.refresh();
         goldText.numerate(status.gold);
@@ -21,6 +25,7 @@ public class StoreMenu : UIMenu {
     public new void show()
     {
         gameObject.SetActive(true);
+        refresh();
     }
 
     // Use this for initialization
@@ -33,6 +38,7 @@ public class StoreMenu : UIMenu {
         {
             Debug.LogError("ステータス掴みそこねた(ストアメニュー)");
         }
+        refresh();
     }
 
     // Update is called once per frame
