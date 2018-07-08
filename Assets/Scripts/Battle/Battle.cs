@@ -814,7 +814,7 @@ public class Battle : MonoBehaviour {
         string actionName = enemy.nextAction();
         EnemyAction a = new EnemyAction(ActionStore.getActionByName(actionName, enemy));
         a.actorHash = enemy.GetHashCode();
-        a.frame = Random.Range(1, timeline.framesPerTurn);
+        a.frame = Random.Range(5, timeline.framesPerTurn - 4); //0-4F目に置くと死ぬし最後の方に置くと見えなくなるのでその場しのぎ対策
         a.predictedDamage = getPredictedDamage(enemy, player, a);
         a.isUpperSide = timeline.shouldBePlacedToUpperSide(a.frame);
         timeline.addEnemyAction(a,enemy);
