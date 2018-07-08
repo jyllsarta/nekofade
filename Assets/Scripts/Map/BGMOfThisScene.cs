@@ -45,12 +45,17 @@ public class BGMOfThisScene : MonoBehaviour {
             case "battleAlpha":
                 changeMusic(battle, field);
                 break;
-
+            case "map":
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+                SceneManager.sceneUnloaded -= OnSceneUnLoaded;
+                break;
         }
     }
 
     void changeMusic(AudioSource prev, AudioSource next)
     {
+        Debug.Log(prev);
+        Debug.Log(next);
         prevMusic = prev;
         currentMusic = next;
         currentMusic.volume = 0f;
