@@ -81,7 +81,7 @@ public class BuffStore : MonoBehaviour {
                 return createdChild;
             case Buff.BuffID.ENCHANT_FIRE:
                 createdChild.length = 90;
-                createdChild.description = "【響火】物理攻撃後にプチ火炎を発動。";
+                createdChild.description = "【響火】物理攻撃後にランダム対象にプチ火炎を発動。";
                 createdChild.setImage("hibihi");
                 createdChild.duplicates = false;
                 createdChild.isPermanent = false;

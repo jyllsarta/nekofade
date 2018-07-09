@@ -88,7 +88,7 @@ public class ItemStore : MonoBehaviour{
                 return new Item(itemName, count, isPassiveItem, description, imagePath, action, rarity);
             case "響火の符":
                 itemName = "響火の符";
-                description = "【響火の符】響火を発動。90Fの間、物理攻撃後に炎ダメージを追加。";
+                description = "【響火の符】響火を発動。90Fの間、物理攻撃後にランダム対象に炎ダメージを追加。";
                 imagePath = "cardEnchantFire";
                 count = 1;
                 isPassiveItem = false;
