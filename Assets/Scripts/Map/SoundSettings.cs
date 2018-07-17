@@ -38,11 +38,15 @@ public class SoundSettings : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        float o;
+        audioMixer.GetFloat("BGMVolume", out o);
+        bgmSlider.value = o;
+        audioMixer.GetFloat("SFXVolume", out o);
+        sfxSlider.value = o;
+    }
+
+    // Update is called once per frame
+    void Update () {
        var amg  = audioMixer.FindMatchingGroups("BGM");
 	}
 }
