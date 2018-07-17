@@ -21,6 +21,13 @@ public class TimelineAction : MonoBehaviour {
 
     public void onClick()
     {
+        BattleSFXController battleSpeaker = FindObjectOfType<BattleSFXController>();
+        if (!battleSpeaker)
+        {
+            Debug.LogWarning("バトルスピーカーどっかやった");
+            return;
+        }
+        battleSpeaker.playCancelAction();
         timeline.removeAction(hashCode);
     }
 

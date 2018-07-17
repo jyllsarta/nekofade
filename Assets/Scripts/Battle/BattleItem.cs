@@ -50,7 +50,6 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
 
     public void showButton()
     {
-        Debug.Log("ぶーん");
         if (item.isPassiveItem)
         {
             return;
@@ -60,6 +59,13 @@ public class BattleItem : MonoBehaviour, IPointerEnterHandler{
             return;
         }
         button.gameObject.SetActive(true);
+        BattleSFXController battleSpeaker = FindObjectOfType<BattleSFXController>();
+        if (!battleSpeaker)
+        {
+            Debug.LogWarning("バトルスピーカーどっかやった");
+            return;
+        }
+        battleSpeaker.playSelectAction();
     }
     public void hideButton()
     {
