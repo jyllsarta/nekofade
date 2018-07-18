@@ -13,6 +13,7 @@ public class EffectSystem : MonoBehaviour {
     public GameObject shieldEffect;
     public GameObject buffEffect;
     public GameObject hibihiEffect;
+    public GameObject fireEffect;
 
     //名前
     public GameObject getEffectByActionName(string name)
@@ -37,6 +38,12 @@ public class EffectSystem : MonoBehaviour {
                 return buffEffect;
             case "響火":
                 return hibihiEffect;
+            case "火炎":
+                return fireEffect;
+            case "爪":
+                return swordSlash;
+            case "するどい爪":
+                return swordSlash;
             default:
                 return defaultEffect;
         }
