@@ -44,6 +44,14 @@ public class EffectSystem : MonoBehaviour {
                 return swordSlash;
             case "するどい爪":
                 return swordSlash;
+            case "プチ火炎":
+                return fireEffect;
+            case "二重障壁":
+                return shieldEffect;
+            case "障壁展開":
+                return shieldEffect;
+            case "てしてし":
+                return swordSlash; //TODO 静電気 打撃 大凍結
             default:
                 return defaultEffect;
         }
