@@ -14,6 +14,9 @@ public class EffectSystem : MonoBehaviour {
     public GameObject buffEffect;
     public GameObject hibihiEffect;
     public GameObject fireEffect;
+    public GameObject hitEffect;
+    public GameObject electricEffect;
+    public GameObject massFleeze;
 
     //名前
     public GameObject getEffectByActionName(string name)
@@ -27,7 +30,7 @@ public class EffectSystem : MonoBehaviour {
             case "双撃":
                 return swordSlash;
             case "凍結":
-                return icyExplosion;
+                return massFleeze;
             case "雷光":
                 return thunder;
             case "獄炎":
@@ -51,7 +54,13 @@ public class EffectSystem : MonoBehaviour {
             case "障壁展開":
                 return shieldEffect;
             case "てしてし":
-                return swordSlash; //TODO 静電気 打撃 大凍結
+                return swordSlash;
+            case "静電気":
+                return electricEffect;
+            case "打撃":
+                return hitEffect;
+            case "大凍結":
+                return massFleeze;
             default:
                 return defaultEffect;
         }
