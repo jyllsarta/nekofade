@@ -60,7 +60,7 @@ public class EnemyStore : MonoBehaviour{
                 createdChild.addAttribute(CharacterAttribute.AttributeID.ACTIONS_TWICE);
                 createdChild.initializeParameters(999, 10, 4, 2, 6, 3, 1);
                 createdChild.rewardGold = 666;
-                createdChild.setImage("Enemy/kingNeko");
+                createdChild.setImage("Enemy/maoh");
                 return createdChild;
             case "ねこベス":
                 createdChild.actions.Add("プチ火炎");
