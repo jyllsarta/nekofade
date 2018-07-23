@@ -99,7 +99,7 @@ public class MapPointSetter : MonoBehaviour {
     public void putStaticObjects()
     {
         bossPoint.mapEvent = new MapEventEnemy(new List<string>() { "魔王", "ヤリゴブニキ", "カニちゃん" }, map, status);
-        bossPoint.setImage("Enemy/kingNeko");
+        bossPoint.setImage("Enemy/maoh");
 
         midBossPoint_1.mapEvent = new MapEventEnemy(new List<string>() { "鍵妖精", "妖精" }, map, status);
         midBossPoint_1.setImage("Enemy/faily_eleki");
