@@ -101,7 +101,7 @@ public class Battle : MonoBehaviour {
         {
             BattleCharacter enemy;
             enemy = enemyStore.instanciateEnemyByName(enemyList[i], enemiesUI.transform);
-            enemy.transform.Translate(new Vector3((i-1)*3.5f, (1 - i) * 0.2f, 0));
+            enemy.transform.Translate(new Vector3((i-1)*6.5f, (1 - i) * 0.2f, 0));
             enemy.battle = this;
             enemies.Add(enemy);
         }
