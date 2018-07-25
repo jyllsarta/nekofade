@@ -46,7 +46,7 @@ public class BuffStore : MonoBehaviour {
                 return createdChild;
             case Buff.BuffID.DARK_EROSION:
                 createdChild.length = 999;
-                createdChild.description = "【闇の侵食】闇に飲まれている。ターンの終了時に25点の固定ダメージ。";
+                createdChild.description = "【闇の侵食】闇に飲まれている。ターンの終了時に20点の固定ダメージ。";
                 createdChild.setImage("erosion");
                 createdChild.duplicates = true;
                 createdChild.isPermanent = true;

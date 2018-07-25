@@ -381,7 +381,7 @@ public class BattleCharacter : MonoBehaviour {
         int erosion_count = getBuffCount(Buff.BuffID.DARK_EROSION);
         if (erosion_count > 0)
         {
-            Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 25 * erosion_count));
+            Debug.Log(string.Format("{0}は闇の侵食で{1}ダメージ!", characterName, 20 * erosion_count));
             setEmotion("damage", 90);
             hp -= 20 * erosion_count;
             battle.playDamageEffect(20 * erosion_count, this);
