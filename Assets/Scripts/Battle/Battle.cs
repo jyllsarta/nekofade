@@ -220,6 +220,11 @@ public class Battle : MonoBehaviour {
 
     public void onGameOver()
     {
+        //クリア時とコード重複してるの気持ち悪いけど今回は諦め
+        foreach (SirokoStats status in FindObjectsOfType<SirokoStats>())
+        {
+            Destroy(status.gameObject);
+        }
         SceneManager.LoadSceneAsync("title");
     }
 
