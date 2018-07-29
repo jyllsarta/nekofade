@@ -170,6 +170,12 @@ public class Map : MonoBehaviour {
         return false;
     }
 
+    void onBattleFinished()
+    {
+        parameters.setItems();
+        clock.text = status.clock.ToString();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -180,7 +186,7 @@ public class Map : MonoBehaviour {
             downerUI.SetActive(true);
             if (isPreviousFrameBattle)
             {
-                parameters.setItems();
+                onBattleFinished();
             }
             isPreviousFrameBattle = false;
         }
