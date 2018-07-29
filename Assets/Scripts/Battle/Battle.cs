@@ -362,10 +362,10 @@ public class Battle : MonoBehaviour {
         return finalDamage;
     }
 
-    public void playDamageEffect(int damage, BattleCharacter target)
+    public void playDamageEffect(int damage, bool isMagic, BattleCharacter target)
     {
         DamageEffect createdDamageEffect = Instantiate(damageEffect, target.transform);
-        createdDamageEffect.damageText.text = damage.ToString();
+        createdDamageEffect.set(damage, isMagic);
         createdDamageEffect.transform.position = target.transform.position;
         target.playDamageAnimation();
         if (damage >= 100)
@@ -382,8 +382,6 @@ public class Battle : MonoBehaviour {
     void resolveDamage(BattleCharacter actor, ref BattleCharacter target, int damage)
     {
         target.hp -= damage;
-        //エフェクトの再生
-        playDamageEffect(damage,target);
     }
 
     void resolveHeal(BattleCharacter actor, ref BattleCharacter target, int value, bool isExceed=false)
@@ -500,6 +498,7 @@ public class Battle : MonoBehaviour {
                 tryInterrptEffect(target, effect);
                 int damage = calcDamage(actor, target, effect);
                 resolveDamage(actor, ref target, damage);
+                playDamageEffect(damage,effect.hasAttribute(Effect.Attribute.MAGIC), target);
                 checkEnchantedAttack(actor, effect);
                 break;
             case Effect.EffectType.HEAL:
