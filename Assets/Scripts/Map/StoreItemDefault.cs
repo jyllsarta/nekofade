@@ -17,6 +17,7 @@ public class StoreItemDefault : StoreItem,  IPointerEnterHandler, IPointerExitHa
 
     public override void setParameters(string itemName, int cost, StoreAreaComponent.ItemKind kind)
     {
+
         setText(itemName);
         setCost(cost);
         setKind(kind);

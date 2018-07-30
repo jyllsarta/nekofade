@@ -14,6 +14,7 @@ public class StoreItem : MonoBehaviour {
     public StoreAreaComponent.ItemKind kind;
     public bool isBought;
     public StoreMenu storeMenu;
+    public UISFXController soundsController;
 
     void setText(string s)
     {
@@ -70,6 +71,11 @@ public class StoreItem : MonoBehaviour {
         refresh();
     }
 
+    public void findSoundsController()
+    {
+        soundsController = FindObjectOfType<UISFXController>();
+    }
+
     public void buy()
     {
         SirokoStats status = FindObjectOfType<SirokoStats>();
@@ -80,6 +86,7 @@ public class StoreItem : MonoBehaviour {
         }
         if (canBuyThis())
         {
+            soundsController.playUICoin();
             status.buy(kind, itemName, cost);
             isBought = true;
             refresh();
@@ -107,6 +114,7 @@ public class StoreItem : MonoBehaviour {
     public void Start()
     {
         isBought = false;
+        findSoundsController();
         refresh();
     }
 }
